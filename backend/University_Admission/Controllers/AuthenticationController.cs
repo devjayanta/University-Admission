@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
-using University_Admission.Models;
+using University_Admission.DTO;
 using University_Admission.Services;
 
 namespace University_Admission.Controllers
@@ -17,9 +17,10 @@ namespace University_Admission.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginPayload loginPayload)
+        public async Task<IActionResult> Login([FromBody] LoginDto request)
         {
-            var token = jwt.GenerateJwtToken(loginPayload.Username);
+            await Task.Delay(0);
+            var token = jwt.GenerateJwtToken(request.Username);
             return Ok(new { token });
         }
     }

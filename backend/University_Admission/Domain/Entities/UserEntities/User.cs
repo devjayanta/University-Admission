@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using University_Admission.Domain.Entities.CommonEntities;
+using University_Admission.Domain.Entities.ProcessEntities;
 using University_Admission.Domain.Enum;
 
 namespace University_Admission.Domain.Entities.UserEntities
@@ -21,9 +23,12 @@ namespace University_Admission.Domain.Entities.UserEntities
 
         [StringLength(50, ErrorMessage = "Too Long")]
         public string LastName { get; private set; }
+
         [StringLength(50)]
         public string PassportNo { get; private set; }
         public int NationalityId { get; private set; }
+
+        [ForeignKey("NationalityId")]
         public virtual Country Nationality { get; private set; }
         public Gender Gender { get; private set; }
 
@@ -32,8 +37,12 @@ namespace University_Admission.Domain.Entities.UserEntities
         public string Email { get; private set; }
         public Role Role { get; private set; }
         public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
+
         [StringLength(250)]
         public string PasswordHash { get; private set; }
+        public virtual ICollection<Announcement> Announcements { get; private set; } = [];
+        public virtual ICollection<Notification> Notifications { get; private set; } = [];
+        public virtual ICollection<UserProgramProcess> Processes { get; private set; } = [];
 
 #pragma warning disable CS8618
         public User() { }

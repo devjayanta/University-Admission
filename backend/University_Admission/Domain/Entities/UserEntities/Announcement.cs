@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace University_Admission.Domain.Entities.UserEntities
 {
@@ -7,6 +8,8 @@ namespace University_Admission.Domain.Entities.UserEntities
         [Key]
         public int Id { get; private set; }
         public int EntryById { get; private set; }
+
+        [ForeignKey("EntryById")]
         public virtual User EntryBy { get; private set; }
         public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
 

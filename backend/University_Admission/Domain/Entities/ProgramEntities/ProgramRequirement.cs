@@ -1,23 +1,26 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using University_Admission.Domain.Enum;
 
 namespace University_Admission.Domain.Entities.ProgramEntities
 {
-    public class ProgramRequirements
+    public class ProgramRequirement
     {
         [Key]
         public int Id { get; set; }
         public int UniversityProgramId { get; set; }
+
+        [ForeignKey("UniversityProgramId")]
         public virtual UniversityProgram UniversityProgram { get; set; }
         public string Name { get; set; }
         public bool IsMandatory { get; set; }
         public RequirementType Type { get; set; }
 
 #pragma warning disable CS8618
-        public ProgramRequirements() { }
+        public ProgramRequirement() { }
 #pragma warning restore CS8618
 
-        public ProgramRequirements(
+        public ProgramRequirement(
             int universityProgramId,
             string name,
             bool isMandatory,

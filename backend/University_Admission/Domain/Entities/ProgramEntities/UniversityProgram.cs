@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace University_Admission.Domain.Entities.ProgramEntities
 {
@@ -7,6 +8,8 @@ namespace University_Admission.Domain.Entities.ProgramEntities
         [Key]
         public int Id { get; private set; }
         public int UniversityId { get; private set; }
+
+        [ForeignKey("UniversityId")]
         public virtual University University { get; private set; }
 
         [StringLength(250)]
@@ -15,6 +18,8 @@ namespace University_Admission.Domain.Entities.ProgramEntities
         [StringLength(50)]
         public string? Level { get; private set; }
         public decimal? Fee { get; private set; }
+        public virtual ICollection<ProgramRequirement> ProgramRequirements { get; private set; } =
+            [];
 
 #pragma warning disable CS8618
         public UniversityProgram() { }

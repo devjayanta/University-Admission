@@ -1,15 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using University_Admission.Domain.Entities.CommonEntities;
 
 namespace University_Admission.Domain.Entities.ProgramEntities
 {
     public class University
     {
+        [Key]
         public int Id { get; private set; }
 
         [StringLength(250)]
         public string Name { get; private set; }
         public int CountryId { get; private set; }
+
+        [ForeignKey("CountryId")]
         public Country Country { get; private set; }
 
         [StringLength(500)]
