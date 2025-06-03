@@ -1,0 +1,67 @@
+﻿using System.ComponentModel.DataAnnotations;
+using University_Admission.Domain.Entities.CommonEntities;
+using University_Admission.Domain.Enum;
+
+namespace University_Admission.Domain.Entities.UserEntities
+{
+    public class User
+    {
+        [Key]
+        public int Id { get; private set; }
+
+        [Required]
+        [StringLength(50, ErrorMessage = "Too Long")]
+        public string UserName { get; private set; }
+
+        [StringLength(50, ErrorMessage = "Too Long")]
+        public string FirstName { get; private set; }
+
+        [StringLength(50, ErrorMessage = "Too Long")]
+        public string? MiddleName { get; private set; }
+
+        [StringLength(50, ErrorMessage = "Too Long")]
+        public string LastName { get; private set; }
+        [StringLength(50)]
+        public string PassportNo { get; private set; }
+        public int NationalityId { get; private set; }
+        public virtual Country Nationality { get; private set; }
+        public Gender Gender { get; private set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; private set; }
+        public Role Role { get; private set; }
+        public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
+        [StringLength(250)]
+        public string PasswordHash { get; private set; }
+
+#pragma warning disable CS8618
+        public User() { }
+#pragma warning restore CS8618
+
+        public User(
+            string userName,
+            string firstName,
+            string? middleName,
+            string lastName,
+            string passportNo,
+            int nationalityId,
+            Gender gender,
+            string email,
+            Role role
+        )
+        {
+            UserName = userName;
+            FirstName = firstName;
+            MiddleName = middleName;
+            LastName = lastName;
+            PassportNo = passportNo;
+            NationalityId = nationalityId;
+            Nationality = default!;
+            Gender = gender;
+            Email = email;
+            Role = role;
+            PasswordHash = string.Empty;
+        }
+    }
+}
