@@ -30,5 +30,10 @@ namespace University_Admission.Domain.Entities.UserEntities
             Title = title;
             Description = description;
         }
+
+        public void AddEntryBy(int entryById)
+        {
+            EntryById = entryById;
+        }
     }
 }

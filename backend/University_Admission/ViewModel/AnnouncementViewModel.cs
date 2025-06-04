@@ -1,4 +1,7 @@
-﻿namespace University_Admission.ViewModel
+﻿using AutoMapper;
+using University_Admission.Domain.Entities.UserEntities;
+
+namespace University_Admission.ViewModel
 {
     public class AnnouncementViewModel
     {
@@ -9,21 +12,24 @@
         public string Title { get; set; }
         public string Description { get; set; }
 
-        public AnnouncementViewModel(
-            int id,
-            int entryById,
-            string entryByName,
-            DateTime createdAt,
-            string title,
-            string description
-        )
+        public AnnouncementViewModel()
         {
-            Id = id;
-            EntryById = entryById;
-            EntryByName = entryByName;
-            CreatedAt = createdAt;
-            Title = title;
-            Description = description;
+            EntryByName = string.Empty;
+            Title = string.Empty;
+            Description = string.Empty;
+        }
+
+        class Mapping : Profile
+        {
+            public Mapping()
+            {
+                CreateMap<Announcement, AnnouncementViewModel>()
+                    .ForMember(dst => dst.EntryById, opt => opt.MapFrom(src => src.EntryById))
+                    .ForMember(
+                        dst => dst.EntryByName,
+                        opt => opt.MapFrom(src => src.EntryBy.FullName)
+                    );
+            }
         }
     }
 }

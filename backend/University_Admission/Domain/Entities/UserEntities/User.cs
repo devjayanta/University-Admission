@@ -44,6 +44,10 @@ namespace University_Admission.Domain.Entities.UserEntities
         public virtual ICollection<Notification> Notifications { get; private set; } = [];
         public virtual ICollection<UserProgramProcess> Processes { get; private set; } = [];
 
+        [NotMapped]
+        public string FullName =>
+            FirstName + " " + (string.IsNullOrEmpty(MiddleName) ? "" : MiddleName + " ") + LastName;
+
 #pragma warning disable CS8618
         public User() { }
 #pragma warning restore CS8618

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using University_Admission.Data;
 using University_Admission.Domain.Entities.UserEntities;
@@ -15,37 +16,38 @@ namespace University_Admission.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly ICurrentUserService _currentUserService;
+        private readonly IMapper _mapper;
 
         public AnnouncementController(
             ApplicationDbContext context,
-            ICurrentUserService currentUserService
+            ICurrentUserService currentUserService,
+            IMapper mapper
         )
         {
             _context = context;
             _currentUserService = currentUserService;
+            _mapper = mapper;
         }
 
         [HttpPost]
-        public async Task<ActionResult<AnnouncementViewModel>> Create(
+        public async Task<ActionResult<Response<AnnouncementViewModel>>> Create(
             [FromBody] AnnouncementDto request
         )
         {
-            Announcement announcement = new Announcement(
-                _currentUserService.UserId,
-                request.Title,
-                request.Description
-            );
-            _context.Announcements.Add(announcement);
-            await _context.SaveChangesAsync();
-            var res = new AnnouncementViewModel(
-                announcement.Id,
-                announcement.EntryBy.Id,
-                announcement.EntryBy.FirstName,
-                announcement.CreatedAt,
-                announcement.Title,
-                announcement.Description
-            );
-            return Ok(res);
+            await Task.Delay(0);
+            try
+            {
+                Announcement announcement = _mapper.Map<Announcement>(request);
+                announcement.AddEntryBy(_currentUserService.UserId);
+                _context.Announcements.Add(announcement);
+                await _context.SaveChangesAsync();
+                var res = _mapper.Map<AnnouncementViewModel>(announcement);
+                return Response<AnnouncementViewModel>.SuccessResponse(res, "Successfully Created");
+            }
+            catch (Exception ex)
+            {
+                return Response<AnnouncementViewModel>.FailureResponse(ex);
+            }
         }
     }
 }
