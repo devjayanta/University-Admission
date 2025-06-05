@@ -36,7 +36,7 @@ namespace University_Admission.Controllers
             if (user == null)
                 return Unauthorized("Invalid credentials !!");
 
-            var token = jwt.GenerateJwtToken(dto.Username);
+            var token = jwt.GenerateJwtToken(dto.Username, user.Id);
             return Ok(new { token });
         }
     }
