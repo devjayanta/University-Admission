@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using AutoMapper;
+using University_Admission.Domain.Entities.UserEntities;
 
 namespace University_Admission.DTO
 {
@@ -8,10 +10,18 @@ namespace University_Admission.DTO
         public string Title { get; set; }
         public string Description { get; set; }
 
-        public AnnouncementDto(string title, string description)
+        public AnnouncementDto()
         {
-            Title = title;
-            Description = description;
+            Title = string.Empty;
+            Description = string.Empty;
+        }
+
+        class Mapping : Profile
+        {
+            public Mapping()
+            {
+                CreateMap<Announcement, AnnouncementDto>().ReverseMap();
+            }
         }
     }
 }
