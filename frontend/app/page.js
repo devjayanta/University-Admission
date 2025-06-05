@@ -12,7 +12,6 @@ import {
   Center,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
-import '@mantine/core/styles.css';
 import Link from 'next/link';
 import { httpLogin } from './http/httpUniversity';
 import { useRouter } from 'next/navigation';
