@@ -38,7 +38,7 @@ namespace University_Admission.Domain.Entities.UserEntities
         public Role Role { get; private set; }
         public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
 
-        [StringLength(250)]
+        [StringLength(500)]
         public string PasswordHash { get; private set; }
         public virtual ICollection<Announcement> Announcements { get; private set; } = [];
         public virtual ICollection<Notification> Notifications { get; private set; } = [];
@@ -71,6 +71,10 @@ namespace University_Admission.Domain.Entities.UserEntities
             Email = email;
             Role = role;
             PasswordHash = string.Empty;
+        }
+        public void UpdatePassword(string password)
+        {
+            PasswordHash = password;
         }
     }
 }
