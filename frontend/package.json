@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate-api-local": "npx swagger-typescript-api@13.0.16 --modular --no-client --axios --js -p http://localhost:5224/swagger/v1/swagger.json -o ./types/api --clean-output"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
