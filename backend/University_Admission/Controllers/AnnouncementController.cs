@@ -34,7 +34,6 @@ namespace University_Admission.Controllers
             [FromBody] AnnouncementDto request
         )
         {
-            await Task.Delay(0);
             try
             {
                 Announcement announcement = _mapper.Map<Announcement>(request);

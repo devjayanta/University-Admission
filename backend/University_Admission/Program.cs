@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using University_Admission.Data;
 using University_Admission.Interfaces;
 using University_Admission.Repositories;
@@ -21,7 +22,19 @@ builder
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition(
+        "bearerAuth",
+        new OpenApiSecurityScheme
+        {
+            Type = SecuritySchemeType.Http,
+            Scheme = "bearer",
+            BearerFormat = "JWT",
+            Description = "JWT Authorization header using the Bearer scheme.",
+        }
+    );
+});
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -30,12 +43,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigin", policy =>
-    {
-        policy.WithOrigins("http://192.168.101.38:3000") 
-               .AllowAnyHeader() 
-               .AllowAnyMethod();
-    });
+    options.AddPolicy(
+        "AllowSpecificOrigin",
+        policy =>
+        {
+            policy.WithOrigins("http://192.168.101.38:3000").AllowAnyHeader().AllowAnyMethod();
+        }
+    );
 });
 
 builder
@@ -82,5 +96,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-
