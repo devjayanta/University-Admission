@@ -26,7 +26,7 @@ import {
     IconLayoutDashboard,
     IconSpeakerphone
 } from "@tabler/icons-react";
-import AnnouncementContent from "../../components/dashboard/AnnouncementContent";
+import Announcement from "../../components/AdminDashboard/Announcement";
 
 function StatsBox({ title, value, icon }) {
     return (
@@ -88,7 +88,8 @@ export default function AdminPanel() {
             case "settings":
                 return <SettingsContent />;
             case "announcement":
-                return <AnnouncementContent />;
+                return <Announcement />;
+            case "students":
             default:
                 return <DashboardContent />;
         }
@@ -142,7 +143,7 @@ export default function AdminPanel() {
                 </Group>
             </AppShell.Header>
 
-            <AppShell.Main>
+            {/* <AppShell.Main>
                 <Container size="xl">
                     <Box>
                         <Title order={4} mb="md">
@@ -151,7 +152,35 @@ export default function AdminPanel() {
                         {renderContent()}
                     </Box>
                 </Container>
+            </AppShell.Main> */}
+            <AppShell.Main>
+                <Container size="xl">
+                    <Box mb="xl">
+                        <Group
+                            pb="xs"
+                            mb="md"
+                            align="center"
+                            style={{
+                                borderBottom: '2px solid #1971c2',
+                                display: 'inline-flex',
+                            }}
+                        >
+                            <Box mr="xs" c="#1971c2">
+                                {menuItems.find((m) => m.value === active)?.icon}
+                            </Box>
+                            <Title order={4} style={{ color: '#1971c2' }}>
+                                {menuItems.find((m) => m.value === active)?.label}
+                            </Title>
+                        </Group>
+
+                        <Box mt="md">{renderContent()}</Box>
+                    </Box>
+                </Container>
             </AppShell.Main>
+
+
+
         </AppShell>
+
     );
 }
