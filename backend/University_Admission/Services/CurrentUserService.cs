@@ -1,6 +1,6 @@
 ﻿using University_Admission.Interfaces;
 
-namespace University_Admission.Repositories
+namespace University_Admission.Services
 {
     public class CurrentUserService : ICurrentUserService
     {
@@ -16,7 +16,7 @@ namespace University_Admission.Repositories
             get
             {
                 var userId =
-                    (_httpContextAccessor.HttpContext?.User?.Identity?.IsAuthenticated ?? false)
+                    _httpContextAccessor.HttpContext?.User?.Identity?.IsAuthenticated ?? false
                         ? _httpContextAccessor
                             .HttpContext?.User?.Claims.Single(c => c.Type == "userId")
                             .Value ?? string.Empty

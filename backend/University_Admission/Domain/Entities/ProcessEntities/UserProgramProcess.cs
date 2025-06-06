@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using University_Admission.Domain.Entities.BaseEntities;
 using University_Admission.Domain.Entities.ProgramEntities;
 using University_Admission.Domain.Entities.UserEntities;
 
 namespace University_Admission.Domain.Entities.ProcessEntities
 {
-    public class UserProgramProcess
+    public class UserProgramProcess : DatedEntity
     {
         [Key]
         public int Id { get; private set; }
@@ -21,8 +22,6 @@ namespace University_Admission.Domain.Entities.ProcessEntities
 
         [ForeignKey("UniversityProgramId")]
         public virtual UniversityProgram UniversityProgram { get; private set; }
-        public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
-        public DateTime LastUpdated { get; private set; }
         public virtual ICollection<UserProgramRequirement> Requirements { get; private set; } = [];
 
 #pragma warning disable CS8618

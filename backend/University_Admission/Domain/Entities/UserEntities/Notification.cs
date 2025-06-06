@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using University_Admission.Domain.Entities.BaseEntities;
 
 namespace University_Admission.Domain.Entities.UserEntities
 {
-    public class Notification
+    public class Notification : DatedEntity
     {
         public int Id { get; private set; }
 
@@ -12,7 +13,6 @@ namespace University_Admission.Domain.Entities.UserEntities
 
         [StringLength(5000)]
         public string Description { get; private set; }
-        public DateTime CreatedAt { get; private set; }
         public bool IsRead { get; private set; } = false;
         public int UserId { get; private set; }
 

@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using University_Admission.Domain.Entities.BaseEntities;
 using University_Admission.Domain.Entities.CommonEntities;
 
 namespace University_Admission.Domain.Entities.ProgramEntities
 {
-    public class University
+    public class University : DatedEntity
     {
         [Key]
         public int Id { get; private set; }
@@ -34,13 +35,28 @@ namespace University_Admission.Domain.Entities.ProgramEntities
             string name,
             int countryId,
             string addressLine1,
-            string addressLine2,
-            string website
+            string? addressLine2,
+            string? website
         )
         {
             Name = name;
             CountryId = countryId;
             Country = default!;
+            AddressLine1 = addressLine1;
+            AddressLine2 = addressLine2;
+            WebSite = website;
+        }
+
+        public void Update(
+            string name,
+            int countryId,
+            string addressLine1,
+            string? addressLine2,
+            string? website
+        )
+        {
+            Name = name;
+            CountryId = countryId;
             AddressLine1 = addressLine1;
             AddressLine2 = addressLine2;
             WebSite = website;

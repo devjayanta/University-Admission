@@ -7,7 +7,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using University_Admission.Data;
 using University_Admission.Interfaces;
-using University_Admission.Repositories;
 using University_Admission.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -69,7 +68,7 @@ builder
 builder.Services.AddAuthorization();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<JwtService>();
-builder.Services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
+builder.Services.AddScoped<IHashService, HMACHashService>();
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
 var app = builder.Build();

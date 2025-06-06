@@ -1,12 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using University_Admission.Domain.Entities.BaseEntities;
 using University_Admission.Domain.Entities.CommonEntities;
 using University_Admission.Domain.Entities.ProcessEntities;
 using University_Admission.Domain.Enum;
 
 namespace University_Admission.Domain.Entities.UserEntities
 {
-    public class User
+    public class User : DatedEntity
     {
         [Key]
         public int Id { get; private set; }
@@ -36,7 +37,6 @@ namespace University_Admission.Domain.Entities.UserEntities
         [EmailAddress]
         public string Email { get; private set; }
         public Role Role { get; private set; }
-        public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
 
         [StringLength(500)]
         public string PasswordHash { get; private set; }

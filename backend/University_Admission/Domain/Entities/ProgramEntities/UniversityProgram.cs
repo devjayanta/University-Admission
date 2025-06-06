@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using University_Admission.Domain.Entities.BaseEntities;
 
 namespace University_Admission.Domain.Entities.ProgramEntities
 {
-    public class UniversityProgram
+    public class UniversityProgram : DatedEntity
     {
         [Key]
         public int Id { get; private set; }
@@ -29,6 +30,13 @@ namespace University_Admission.Domain.Entities.ProgramEntities
         {
             UniversityId = universityId;
             University = default!;
+            Name = name;
+            Level = level;
+            Fee = fee;
+        }
+
+        public void Update(string name, string? level, decimal? fee)
+        {
             Name = name;
             Level = level;
             Fee = fee;

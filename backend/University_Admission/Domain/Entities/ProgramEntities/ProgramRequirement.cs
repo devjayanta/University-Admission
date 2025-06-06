@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using University_Admission.Domain.Entities.BaseEntities;
 using University_Admission.Domain.Enum;
 
 namespace University_Admission.Domain.Entities.ProgramEntities
 {
-    public class ProgramRequirement
+    public class ProgramRequirement : DatedEntity
     {
         [Key]
         public int Id { get; set; }
@@ -29,6 +30,13 @@ namespace University_Admission.Domain.Entities.ProgramEntities
         {
             UniversityProgramId = universityProgramId;
             UniversityProgram = default!;
+            Name = name;
+            IsMandatory = isMandatory;
+            Type = type;
+        }
+
+        public void Update(string name, bool isMandatory, RequirementType type)
+        {
             Name = name;
             IsMandatory = isMandatory;
             Type = type;

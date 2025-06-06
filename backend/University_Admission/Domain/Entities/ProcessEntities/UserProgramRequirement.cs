@@ -16,10 +16,15 @@ namespace University_Admission.Domain.Entities.ProcessEntities
 
         [ForeignKey("ProgramRequirementId")]
         public virtual ProgramRequirement ProgramRequirement { get; private set; }
-        public string Value { get; private set; }
+        public string? Value { get; private set; }
 
 #pragma warning disable CS8618
         public UserProgramRequirement() { }
 #pragma warning restore CS8618
+
+        public void Update(string newValue)
+        {
+            Value = newValue;
+        }
     }
 }

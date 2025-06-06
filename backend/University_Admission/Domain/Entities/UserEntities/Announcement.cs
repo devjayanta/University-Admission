@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using University_Admission.Domain.Entities.BaseEntities;
 
 namespace University_Admission.Domain.Entities.UserEntities
 {
-    public class Announcement
+    public class Announcement : DatedEntity
     {
         [Key]
         public int Id { get; private set; }
@@ -11,7 +12,6 @@ namespace University_Admission.Domain.Entities.UserEntities
 
         [ForeignKey("EntryById")]
         public virtual User EntryBy { get; private set; }
-        public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
 
         [StringLength(250)]
         public string Title { get; private set; }
