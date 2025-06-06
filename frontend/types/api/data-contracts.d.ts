@@ -25,6 +25,11 @@ export interface AnnouncementViewModel {
   title?: string | null;
   description?: string | null;
 }
+export interface AnnouncementViewModelListResponse {
+  success?: boolean;
+  message?: string | null;
+  data?: AnnouncementViewModel[] | null;
+}
 export interface AnnouncementViewModelResponse {
   success?: boolean;
   message?: string | null;
@@ -41,9 +46,16 @@ export interface AuthViewModelResponse {
   data?: AuthViewModel;
 }
 export interface CountryViewModel {
+  /** @format int32 */
+  id?: number;
   name?: string | null;
   code?: string | null;
   dialCode?: string | null;
+}
+export interface CountryViewModelListResponse {
+  success?: boolean;
+  message?: string | null;
+  data?: CountryViewModel[] | null;
 }
 export interface FileContentResultResponse {
   success?: boolean;

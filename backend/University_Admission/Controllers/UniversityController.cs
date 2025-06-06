@@ -11,7 +11,7 @@ namespace University_Admission.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles = "admin")]
+    [Authorize]
     public class UniversityController : ControllerBase
     {
         private readonly ApplicationDbContext _db;
@@ -24,6 +24,7 @@ namespace University_Admission.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin,student")]
         public async Task<Response<UniversityViewModel>> GetUniversity([FromQuery] int Id)
         {
             try
@@ -48,6 +49,7 @@ namespace University_Admission.Controllers
         }
 
         [HttpGet("GetAll")]
+        [Authorize(Roles = "admin,student")]
         public async Task<Response<List<UniversityViewModel>>> GetUniversities()
         {
             try
@@ -72,6 +74,7 @@ namespace University_Admission.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<Response<UniversityViewModel>> Create([FromBody] UniversityDto request)
         {
             try
@@ -90,6 +93,7 @@ namespace University_Admission.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "admin")]
         public async Task<Response<UniversityViewModel>> Update(
             [FromQuery] int Id,
             [FromBody] UniversityDto request
@@ -126,6 +130,7 @@ namespace University_Admission.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "admin")]
         public async Task<Response<UniversityViewModel>> Delete([FromQuery] int Id)
         {
             try

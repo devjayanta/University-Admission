@@ -46,7 +46,7 @@ builder.Services.AddCors(options =>
         "AllowSpecificOrigin",
         policy =>
         {
-            policy.WithOrigins("http://192.168.101.38:3000").AllowAnyHeader().AllowAnyMethod();
+            policy.WithOrigins("http://192.168.101.38:3000", "http://localhost:3000").AllowAnyHeader().AllowAnyMethod();
         }
     );
 });
@@ -70,6 +70,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<IHashService, HMACHashService>();
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+builder.Services.AddScoped<IFileStorageService, LocalFileStorageService>();
 
 var app = builder.Build();
 

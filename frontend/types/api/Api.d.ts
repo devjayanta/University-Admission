@@ -11,8 +11,10 @@
 
 import {
   AnnouncementDto,
+  AnnouncementViewModelListResponse,
   AnnouncementViewModelResponse,
   AuthViewModelResponse,
+  CountryViewModelListResponse,
   FileContentResultResponse,
   FileUploadDto,
   LoginDto,
@@ -31,6 +33,14 @@ import {
 import { HttpClient, RequestParams } from "./http-client";
 
 export declare class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
+  /**
+   * No description
+   *
+   * @tags Announcement
+   * @name AnnouncementList
+   * @request GET:/api/Announcement
+   */
+  announcementList: (params?: RequestParams) => Promise<AxiosResponse<AnnouncementViewModelListResponse>>;
   /**
    * No description
    *
@@ -69,6 +79,14 @@ export declare class Api<SecurityDataType = unknown> extends HttpClient<Security
    * @request GET:/api/Authentication/createAdminUser
    */
   authenticationCreateAdminUserList: (params?: RequestParams) => Promise<AxiosResponse<AuthViewModelResponse>>;
+  /**
+   * No description
+   *
+   * @tags Common
+   * @name CommonGetAllCountriesList
+   * @request GET:/api/Common/GetAllCountries
+   */
+  commonGetAllCountriesList: (params?: RequestParams) => Promise<AxiosResponse<CountryViewModelListResponse>>;
   /**
    * No description
    *
@@ -262,6 +280,20 @@ export declare class Api<SecurityDataType = unknown> extends HttpClient<Security
    */
   userProcessUpdate: (
     data: UserProcessDto,
+    query?: {
+      /** @format int32 */
+      Id?: number;
+    },
+    params?: RequestParams,
+  ) => Promise<AxiosResponse<UserProcessViewModelResponse>>;
+  /**
+   * No description
+   *
+   * @tags UserProcess
+   * @name UserProcessDelete
+   * @request DELETE:/api/UserProcess
+   */
+  userProcessDelete: (
     query?: {
       /** @format int32 */
       Id?: number;

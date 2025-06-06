@@ -13,10 +13,10 @@ import {
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import Link from 'next/link';
-import { httpLogin } from './http/httpUniversity';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import {showAlert} from '../components/Alert';
+import { showAlert } from '../components/Alert';
+import apiService from './http/ApiService';
 
 export default function LoginPage() {
 
@@ -32,10 +32,8 @@ export default function LoginPage() {
 
   const handleSubmit = (values) => {
     setLoading(true);
-    httpLogin({
-      "username": values.username,
-      "password": values.password
-    }).then(response => {
+    apiService.authenticationLoginCreate({ username: values.username, password: values.password }).then(response => {
+      localStorage.setItem('token', response.data.data.token)
       router.push('/admin');
     }).catch(error => {
       showAlert(error?.response?.data, 'info');
@@ -44,28 +42,28 @@ export default function LoginPage() {
     });
   }
 
-    return (
-      <Container size={420} my={40}>
-        <Title align="center" mb={20}>Login</Title>
-        <Paper shadow="md" p={10} radius="md">
-          <form onSubmit={form.onSubmit(handleSubmit)}>
-            <Stack>
-              <TextInput label="Username" {...form.getInputProps('username')} required />
-              <PasswordInput label="Password" {...form.getInputProps('password')} required />
-              <Center mt="md">
-                <Button type="submit">
-                  Login
-                </Button>
-              </Center>
-              <Text align="center" mt="sm">
-                Do not have an account?{' '}
-                <Link href="/register" >
-                  <u style={{ color: 'blue' }}> Go to Register</u>
-                </Link>
-              </Text>
-            </Stack>
-          </form>
-        </Paper>
-      </Container>
-    )
-  }
+  return (
+    <Container size={420} my={40}>
+      <Title align="center" mb={20}>Login</Title>
+      <Paper shadow="md" p={10} radius="md">
+        <form onSubmit={form.onSubmit(handleSubmit)}>
+          <Stack>
+            <TextInput label="Username" {...form.getInputProps('username')} required />
+            <PasswordInput label="Password" {...form.getInputProps('password')} required />
+            <Center mt="md">
+              <Button type="submit">
+                Login
+              </Button>
+            </Center>
+            <Text align="center" mt="sm">
+              Do not have an account?{' '}
+              <Link href="/register" >
+                <u style={{ color: 'blue' }}> Go to Register</u>
+              </Link>
+            </Text>
+          </Stack>
+        </form>
+      </Paper>
+    </Container>
+  )
+}

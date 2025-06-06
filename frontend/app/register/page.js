@@ -15,15 +15,16 @@ import {
 import { useForm } from '@mantine/form'
 import '@mantine/core/styles.css';
 import Link from 'next/link';
-import { httpRegisterUser } from '../http/httpUniversity';
 import GLoader from '../../components/GLoader';
 import { showAlert } from '../../components/Alert';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import swal from "sweetalert";
 import { useRouter } from 'next/navigation';
+import apiService from '../http/ApiService';
 
 export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
+  const [countries, setCountries] = useState([]);
   const router = useRouter();
 
   const form = useForm({
@@ -52,7 +53,7 @@ export default function RegisterPage() {
   const handleSubmit = (values) => {
     console.log('Registering...', values)
     setLoading(true);
-    httpRegisterUser({
+    apiService.authenticationRegisterCreate({
       "username": values.username,
       "firstName": values.firstname,
       "middleName": values.middlename,
@@ -71,6 +72,15 @@ export default function RegisterPage() {
       setLoading(false);
     });
   }
+
+  useEffect(() => {
+    const fetchCountries = () => {
+      apiService.commonGetAllCountriesList()
+        .then(response => setCountries(response?.data?.data?.map(c => ({ value: c.id.toString(), label: c.name }))))
+    }
+
+    fetchCountries();
+  }, [])
 
   return (
     <Container size={420} my={40}>
@@ -97,7 +107,7 @@ export default function RegisterPage() {
             />
             <Select
               label="Country"
-              data={['Nepal', 'India', 'USA', 'UK']}
+              data={countries}
               {...form.getInputProps('country')}
               required
               placeholder="Select country"

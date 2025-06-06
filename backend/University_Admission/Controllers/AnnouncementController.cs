@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using University_Admission.Data;
 using University_Admission.Domain.Entities.UserEntities;
 using University_Admission.DTO;
@@ -29,7 +30,26 @@ namespace University_Admission.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<Response<List<AnnouncementViewModel>>>> GetAll()
+        {
+            try
+            {
+                var announcement = await _context.Announcements.Where(a => a.DeletedAt == null).ToListAsync();
+                if(announcement == null)
+                {
+                    return Response<List<AnnouncementViewModel>>.FailureResponse("No announcements exist");
+                }
+                return Response<List<AnnouncementViewModel>>.SuccessResponse(_mapper.Map<List<AnnouncementViewModel>>(announcement));
+            }
+            catch (Exception ex)
+            {
+                return Response<List<AnnouncementViewModel>>.FailureResponse(ex);
+            }
+        }
+
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<Response<AnnouncementViewModel>>> Create(
             [FromBody] AnnouncementDto request
         )

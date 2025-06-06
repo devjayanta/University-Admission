@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using University_Admission.Data;
 using University_Admission.Domain.Entities.ProcessEntities;
-using University_Admission.Domain.Entities.ProgramEntities;
 using University_Admission.DTO;
 using University_Admission.Interfaces;
 using University_Admission.ViewModel;
@@ -13,7 +12,7 @@ namespace University_Admission.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles = "student")]
+    [Authorize]
     public class UserProcessController : ControllerBase
     {
         private readonly ApplicationDbContext _db;
@@ -192,6 +191,34 @@ namespace University_Admission.Controllers
                     var reqToDelete = process.Requirements.Single(p => p.Id == reqId);
                     process.Requirements.Remove(reqToDelete);
                 }
+                await _db.SaveChangesAsync();
+                return Response<UserProcessViewModel>.SuccessResponse(
+                    _mapper.Map<UserProcessViewModel>(process)
+                );
+            }
+            catch (Exception ex)
+            {
+                return Response<UserProcessViewModel>.FailureResponse(ex);
+            }
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult<Response<UserProcessViewModel>>> Delete(
+            [FromQuery] int Id
+        )
+        {
+            try
+            {
+                var process = await _db
+                    .UserProgramProcesses.Where(up => up.Id == Id && up.DeletedAt == null)
+                    .SingleOrDefaultAsync();
+                if (process == null)
+                {
+                    return Response<UserProcessViewModel>.FailureResponse(
+                        $"Process with ID {Id} does not exist"
+                    );
+                }
+                process.Delete();
                 await _db.SaveChangesAsync();
                 return Response<UserProcessViewModel>.SuccessResponse(
                     _mapper.Map<UserProcessViewModel>(process)

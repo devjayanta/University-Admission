@@ -15,6 +15,20 @@ export class Api extends HttpClient {
    * No description
    *
    * @tags Announcement
+   * @name AnnouncementList
+   * @request GET:/api/Announcement
+   */
+  announcementList = (params = {}) =>
+    this.request({
+      path: `/api/Announcement`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Announcement
    * @name AnnouncementCreate
    * @request POST:/api/Announcement
    */
@@ -69,6 +83,20 @@ export class Api extends HttpClient {
   authenticationCreateAdminUserList = (params = {}) =>
     this.request({
       path: `/api/Authentication/createAdminUser`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Common
+   * @name CommonGetAllCountriesList
+   * @request GET:/api/Common/GetAllCountries
+   */
+  commonGetAllCountriesList = (params = {}) =>
+    this.request({
+      path: `/api/Common/GetAllCountries`,
       method: "GET",
       format: "json",
       ...params,
@@ -318,6 +346,21 @@ export class Api extends HttpClient {
       query: query,
       body: data,
       type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags UserProcess
+   * @name UserProcessDelete
+   * @request DELETE:/api/UserProcess
+   */
+  userProcessDelete = (query, params = {}) =>
+    this.request({
+      path: `/api/UserProcess`,
+      method: "DELETE",
+      query: query,
       format: "json",
       ...params,
     });

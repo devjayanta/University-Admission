@@ -14,13 +14,14 @@ namespace University_Admission.Services
             _config = config;
         }
 
-        public string GenerateJwtToken(string username, int userId)
+        public string GenerateJwtToken(string username, int userId, string role)
         {
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, username),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim("UserId", userId.ToString())
+                new Claim("UserId", userId.ToString()),
+                new Claim(ClaimTypes.Role, role)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Secret"]!));

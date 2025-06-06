@@ -27,6 +27,8 @@ import {
     IconSpeakerphone
 } from "@tabler/icons-react";
 import Announcement from "../../components/AdminDashboard/Announcement";
+import { useEffect } from "react";
+import apiService from "../http/ApiService";
 
 function StatsBox({ title, value, icon }) {
     return (
@@ -94,6 +96,14 @@ export default function AdminPanel() {
                 return <DashboardContent />;
         }
     };
+
+    useEffect(() => {
+        const fetchUnis = () => {
+            apiService.universityGetAllList().then(response => console.log('resp with token', response));
+        }
+
+        fetchUnis();
+    })
 
     return (
         <AppShell

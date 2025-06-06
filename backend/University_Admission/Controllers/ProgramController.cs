@@ -11,7 +11,7 @@ namespace University_Admission.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles = "admin")]
+    [Authorize]
     public class ProgramController : ControllerBase
     {
         private readonly ApplicationDbContext _db;
@@ -24,6 +24,7 @@ namespace University_Admission.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin,student")]
         public async Task<ActionResult<Response<UniversityProgramViewModel>>> GetProgram(
             [FromQuery] int Id
         )
@@ -51,6 +52,7 @@ namespace University_Admission.Controllers
         }
 
         [HttpGet("GetAll")]
+        [Authorize(Roles = "admin,student")]
         public async Task<ActionResult<Response<List<UniversityProgramViewModel>>>> GetPrograms()
         {
             try
@@ -76,6 +78,7 @@ namespace University_Admission.Controllers
         }
 
         [HttpGet("GetByUniversityId")]
+        [Authorize(Roles = "admin,student")]
         public async Task<
             ActionResult<Response<List<UniversityProgramViewModel>>>
         > GetByUniversityId([FromQuery] int UniversityId)
@@ -104,6 +107,7 @@ namespace University_Admission.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<Response<UniversityProgramViewModel>>> Create(
             [FromBody] UniversityProgramDto request
         )
@@ -124,6 +128,7 @@ namespace University_Admission.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<Response<UniversityProgramViewModel>>> Update(
             [FromQuery] int Id,
             [FromBody] UniversityProgramDto request
@@ -197,6 +202,7 @@ namespace University_Admission.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<Response<UniversityProgramViewModel>>> Delete(
             [FromQuery] int Id
         )
