@@ -12,9 +12,7 @@ import {
   Textarea,
   Title,
   ActionIcon,
-  rem,
   Pagination,
-  Grid,
   ScrollArea
 } from '@mantine/core';
 import { IconTrash, IconEdit, IconSearch } from '@tabler/icons-react';

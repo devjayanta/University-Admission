@@ -19,28 +19,28 @@ const documents = [
     student: "Jayanta Poudel",
     type: "Passport",
     program: "Computer Science",
-    link: "/pdfs/passport-aayush.pdf",
+    link: "",
   },
   {
     id: 2,
     student: "Nabin Kaucha",
     type: "Citizenship",
     program: "Business Administration",
-    link: "/pdfs/citizenship-bikash.pdf",
+    link: "",
   },
   {
     id: 3,
     student: "Dilshad Ansari",
     type: "Passport",
     program: "Data Science",
-    link: "/pdfs/passport-sita.pdf",
+    link: "",
   },
   {
     id: 4,
     student: "Jeevan Shrestha",
     type: "Citizenship",
     program: "BIT",
-    link: "/pdfs/citizenship-ram.pdf",
+    link: "",
   },
 ];
 
