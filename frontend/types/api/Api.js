@@ -44,6 +44,53 @@ export class Api extends HttpClient {
   /**
    * No description
    *
+   * @tags Announcement
+   * @name AnnouncementUpdate
+   * @request PUT:/api/Announcement
+   */
+  announcementUpdate = (data, query, params = {}) =>
+    this.request({
+      path: `/api/Announcement`,
+      method: "PUT",
+      query: query,
+      body: data,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Announcement
+   * @name AnnouncementDelete
+   * @request DELETE:/api/Announcement
+   */
+  announcementDelete = (query, params = {}) =>
+    this.request({
+      path: `/api/Announcement`,
+      method: "DELETE",
+      query: query,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Announcement
+   * @name AnnouncementGetByIdList
+   * @request GET:/api/Announcement/GetById
+   */
+  announcementGetByIdList = (query, params = {}) =>
+    this.request({
+      path: `/api/Announcement/GetById`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
    * @tags Authentication
    * @name AuthenticationRegisterCreate
    * @request POST:/api/Authentication/register

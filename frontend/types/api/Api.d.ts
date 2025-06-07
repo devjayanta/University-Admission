@@ -55,6 +55,49 @@ export declare class Api<SecurityDataType = unknown> extends HttpClient<Security
   /**
    * No description
    *
+   * @tags Announcement
+   * @name AnnouncementUpdate
+   * @request PUT:/api/Announcement
+   */
+  announcementUpdate: (
+    data: AnnouncementDto,
+    query?: {
+      /** @format int32 */
+      Id?: number;
+    },
+    params?: RequestParams,
+  ) => Promise<AxiosResponse<AnnouncementViewModelResponse>>;
+  /**
+   * No description
+   *
+   * @tags Announcement
+   * @name AnnouncementDelete
+   * @request DELETE:/api/Announcement
+   */
+  announcementDelete: (
+    query?: {
+      /** @format int32 */
+      Id?: number;
+    },
+    params?: RequestParams,
+  ) => Promise<AxiosResponse<AnnouncementViewModelResponse>>;
+  /**
+   * No description
+   *
+   * @tags Announcement
+   * @name AnnouncementGetByIdList
+   * @request GET:/api/Announcement/GetById
+   */
+  announcementGetByIdList: (
+    query?: {
+      /** @format int32 */
+      Id?: number;
+    },
+    params?: RequestParams,
+  ) => Promise<AxiosResponse<AnnouncementViewModelResponse>>;
+  /**
+   * No description
+   *
    * @tags Authentication
    * @name AuthenticationRegisterCreate
    * @request POST:/api/Authentication/register

@@ -15,11 +15,12 @@ import {
   rem,
   Pagination,
   Grid,
+  ScrollArea
 } from '@mantine/core';
 import { IconTrash, IconEdit, IconSearch } from '@tabler/icons-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import GLoader from '../GLoader';
-import { showAlert } from '../Alert';
+import { showAlert, showConfirmAlert } from '../Alert';
 
 export default function Announcement() {
   const [announcements, setAnnouncements] = useState([]);
@@ -28,52 +29,84 @@ export default function Announcement() {
   const [search, setSearch] = useState('');
   const [activePage, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [editId, setEditId] = useState(null);
+  const titleRef = useRef(null);
 
   const pageSize = 5;
 
-  useEffect(()=>{
+  useEffect(() => {
     getPublishedAnnouncement()
   }, [])
 
   const handlePublish = () => {
-    // if (!title || !description) return;
-    // setAnnouncements((prev) => [
-    //   { id: Date.now(), title, description },
-    //   ...prev,
-    // ]);
-    // setTitle('');
-    // setDescription('');
+    if (!title || !description) {
+      showAlert("Enter all the required fields!!", 'info')
+      return;
+    }
 
     setLoading(true);
-    apiService.announcementCreate({ "title": title, "description": description }).then(response => {
-      console.log("ann response", response?.data)
-      showAlert("Announcement published Successfully!!", 'success');
-      setTitle('');
-      setDescription('');
-    }).finally(() => {
-      setLoading(false);
-    });
+    if (editId) {
+      apiService.announcementUpdate({ title, description }, { id: editId }).then(response => {
+        showAlert("Announcement updated!!", "success");
+        handleReset();
+        getPublishedAnnouncement();
+      }).finally(() => {
+        setLoading(false);
+      });
+    }
+    else {
+      apiService.announcementCreate({ "title": title, "description": description }).then(response => {
+        showAlert("Announcement published Successfully!!", 'success');
+        handleReset();
+        getPublishedAnnouncement();
+      }).finally(() => {
+        setLoading(false);
+      });
+    }
   };
 
-  const getPublishedAnnouncement = ()=>{
+  const getPublishedAnnouncement = () => {
     setLoading(true);
-    apiService.announcementList().then(response=>{
-       setAnnouncements(response?.data?.data)
+    apiService.announcementList().then(response => {
+      setAnnouncements(response?.data?.data)
     }).finally(() => {
       setLoading(false);
     });
   }
 
   const handleDelete = (id) => {
-    setAnnouncements((prev) => prev.filter((a) => a.id !== id));
+    showConfirmAlert(
+      "Are you sure to delete?",
+      () => {
+        setLoading(true);
+        apiService.announcementDelete({ id }).then((response) => {
+          showAlert("Deleted successfully", "success");
+          getPublishedAnnouncement();
+        }).finally(() => {
+          setLoading(false);
+        })
+      },
+      () => {
+        console.log("Delete cancelled");
+      }
+    );
   };
 
-  const handleUpdate = (id) => {
-    const existing = announcements.find((a) => a.id === id);
-    setTitle(existing.title);
-    setDescription(existing.description);
-    handleDelete(id);
+  const handleUpdate = (announcement) => {
+    setEditId(announcement.id);
+    setTitle(announcement.title);
+    setDescription(announcement.description);
+    setTimeout(() => {
+      titleRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      titleRef.current?.focus();
+    }, 200);
   };
+
+  const handleReset = () => {
+    setEditId(null);
+    setTitle('');
+    setDescription('');
+  }
 
   const filtered = announcements.filter(
     (a) =>
@@ -98,6 +131,8 @@ export default function Announcement() {
             placeholder="Enter announcement title"
             value={title}
             onChange={(e) => setTitle(e.currentTarget.value)}
+            ref={titleRef}
+            required
           />
           <Textarea
             label="Description"
@@ -105,10 +140,14 @@ export default function Announcement() {
             minRows={4}
             value={description}
             onChange={(e) => setDescription(e.currentTarget.value)}
+            required
           />
           <Group justify="flex-end">
             <Button color="blue" onClick={handlePublish}>
-              Publish
+              {editId ? "Update" : "Publish"}
+            </Button>
+            <Button color="red" onClick={handleReset}>
+              Reset
             </Button>
           </Group>
         </Stack>
@@ -127,51 +166,53 @@ export default function Announcement() {
           />
         </Group>
 
-        <Table striped highlightOnHover withTableBorder verticalSpacing="sm">
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th>Title</Table.Th>
-              <Table.Th>Description</Table.Th>
-              <Table.Th>Created At</Table.Th>
-              <Table.Th style={{ textAlign: 'right' }}>Actions</Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>
-            {paginated.length > 0 ? (
-              paginated.map((a) => (
-                <Table.Tr key={a.id}>
-                  <Table.Td>{a.title}</Table.Td>
-                  <Table.Td>{a.description}</Table.Td>
-                  <Table.Td>{a.createdAt.split('T')[0]}</Table.Td>
-                  <Table.Td style={{ textAlign: 'right' }}>
-                    <Group gap="xs" justify="flex-end">
-                      <ActionIcon
-                        variant="light"
-                        color="blue"
-                        onClick={() => handleUpdate(a.id)}
-                      >
-                        <IconEdit size={18} />
-                      </ActionIcon>
-                      <ActionIcon
-                        variant="light"
-                        color="red"
-                        onClick={() => handleDelete(a.id)}
-                      >
-                        <IconTrash size={18} />
-                      </ActionIcon>
-                    </Group>
+        <ScrollArea>
+          <Table striped highlightOnHover withTableBorder verticalSpacing="sm">
+            <Table.Thead>
+              <Table.Tr>
+                <Table.Th>Title</Table.Th>
+                <Table.Th>Description</Table.Th>
+                <Table.Th>Created At</Table.Th>
+                <Table.Th style={{ textAlign: 'right' }}>Actions</Table.Th>
+              </Table.Tr>
+            </Table.Thead>
+            <Table.Tbody>
+              {paginated.length > 0 ? (
+                paginated.map((a) => (
+                  <Table.Tr key={a.id}>
+                    <Table.Td>{a.title}</Table.Td>
+                    <Table.Td>{a.description}</Table.Td>
+                    <Table.Td>{a.createdAt.split('T')[0]}</Table.Td>
+                    <Table.Td style={{ textAlign: 'right' }}>
+                      <Group gap="xs" justify="flex-end">
+                        <ActionIcon
+                          variant="light"
+                          color="blue"
+                          onClick={() => handleUpdate(a)}
+                        >
+                          <IconEdit size={18} />
+                        </ActionIcon>
+                        <ActionIcon
+                          variant="light"
+                          color="red"
+                          onClick={() => handleDelete(a.id)}
+                        >
+                          <IconTrash size={18} />
+                        </ActionIcon>
+                      </Group>
+                    </Table.Td>
+                  </Table.Tr>
+                ))
+              ) : (
+                <Table.Tr>
+                  <Table.Td colSpan={3} style={{ textAlign: 'center' }}>
+                    No announcements found.
                   </Table.Td>
                 </Table.Tr>
-              ))
-            ) : (
-              <Table.Tr>
-                <Table.Td colSpan={3} style={{ textAlign: 'center' }}>
-                  No announcements found.
-                </Table.Td>
-              </Table.Tr>
-            )}
-          </Table.Tbody>
-        </Table>
+              )}
+            </Table.Tbody>
+          </Table>
+        </ScrollArea>
 
         {filtered.length > pageSize && (
           <Group justify="center" mt="md">

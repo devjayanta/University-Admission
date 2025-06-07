@@ -109,6 +109,7 @@ export interface RegisterDto {
   /** @format int32 */
   nationalityId: number;
   gender?: Gender;
+  /** @format email */
   email?: string | null;
 }
 export declare enum RequirementType {
@@ -130,6 +131,7 @@ export interface UniversityDto {
   /** @minLength 1 */
   addressLine1: string;
   addressLine2?: string | null;
+  /** @format uri */
   webSite?: string | null;
 }
 export interface UniversityProgramDto {
