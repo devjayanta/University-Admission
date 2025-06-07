@@ -30,7 +30,8 @@ import {
     IconDotsVertical,
     IconSchool,
     IconBuildings,
-    IconScript 
+    IconScript,
+    IconLibraryPlus
 } from "@tabler/icons-react";
 import { useMediaQuery } from "@mantine/hooks";
 import Announcement from "../../components/AdminDashboard/Announcement";
@@ -39,6 +40,7 @@ import Applications from "../../components/AdminDashboard/Applications";
 import Programs from "../../components/AdminDashboard/Programs";
 import University from "../../components/AdminDashboard/University";
 import Documents from "../../components/AdminDashboard/Documents";
+import AddProgram from "../../components/AdminDashboard/AddProgram";
 
 function StatsBox({ title, value, icon }) {
     return (
@@ -87,6 +89,7 @@ export default function AdminPanel() {
         { label: "Dashboard", value: "dashboard", icon: <IconDashboard size={20} /> },
         { label: "Announcement", value: "announcement", icon: <IconSpeakerphone size={20} /> },
         { label: "University", value: "university", icon: <IconBuildings size={20} /> },
+        { label: "Add Program", value: "addprogram", icon: <IconLibraryPlus size={20} /> },
         { label: "Programs", value: "programs", icon: <IconSchool size={20} /> },
         { label: "Applications", value: "applications", icon: <IconFileText size={20} /> },
         { label: "Students", value: "students", icon: <IconUsers size={20} /> },
@@ -101,8 +104,8 @@ export default function AdminPanel() {
                 return <Applications />;
             case "university":
                 return <University />;
-            case "settings":
-                return <SettingsContent />;
+            case "addprogram":
+                return <AddProgram />;
             case "announcement":
                 return <Announcement />;
             case "students":

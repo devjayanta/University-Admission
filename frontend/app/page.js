@@ -17,6 +17,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { showAlert } from '../components/Alert';
 import apiService from './http/ApiService';
+import GLoader from '@/components/GLoader';
 
 export default function LoginPage() {
 
@@ -62,6 +63,9 @@ export default function LoginPage() {
           </Stack>
         </form>
       </Paper>
+
+      <GLoader opened={loading} />
+
     </Container>
   )
 }

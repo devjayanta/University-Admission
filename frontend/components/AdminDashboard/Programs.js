@@ -13,58 +13,25 @@ import {
   Divider,
 } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import GLoader from '../GLoader';
+import apiService from "@/app/http/ApiService";
 
-const programs = [
-  {
-    id: 1,
-    name: "Computer Science",
-    university: "Tribhuvan University",
-    fee: 12000,
-    currency: "NPR",
-    language: "English",
-    requirements: [
-      { name: "TOEFL", isMandatory: true },
-      { name: "GPA above 3.0", isMandatory: false },
-    ],
-  },
-  {
-    id: 2,
-    name: "Business Administration",
-    university: "Pokhara University",
-    fee: 15000,
-    currency: "NPR",
-    language: "English",
-    requirements: [{ name: "IELTS", isMandatory: true }],
-  },
-  {
-    id: 3,
-    name: "Data Science",
-    university: "Kathmandu University",
-    fee: 20000,
-    currency: "USD",
-    language: "English",
-    requirements: [
-      { name: "GRE", isMandatory: true },
-      { name: "Math Background", isMandatory: false },
-    ],
-  },
-  {
-    id: 4,
-    name: "BIT",
-    university: "Purbanchal University",
-    fee: 10000,
-    currency: "NPR",
-    language: "English",
-    requirements: [
-      { name: "GPA 2.9 above", isMandatory: true },
-      { name: "Math Background", isMandatory: false },
-    ],
-  },
-];
 
 export default function ProgramCards() {
+  const [programs, setPrograms] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    apiService.programGetAllList().then(response => {
+      setPrograms(response?.data?.data);
+    }).finally(() => {
+      setLoading(false);
+    })
+  }, [])
+
 
   const filtered = programs.filter(
     (p) =>
@@ -87,54 +54,66 @@ export default function ProgramCards() {
           />
         </Group>
 
-        <SimpleGrid cols={{ base: 1, sm: 2, md: 3, lg: 4 }} spacing="lg">
-          {filtered.map((program) => (
-            <Card
-              shadow="sm"
-              padding="lg"
-              radius="md"
-              withBorder
-              key={program.id}
-            >
-              <Stack>
-                <Title order={5} c="#1971c2">
-                  {program.name}
-                </Title>
-                <Text size="sm" c="dimmed">
-                  {program.university}
-                </Text>
+        {
+          filtered?.length > 0 ? (
+            <SimpleGrid cols={{ base: 1, sm: 2, md: 3, lg: 4 }} spacing="lg">
+              {filtered.map((program) => (
+                <Card
+                  shadow="sm"
+                  padding="lg"
+                  radius="md"
+                  withBorder
+                  key={program.id}
+                >
+                  <Stack>
+                    <Title order={5} c="#1971c2">
+                      {program.name}
+                    </Title>
+                    <Text size="sm" c="dimmed">
+                      {program.university}
+                    </Text>
 
-                <Divider my="sm" />
+                    <Divider my="sm" />
 
-                <Text size="sm">
-                  <strong>Fee:</strong> {program.fee} {program.currency}
-                </Text>
-                <Text size="sm">
-                  <strong>Language:</strong> {program.language}
-                </Text>
+                    <Text size="sm">
+                      <strong>Fee:</strong> {program.fee}
+                    </Text>
 
-                <Divider my="sm" />
+                    <Divider my="sm" />
 
-                <Text fw={600} size="sm">
-                  Requirements:
-                </Text>
-                <Stack gap={4}>
-                  {program.requirements.map((req, idx) => (
-                    <Badge
-                      key={idx}
-                      color={req.isMandatory ? "red" : "gray"}
-                      variant={req.isMandatory ? "filled" : "light"}
-                      size="sm"
-                    >
-                      {req.name} {req.isMandatory ? "(Mandatory)" : "(Optional)"}
-                    </Badge>
-                  ))}
-                </Stack>
-              </Stack>
-            </Card>
-          ))}
-        </SimpleGrid>
+                    <Text fw={600} size="sm">
+                      Requirements:
+                    </Text>
+                    <Stack gap={4}>
+                      {program.programRequirements.map((req, idx) => (
+                        <Badge
+                          key={idx}
+                          color={req.isMandatory ? "red" : "gray"}
+                          variant={req.isMandatory ? "filled" : "light"}
+                          size="sm"
+                        >
+                          {req.name} {req.isMandatory ? "(Mandatory)" : "(Optional)"}
+                        </Badge>
+                      ))}
+                    </Stack>
+                  </Stack>
+                </Card>
+              ))}
+            </SimpleGrid>
+          )
+            :
+            (
+              <SimpleGrid cols={{ base: 1, sm: 2, md: 3, lg: 4 }} spacing="lg">
+                No programs found!!
+              </SimpleGrid>
+            )
+        }
+
+
       </Paper>
+
+      <GLoader opened={loading} />
+
     </Stack>
   );
 }
