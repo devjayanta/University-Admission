@@ -4,9 +4,9 @@
     {
         public IFormFile File { get; set; }
 
-        public FileUploadDto(IFormFile file)
+        public FileUploadDto()
         {
-            File = file;
+            File = default!;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace University_Admission.Controllers
 
         [HttpPost]
         public async Task<ActionResult<Response<string>>> UploadFile(
-            [FromBody] FileUploadDto request
+            [FromForm] FileUploadDto request
         )
         {
             try
