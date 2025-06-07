@@ -49,9 +49,7 @@ export default function RegisterPage() {
   })
 
 
-
   const handleSubmit = (values) => {
-    console.log('Registering...', values)
     setLoading(true);
     apiService.authenticationRegisterCreate({
       "username": values.username,

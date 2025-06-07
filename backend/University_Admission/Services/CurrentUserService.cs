@@ -18,7 +18,7 @@ namespace University_Admission.Services
                 var userId =
                     _httpContextAccessor.HttpContext?.User?.Identity?.IsAuthenticated ?? false
                         ? _httpContextAccessor
-                            .HttpContext?.User?.Claims.Single(c => c.Type == "userId")
+                            .HttpContext?.User?.Claims.Single(c => c.Type == "UserId")
                             .Value ?? string.Empty
                         : string.Empty;
                 return string.IsNullOrEmpty(userId) ? 0 : int.Parse(userId);

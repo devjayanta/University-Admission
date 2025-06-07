@@ -1,5 +1,6 @@
 'use client';
 
+import apiService from '@/app/http/ApiService';
 import {
   Box,
   Button,
@@ -17,6 +18,8 @@ import {
 } from '@mantine/core';
 import { IconTrash, IconEdit, IconSearch } from '@tabler/icons-react';
 import { useState } from 'react';
+import GLoader from '../GLoader';
+import { showAlert } from '../Alert';
 
 export default function Announcement() {
   const [announcements, setAnnouncements] = useState([]);
@@ -24,17 +27,30 @@ export default function Announcement() {
   const [description, setDescription] = useState('');
   const [search, setSearch] = useState('');
   const [activePage, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   const pageSize = 5;
 
   const handlePublish = () => {
-    if (!title || !description) return;
-    setAnnouncements((prev) => [
-      { id: Date.now(), title, description },
-      ...prev,
-    ]);
-    setTitle('');
-    setDescription('');
+    // if (!title || !description) return;
+    // setAnnouncements((prev) => [
+    //   { id: Date.now(), title, description },
+    //   ...prev,
+    // ]);
+    // setTitle('');
+    // setDescription('');
+
+    setLoading(true);
+    apiService.announcementCreate({ "title": title, "description": description }).then(response => {
+      conole.log("ann response", response?.data)
+      showAlert("Announcement published Successfully!!", 'success');
+      setTitle('');
+      setDescription('');
+    }).catch(error => {
+      showAlert(error?.response?.data, 'info');
+    }).finally(() => {
+      setLoading(false);
+    });
   };
 
   const handleDelete = (id) => {
@@ -154,6 +170,9 @@ export default function Announcement() {
           </Group>
         )}
       </Paper>
+
+      <GLoader opened={loading} />
+
     </Stack>
   );
 }

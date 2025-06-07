@@ -35,8 +35,6 @@ export default function LoginPage() {
     apiService.authenticationLoginCreate({ username: values.username, password: values.password }).then(response => {
       localStorage.setItem('token', response.data.data.token)
       router.push('/admin');
-    }).catch(error => {
-      showAlert(error?.response?.data, 'info');
     }).finally(() => {
       setLoading(false);
     });

@@ -15,7 +15,9 @@ import {
     Button,
     Avatar,
     rem,
-    ThemeIcon
+    ThemeIcon,
+    Burger,
+    Menu
 } from "@mantine/core";
 import {
     IconUsers,
@@ -24,11 +26,19 @@ import {
     IconLogout,
     IconDashboard,
     IconLayoutDashboard,
-    IconSpeakerphone
+    IconSpeakerphone,
+    IconDotsVertical,
+    IconSchool,
+    IconBuildings,
+    IconScript 
 } from "@tabler/icons-react";
+import { useMediaQuery } from "@mantine/hooks";
 import Announcement from "../../components/AdminDashboard/Announcement";
-import { useEffect } from "react";
-import apiService from "../http/ApiService";
+import Students from "../../components/AdminDashboard/Students";
+import Applications from "../../components/AdminDashboard/Applications";
+import Programs from "../../components/AdminDashboard/Programs";
+import University from "../../components/AdminDashboard/University";
+import Documents from "../../components/AdminDashboard/Documents";
 
 function StatsBox({ title, value, icon }) {
     return (
@@ -56,15 +66,13 @@ function DashboardContent() {
             <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="lg">
                 <StatsBox title="Total Students" value="1200" icon={<IconUsers size={20} />} />
                 <StatsBox title="Total Applications" value="350" icon={<IconFileText size={20} />} />
-                <StatsBox title="Active Courses" value="24" icon={<IconLayoutDashboard size={20} />} />
+                <StatsBox title="New Applications" value="24" icon={<IconLayoutDashboard size={20} />} />
             </SimpleGrid>
         </Stack>
     );
 }
 
-function ApplicationsContent() {
-    return <Text>Applications list will go here.</Text>;
-}
+
 
 function SettingsContent() {
     return <Text>Settings form will go here.</Text>;
@@ -72,13 +80,17 @@ function SettingsContent() {
 
 export default function AdminPanel() {
     const [active, setActive] = useState("dashboard");
+    const [mobileOpened, setMobileOpened] = useState(false);
+    const isSmallScreen = useMediaQuery("(max-width: 768px)");
 
     const menuItems = [
         { label: "Dashboard", value: "dashboard", icon: <IconDashboard size={20} /> },
+        { label: "Announcement", value: "announcement", icon: <IconSpeakerphone size={20} /> },
+        { label: "University", value: "university", icon: <IconBuildings size={20} /> },
+        { label: "Programs", value: "programs", icon: <IconSchool size={20} /> },
         { label: "Applications", value: "applications", icon: <IconFileText size={20} /> },
         { label: "Students", value: "students", icon: <IconUsers size={20} /> },
-        { label: "Announcement", value: "announcement", icon: <IconSpeakerphone size={20} /> },
-        { label: "Settings", value: "settings", icon: <IconSettings size={20} /> },
+        { label: "Documents", value: "documents", icon: <IconScript  size={20} /> },
     ];
 
     const renderContent = () => {
@@ -86,24 +98,23 @@ export default function AdminPanel() {
             case "dashboard":
                 return <DashboardContent />;
             case "applications":
-                return <ApplicationsContent />;
+                return <Applications />;
+            case "university":
+                return <University />;
             case "settings":
                 return <SettingsContent />;
             case "announcement":
                 return <Announcement />;
             case "students":
+                return <Students />
+            case "programs":
+                return <Programs />
+            case "documents":
+                return <Documents />
             default:
                 return <DashboardContent />;
         }
     };
-
-    useEffect(() => {
-        const fetchUnis = () => {
-            apiService.universityGetAllList().then(response => console.log('resp with token', response));
-        }
-
-        fetchUnis();
-    })
 
     return (
         <AppShell
@@ -111,7 +122,7 @@ export default function AdminPanel() {
             navbar={{
                 width: 260,
                 breakpoint: "sm",
-                collapsed: { mobile: false },
+                collapsed: { mobile: !mobileOpened },
             }}
             header={{ height: 60 }}
         >
@@ -123,7 +134,10 @@ export default function AdminPanel() {
                             label={item.label}
                             leftSection={item.icon}
                             active={active === item.value}
-                            onClick={() => setActive(item.value)}
+                            onClick={() => {
+                                setActive(item.value);
+                                setMobileOpened(false);
+                            }}
                             variant={active === item.value ? "filled" : "light"}
                             styles={{
                                 root: {
@@ -139,30 +153,52 @@ export default function AdminPanel() {
             </AppShell.Navbar>
 
             <AppShell.Header p="md" style={{ backgroundColor: "#1971c2", color: "white" }}>
-                <Group justify="space-between" align="center" style={{ height: "100%" }}>
-                    <Text size="lg" fw={700} style={{ color: "white" }}>
-                        Admin Panel
-                    </Text>
+                <Group justify="space-between" align="center" style={{ height: "100%" }} wrap="wrap">
                     <Group>
+                        <Burger
+                            opened={mobileOpened}
+                            onClick={() => setMobileOpened((o) => !o)}
+                            hiddenFrom="sm"
+                            size="sm"
+                            color="white"
+                        />
+                        <Text size="lg" fw={700} style={{ color: "white" }}>
+                            Admin Panel
+                        </Text>
+                    </Group>
+                    {/* <Group gap="sm" wrap="wrap" justify="flex-end">
                         <Avatar src="https://i.pravatar.cc/40" alt="User" radius="xl" size="sm" />
                         <Text size="sm">Admin</Text>
                         <Button size="xs" color="red" leftSection={<IconLogout size={14} />}>
                             Logout
                         </Button>
+                    </Group> */}
+                    <Group gap="sm" wrap="wrap" justify="flex-end">
+                        <Avatar src="https://i.pravatar.cc/40" alt="User" radius="xl" size="sm" />
+                        {!isSmallScreen && <Text size="sm">Admin</Text>}
+                        {isSmallScreen ? (
+                            <Menu shadow="md" width={150}>
+                                <Menu.Target>
+                                    <Box style={{ cursor: "pointer" }}>
+                                        <IconDotsVertical size={16} />
+                                    </Box>
+                                </Menu.Target>
+                                <Menu.Dropdown>
+                                    <Menu.Item leftSection={<IconLogout size={14} />} color="red">
+                                        Logout
+                                    </Menu.Item>
+                                </Menu.Dropdown>
+                            </Menu>
+                        ) : (
+                            <Button size="xs" color="red" leftSection={<IconLogout size={14} />}>
+                                Logout
+                            </Button>
+                        )}
                     </Group>
+
                 </Group>
             </AppShell.Header>
 
-            {/* <AppShell.Main>
-                <Container size="xl">
-                    <Box>
-                        <Title order={4} mb="md">
-                            {menuItems.find((m) => m.value === active)?.label}
-                        </Title>
-                        {renderContent()}
-                    </Box>
-                </Container>
-            </AppShell.Main> */}
             <AppShell.Main>
                 <Container size="xl">
                     <Box mb="xl">
@@ -187,10 +223,6 @@ export default function AdminPanel() {
                     </Box>
                 </Container>
             </AppShell.Main>
-
-
-
         </AppShell>
-
     );
 }

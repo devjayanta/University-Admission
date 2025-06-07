@@ -41,10 +41,10 @@ export default function Students() {
       <Paper shadow="sm" p="lg" radius="md" withBorder>
         <Group justify="space-between" mb="md" wrap="wrap">
           <Title order={5} c="#1971c2">
-            Students List
+            Applications List
           </Title>
           <TextInput
-            placeholder="Search students..."
+            placeholder="Search application..."
             leftSection={<IconSearch size={16} />}
             value={search}
             onChange={(e) => setSearch(e.currentTarget.value)}
@@ -75,7 +75,7 @@ export default function Students() {
             ) : (
               <Table.Tr>
                 <Table.Td colSpan={5} style={{ textAlign: 'center' }}>
-                  No students found.
+                  No applications found.
                 </Table.Td>
               </Table.Tr>
             )}
