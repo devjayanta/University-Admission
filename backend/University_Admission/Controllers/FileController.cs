@@ -27,7 +27,7 @@ namespace University_Admission.Controllers
             try
             {
                 var fileName = await _fileStorageService.SaveFile(request.File);
-                return Response<string>.SuccessResponse(fileName);
+                return Response<string>.SuccessResponse(fileName, "Successfully Uploaded");
             }
             catch (Exception ex)
             {

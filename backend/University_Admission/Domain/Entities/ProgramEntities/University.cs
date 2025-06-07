@@ -24,6 +24,7 @@ namespace University_Admission.Domain.Entities.ProgramEntities
         public string? AddressLine2 { get; private set; }
 
         [StringLength(100)]
+        [Url]
         public string? WebSite { get; private set; }
         public virtual ICollection<UniversityProgram> UniversityPrograms { get; set; } = [];
 

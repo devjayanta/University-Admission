@@ -7,24 +7,39 @@ namespace University_Admission.DTO
     {
         [Required]
         public string Username { get; set; }
+
         [Required]
         public string FirstName { get; set; }
-      
+
         public string MiddleName { get; set; }
+
         [Required]
         public string LastName { get; set; }
 
         [Required]
         public string Password { get; set; }
+
         [Required]
         public string PassportNo { get; set; }
+
         [Required]
         public int NationalityId { get; set; }
         public Gender Gender { get; private set; }
 
+        [EmailAddress]
         public string Email { get; set; }
 
-        public RegisterDto(string username, string firstname, string middlename, string lastname, string password, string passportno, int nationalityId, Gender gender, string email)
+        public RegisterDto(
+            string username,
+            string firstname,
+            string middlename,
+            string lastname,
+            string password,
+            string passportno,
+            int nationalityId,
+            Gender gender,
+            string email
+        )
         {
             Username = username;
             FirstName = firstname;

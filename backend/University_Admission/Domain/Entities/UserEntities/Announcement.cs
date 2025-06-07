@@ -35,5 +35,11 @@ namespace University_Admission.Domain.Entities.UserEntities
         {
             EntryById = entryById;
         }
+
+        public void Update(string title, string description)
+        {
+            Title = title;
+            Description = description;
+        }
     }
 }

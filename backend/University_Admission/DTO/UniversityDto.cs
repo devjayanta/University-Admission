@@ -13,6 +13,7 @@ namespace University_Admission.DTO
         [Required]
         public string AddressLine1 { get; private set; }
         public string? AddressLine2 { get; private set; }
+        [Url]
         public string? WebSite { get; private set; }
 
         public UniversityDto(
