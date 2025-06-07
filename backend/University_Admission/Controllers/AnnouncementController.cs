@@ -35,16 +35,46 @@ namespace University_Admission.Controllers
         {
             try
             {
-                var announcement = await _context.Announcements.Where(a => a.DeletedAt == null).ToListAsync();
-                if(announcement == null)
+                var announcement = await _context
+                    .Announcements.Where(a => a.DeletedAt == null)
+                    .ToListAsync();
+                if (announcement == null)
                 {
-                    return Response<List<AnnouncementViewModel>>.FailureResponse("No announcements exist");
+                    return Response<List<AnnouncementViewModel>>.FailureResponse(
+                        "No announcements exist"
+                    );
                 }
-                return Response<List<AnnouncementViewModel>>.SuccessResponse(_mapper.Map<List<AnnouncementViewModel>>(announcement));
+                return Response<List<AnnouncementViewModel>>.SuccessResponse(
+                    _mapper.Map<List<AnnouncementViewModel>>(announcement)
+                );
             }
             catch (Exception ex)
             {
                 return Response<List<AnnouncementViewModel>>.FailureResponse(ex);
+            }
+        }
+
+        [HttpGet("GetById")]
+        public async Task<ActionResult<Response<AnnouncementViewModel>>> Get([FromQuery] int Id)
+        {
+            try
+            {
+                var announcement = await _context
+                    .Announcements.Where(a => a.Id == Id && a.DeletedAt == null)
+                    .SingleOrDefaultAsync();
+                if (announcement == null)
+                {
+                    return Response<AnnouncementViewModel>.FailureResponse(
+                        $"Announcement with Id {Id} does not exist"
+                    );
+                }
+                return Response<AnnouncementViewModel>.SuccessResponse(
+                    _mapper.Map<AnnouncementViewModel>(announcement)
+                );
+            }
+            catch (Exception ex)
+            {
+                return Response<AnnouncementViewModel>.FailureResponse(ex);
             }
         }
 
@@ -62,6 +92,64 @@ namespace University_Admission.Controllers
                 await _context.SaveChangesAsync();
                 var res = _mapper.Map<AnnouncementViewModel>(announcement);
                 return Response<AnnouncementViewModel>.SuccessResponse(res, "Successfully Created");
+            }
+            catch (Exception ex)
+            {
+                return Response<AnnouncementViewModel>.FailureResponse(ex);
+            }
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<Response<AnnouncementViewModel>>> Update(
+            [FromQuery] int Id,
+            [FromBody] AnnouncementDto request
+        )
+        {
+            try
+            {
+                var announcement = await _context
+                    .Announcements.Where(a => a.Id == Id && a.DeletedAt == null)
+                    .SingleOrDefaultAsync();
+                if (announcement == null)
+                {
+                    return Response<AnnouncementViewModel>.FailureResponse(
+                        $"Announcement with Id {Id} does not exist"
+                    );
+                }
+                announcement.Update(request.Title, request.Description);
+                announcement.MarkUpdated();
+                await _context.SaveChangesAsync();
+                return Response<AnnouncementViewModel>.SuccessResponse(
+                    _mapper.Map<AnnouncementViewModel>(announcement),
+                    "Successfully Updated"
+                );
+            }
+            catch (Exception ex)
+            {
+                return Response<AnnouncementViewModel>.FailureResponse(ex);
+            }
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult<Response<AnnouncementViewModel>>> Delete([FromQuery] int Id)
+        {
+            try
+            {
+                var announcement = await _context
+                    .Announcements.Where(a => a.Id == Id && a.DeletedAt == null)
+                    .SingleOrDefaultAsync();
+                if (announcement == null)
+                {
+                    return Response<AnnouncementViewModel>.FailureResponse(
+                        $"Announcement with Id {Id} does not exist"
+                    );
+                }
+                announcement.Delete();
+                await _context.SaveChangesAsync();
+                return Response<AnnouncementViewModel>.SuccessResponse(
+                    _mapper.Map<AnnouncementViewModel>(announcement),
+                    "Successfully Deleted"
+                );
             }
             catch (Exception ex)
             {

@@ -83,7 +83,8 @@ namespace University_Admission.Controllers
                 _db.Universities.Add(university);
                 await _db.SaveChangesAsync();
                 return Response<UniversityViewModel>.SuccessResponse(
-                    _mapper.Map<UniversityViewModel>(university)
+                    _mapper.Map<UniversityViewModel>(university),
+                    "Successfully Created"
                 );
             }
             catch (Exception ex)
@@ -120,7 +121,8 @@ namespace University_Admission.Controllers
                 university.MarkUpdated();
                 await _db.SaveChangesAsync();
                 return Response<UniversityViewModel>.SuccessResponse(
-                    _mapper.Map<UniversityViewModel>(university)
+                    _mapper.Map<UniversityViewModel>(university),
+                    "Successfully Updated"
                 );
             }
             catch (Exception ex)
@@ -147,7 +149,8 @@ namespace University_Admission.Controllers
                 university.Delete();
                 await _db.SaveChangesAsync();
                 return Response<UniversityViewModel>.SuccessResponse(
-                    _mapper.Map<UniversityViewModel>(university)
+                    _mapper.Map<UniversityViewModel>(university),
+                    "Successfully Deleted"
                 );
             }
             catch (Exception ex)

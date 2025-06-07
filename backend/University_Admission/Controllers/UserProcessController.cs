@@ -123,7 +123,8 @@ namespace University_Admission.Controllers
                 _db.UserProgramProcesses.Add(process);
                 await _db.SaveChangesAsync();
                 return Response<UserProcessViewModel>.SuccessResponse(
-                    _mapper.Map<UserProcessViewModel>(process)
+                    _mapper.Map<UserProcessViewModel>(process),
+                    "Successfully Created"
                 );
             }
             catch (Exception ex)
@@ -174,12 +175,8 @@ namespace University_Admission.Controllers
                     foreach (var reqId in reqIdsFromRequest)
                     {
                         var updatePR = process.Requirements.Single(r => r.Id == reqId);
-                        var updatePRReq = request.Requirements?.Single(r =>
-                            r.Id == reqId
-                        )!;
-                        updatePR.Update(
-                            updatePRReq.Value
-                        );
+                        var updatePRReq = request.Requirements?.Single(r => r.Id == reqId)!;
+                        updatePR.Update(updatePRReq.Value);
                     }
                 }
 
@@ -193,7 +190,8 @@ namespace University_Admission.Controllers
                 }
                 await _db.SaveChangesAsync();
                 return Response<UserProcessViewModel>.SuccessResponse(
-                    _mapper.Map<UserProcessViewModel>(process)
+                    _mapper.Map<UserProcessViewModel>(process),
+                    "Successfully Updated"
                 );
             }
             catch (Exception ex)
@@ -203,9 +201,7 @@ namespace University_Admission.Controllers
         }
 
         [HttpDelete]
-        public async Task<ActionResult<Response<UserProcessViewModel>>> Delete(
-            [FromQuery] int Id
-        )
+        public async Task<ActionResult<Response<UserProcessViewModel>>> Delete([FromQuery] int Id)
         {
             try
             {
@@ -221,7 +217,8 @@ namespace University_Admission.Controllers
                 process.Delete();
                 await _db.SaveChangesAsync();
                 return Response<UserProcessViewModel>.SuccessResponse(
-                    _mapper.Map<UserProcessViewModel>(process)
+                    _mapper.Map<UserProcessViewModel>(process),
+                    "Successfully Deleted"
                 );
             }
             catch (Exception ex)
