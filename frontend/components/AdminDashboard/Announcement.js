@@ -17,7 +17,7 @@ import {
   Grid,
 } from '@mantine/core';
 import { IconTrash, IconEdit, IconSearch } from '@tabler/icons-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import GLoader from '../GLoader';
 import { showAlert } from '../Alert';
 
@@ -31,6 +31,10 @@ export default function Announcement() {
 
   const pageSize = 5;
 
+  useEffect(()=>{
+    getPublishedAnnouncement()
+  }, [])
+
   const handlePublish = () => {
     // if (!title || !description) return;
     // setAnnouncements((prev) => [
@@ -42,16 +46,23 @@ export default function Announcement() {
 
     setLoading(true);
     apiService.announcementCreate({ "title": title, "description": description }).then(response => {
-      conole.log("ann response", response?.data)
+      console.log("ann response", response?.data)
       showAlert("Announcement published Successfully!!", 'success');
       setTitle('');
       setDescription('');
-    }).catch(error => {
-      showAlert(error?.response?.data, 'info');
     }).finally(() => {
       setLoading(false);
     });
   };
+
+  const getPublishedAnnouncement = ()=>{
+    setLoading(true);
+    apiService.announcementList().then(response=>{
+       setAnnouncements(response?.data?.data)
+    }).finally(() => {
+      setLoading(false);
+    });
+  }
 
   const handleDelete = (id) => {
     setAnnouncements((prev) => prev.filter((a) => a.id !== id));
@@ -121,6 +132,7 @@ export default function Announcement() {
             <Table.Tr>
               <Table.Th>Title</Table.Th>
               <Table.Th>Description</Table.Th>
+              <Table.Th>Created At</Table.Th>
               <Table.Th style={{ textAlign: 'right' }}>Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
@@ -130,6 +142,7 @@ export default function Announcement() {
                 <Table.Tr key={a.id}>
                   <Table.Td>{a.title}</Table.Td>
                   <Table.Td>{a.description}</Table.Td>
+                  <Table.Td>{a.createdAt.split('T')[0]}</Table.Td>
                   <Table.Td style={{ textAlign: 'right' }}>
                     <Group gap="xs" justify="flex-end">
                       <ActionIcon
