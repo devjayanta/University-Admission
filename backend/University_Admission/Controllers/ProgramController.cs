@@ -33,6 +33,7 @@ namespace University_Admission.Controllers
             {
                 var program = await _db
                     .UniversityPrograms.Where(up => up.Id == Id && up.DeletedAt == null)
+                    .Include(up => up.University)
                     .Include(up => up.ProgramRequirements.Where(pr => pr.DeletedAt == null))
                     .SingleOrDefaultAsync();
                 if (program == null)
@@ -53,12 +54,22 @@ namespace University_Admission.Controllers
 
         [HttpGet("GetAll")]
         [Authorize(Roles = "admin,student")]
-        public async Task<ActionResult<Response<List<UniversityProgramViewModel>>>> GetPrograms()
+        public async Task<ActionResult<Response<List<UniversityProgramViewModel>>>> GetPrograms(
+            [FromQuery] string? status
+        )
         {
             try
             {
-                var program = await _db
-                    .UniversityPrograms.Where(up => up.DeletedAt == null)
+                var query = _db.UniversityPrograms.AsQueryable();
+                if (!string.IsNullOrEmpty(status) && status == "closed")
+                {
+                    query = query.Where(up => up.DeletedAt != null).AsQueryable();
+                }
+                else
+                {
+                    query = query.Where(up => up.DeletedAt == null).AsQueryable();
+                }
+                var program = await query
                     .Include(up => up.University)
                     .Include(up => up.ProgramRequirements.Where(pr => pr.DeletedAt == null))
                     .ToListAsync();
@@ -90,6 +101,8 @@ namespace University_Admission.Controllers
                     .UniversityPrograms.Where(up =>
                         up.UniversityId == UniversityId && up.DeletedAt == null
                     )
+                    .Include(up => up.University)
+                    .Include(up => up.ProgramRequirements)
                     .ToListAsync();
                 if (program == null)
                 {
@@ -150,7 +163,14 @@ namespace University_Admission.Controllers
                 }
 
                 // update program
-                program.Update(request.Name, request.Level, request.Fee, request.Currency, request.Language);
+                program.Update(
+                    request.Name,
+                    request.Level,
+                    request.Fee,
+                    request.Currency,
+                    request.Language,
+                    request.Duration
+                );
                 program.MarkUpdated();
 
                 // requirements with id null are newly added ones so create accordingly

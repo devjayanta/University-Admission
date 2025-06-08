@@ -25,6 +25,9 @@ namespace University_Admission.Domain.Entities.ProgramEntities
 
         [StringLength(100)]
         public string? Language { get; private set; }
+
+        [StringLength(50)]
+        public string? Duration { get; private set; }
         public virtual ICollection<ProgramRequirement> ProgramRequirements { get; private set; } =
             [];
 
@@ -37,7 +40,8 @@ namespace University_Admission.Domain.Entities.ProgramEntities
             string? level,
             decimal? fee,
             string? currency,
-            string? language
+            string? language,
+            string? duration
         )
         {
             Name = name;
@@ -45,6 +49,7 @@ namespace University_Admission.Domain.Entities.ProgramEntities
             Fee = fee;
             Currency = currency;
             Language = language;
+            Duration = duration;
         }
     }
 }

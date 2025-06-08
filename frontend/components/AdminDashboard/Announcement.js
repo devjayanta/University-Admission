@@ -66,7 +66,7 @@ export default function Announcement() {
   const getPublishedAnnouncement = () => {
     setLoading(true);
     apiService.announcementList().then(response => {
-      setAnnouncements(response?.data?.data)
+      setAnnouncements(response?.data?.data ?? [])
     }).finally(() => {
       setLoading(false);
     });

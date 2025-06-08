@@ -14,6 +14,7 @@ namespace University_Admission.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<Document> Documents { get; set; }
         public DbSet<University> Universities { get; set; }
         public DbSet<UniversityProgram> UniversityPrograms { get; set; }
         public DbSet<ProgramRequirement> ProgramRequirements { get; set; }
@@ -21,6 +22,7 @@ namespace University_Admission.Data
         public DbSet<Notification> Notification { get; set; }
         public DbSet<UserProgramProcess> UserProgramProcesses { get; set; }
         public DbSet<UserProgramRequirement> UserProgramRequirements { get; set; }
+        public DbSet<UserDocument> UserDocuments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -29,6 +31,8 @@ namespace University_Admission.Data
             builder.Entity<UniversityProgram>().Property(x => x.Fee).HasPrecision(18, 2);
 
             builder.Entity<Country>().HasData(CountrySeed.Countries);
+
+            builder.Entity<Document>().HasData(DocumentSeed.Documents);
         }
     }
 }

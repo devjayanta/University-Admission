@@ -43,5 +43,19 @@ namespace University_Admission.Services
                 throw;
             }
         }
+
+        public async Task DeleteFile(string fileName)
+        {
+            try
+            {
+                await Task.Delay(0);
+                string path = Path.Combine(_root, _upload_folder, fileName);
+                File.Delete(path);
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }
