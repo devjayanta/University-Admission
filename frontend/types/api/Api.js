@@ -160,7 +160,7 @@ export class Api extends HttpClient {
       path: `/api/File`,
       method: "POST",
       body: data,
-      type: ContentType.Json,
+      type: ContentType.FormData,
       format: "json",
       ...params,
     });
@@ -266,6 +266,35 @@ export class Api extends HttpClient {
   programGetByUniversityIdList = (query, params = {}) =>
     this.request({
       path: `/api/Program/GetByUniversityId`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Student
+   * @name StudentList
+   * @request GET:/api/Student
+   */
+  studentList = (params = {}) =>
+    this.request({
+      path: `/api/Student`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Student
+   * @name StudentGetStudentByIdList
+   * @request GET:/api/Student/GetStudentById
+   */
+  studentGetStudentByIdList = (query, params = {}) =>
+    this.request({
+      path: `/api/Student/GetStudentById`,
       method: "GET",
       query: query,
       format: "json",

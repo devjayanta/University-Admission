@@ -6,7 +6,8 @@ namespace University_Admission.ViewModel
     public class UniversityProgramViewModel
     {
         public int Id { get; set; }
-        public UniversityViewModel? University { get; set; }
+        public int? UniversityId { get; set; }
+        public string? UniversityName { get; set; }
         public string Name { get; set; }
         public string? Level { get; set; }
         public decimal? Fee { get; set; }

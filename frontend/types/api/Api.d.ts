@@ -16,10 +16,11 @@ import {
   AuthViewModelResponse,
   CountryViewModelListResponse,
   FileContentResultResponse,
-  FileUploadDto,
   LoginDto,
   RegisterDto,
   StringResponse,
+  StudentViewModelListResponse,
+  StudentViewModelResponse,
   UniversityDto,
   UniversityProgramDto,
   UniversityProgramViewModelListResponse,
@@ -137,7 +138,13 @@ export declare class Api<SecurityDataType = unknown> extends HttpClient<Security
    * @name FileCreate
    * @request POST:/api/File
    */
-  fileCreate: (data: FileUploadDto, params?: RequestParams) => Promise<AxiosResponse<StringResponse>>;
+  fileCreate: (
+    data: {
+      /** @format binary */
+      File?: File;
+    },
+    params?: RequestParams,
+  ) => Promise<AxiosResponse<StringResponse>>;
   /**
    * No description
    *
@@ -227,6 +234,28 @@ export declare class Api<SecurityDataType = unknown> extends HttpClient<Security
     },
     params?: RequestParams,
   ) => Promise<AxiosResponse<UniversityProgramViewModelListResponse>>;
+  /**
+   * No description
+   *
+   * @tags Student
+   * @name StudentList
+   * @request GET:/api/Student
+   */
+  studentList: (params?: RequestParams) => Promise<AxiosResponse<StudentViewModelListResponse>>;
+  /**
+   * No description
+   *
+   * @tags Student
+   * @name StudentGetStudentByIdList
+   * @request GET:/api/Student/GetStudentById
+   */
+  studentGetStudentByIdList: (
+    query?: {
+      /** @format int32 */
+      Id?: number;
+    },
+    params?: RequestParams,
+  ) => Promise<AxiosResponse<StudentViewModelResponse>>;
   /**
    * No description
    *

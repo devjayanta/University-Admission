@@ -7,7 +7,8 @@ namespace University_Admission.ViewModel
     public class ProgramRequirementViewModel
     {
         public int Id { get; set; }
-        public UniversityProgramViewModel? UniversityProgram { get; set; }
+        public int? UniversityProgramId { get; set; }
+        public string? UniversityProgramName { get; set; }
         public string Name { get; set; }
         public bool IsMandatory { get; set; }
         public RequirementType Type { get; set; }
@@ -21,7 +22,11 @@ namespace University_Admission.ViewModel
         {
             public Mapping()
             {
-                CreateMap<ProgramRequirement, ProgramRequirementViewModel>();
+                CreateMap<ProgramRequirement, ProgramRequirementViewModel>()
+                    .ForMember(
+                        dst => dst.UniversityProgramName,
+                        opt => opt.MapFrom(src => src.UniversityProgram.Name)
+                    );
             }
         }
     }

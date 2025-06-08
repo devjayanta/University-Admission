@@ -15,7 +15,6 @@ namespace University_Admission.ViewModel
         public CountryViewModel? Nationality { get; set; }
         public Gender Gender { get; set; }
         public string Email { get; set; }
-        public List<AnnouncementViewModel>? Announcements { get; set; }
 
         // public List<NotificationViewModel>? Notifications { get; set; }
         public List<UserProcessViewModel>? Processes { get; set; }

@@ -63,10 +63,6 @@ export interface FileContentResultResponse {
   /** @format binary */
   data?: File | null;
 }
-export interface FileUploadDto {
-  /** @format binary */
-  file?: File | null;
-}
 export declare enum Gender {
   Male = "Male",
   Female = "Female",
@@ -89,7 +85,9 @@ export interface ProgramRequirementDto {
 export interface ProgramRequirementViewModel {
   /** @format int32 */
   id?: number;
-  universityProgram?: UniversityProgramViewModel;
+  /** @format int32 */
+  universityProgramId?: number | null;
+  universityProgramName?: string | null;
   name?: string | null;
   isMandatory?: boolean;
   type?: RequirementType;
@@ -123,6 +121,29 @@ export interface StringResponse {
   message?: string | null;
   data?: string | null;
 }
+export interface StudentViewModel {
+  /** @format int32 */
+  id?: number;
+  firstName?: string | null;
+  middleName?: string | null;
+  lastName?: string | null;
+  fullName?: string | null;
+  passportNo?: string | null;
+  nationality?: CountryViewModel;
+  gender?: Gender;
+  email?: string | null;
+  processes?: UserProcessViewModel[] | null;
+}
+export interface StudentViewModelListResponse {
+  success?: boolean;
+  message?: string | null;
+  data?: StudentViewModel[] | null;
+}
+export interface StudentViewModelResponse {
+  success?: boolean;
+  message?: string | null;
+  data?: StudentViewModel;
+}
 export interface UniversityDto {
   /** @minLength 1 */
   name: string;
@@ -147,7 +168,9 @@ export interface UniversityProgramDto {
 export interface UniversityProgramViewModel {
   /** @format int32 */
   id?: number;
-  university?: UniversityViewModel;
+  /** @format int32 */
+  universityId?: number | null;
+  universityName?: string | null;
   name?: string | null;
   level?: string | null;
   /** @format double */
@@ -192,9 +215,15 @@ export interface UserProcessDto {
 export interface UserProcessViewModel {
   /** @format int32 */
   id?: number;
-  user?: UserShortViewModel;
-  university?: UniversityViewModel;
-  universityProgram?: UniversityProgramViewModel;
+  /** @format int32 */
+  userId?: number | null;
+  userName?: string | null;
+  /** @format int32 */
+  universityId?: number | null;
+  universityName?: string | null;
+  /** @format int32 */
+  universityProgramId?: number | null;
+  universityProgramName?: string | null;
   requirements?: UserRequirementsViewModel[] | null;
 }
 export interface UserProcessViewModelListResponse {
@@ -217,14 +246,12 @@ export interface UserRequirementsDto {
 export interface UserRequirementsViewModel {
   /** @format int32 */
   id?: number;
-  userProgramProcess?: UserProcessViewModel;
-  programRequirement?: ProgramRequirementViewModel;
-  value?: string | null;
-}
-export interface UserShortViewModel {
   /** @format int32 */
-  id?: number;
-  userName?: string | null;
+  userProgramProcessId?: number | null;
+  /** @format int32 */
+  programRequirementId?: number | null;
+  programRequirementName?: string | null;
+  value?: string | null;
 }
 export interface WeatherForecast {
   /** @format date */
