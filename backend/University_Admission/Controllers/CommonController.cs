@@ -39,5 +39,27 @@ namespace University_Admission.Controllers
                 return Response<List<CountryViewModel>>.FailureResponse(ex);
             }
         }
+
+        [HttpGet("GetAllDocumentTypes")]
+        public async Task<ActionResult<Response<List<DocumentViewModel>>>> GetAllDocumentTypes()
+        {
+            try
+            {
+                var document = await _db.Documents.ToListAsync();
+                if (document == null)
+                {
+                    return Response<List<DocumentViewModel>>.FailureResponse(
+                        "No Document type exist"
+                    );
+                }
+                return Response<List<DocumentViewModel>>.SuccessResponse(
+                    _mapper.Map<List<DocumentViewModel>>(document)
+                );
+            }
+            catch (Exception ex)
+            {
+                return Response<List<DocumentViewModel>>.FailureResponse(ex);
+            }
+        }
     }
 }

@@ -4,5 +4,6 @@
     {
         Task<string> SaveFile(IFormFile file);
         Task<byte[]> GetFile(string fileName);
+        Task DeleteFile(string fileName);
     }
 }
