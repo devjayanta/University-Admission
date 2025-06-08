@@ -65,8 +65,8 @@ export default function UniversityInfo() {
 
     const filtered = programs?.filter(
         (p) =>
-            p.name.toLowerCase().includes(search.toLowerCase()) ||
-            p.university.toLowerCase().includes(search.toLowerCase())
+            p?.name?.toLowerCase().includes(search.toLowerCase()) ||
+            p?.universityName?.toLowerCase().includes(search.toLowerCase())
     );
 
 
@@ -103,8 +103,8 @@ export default function UniversityInfo() {
                                 <Stack gap="xs">
                                     <Group justify="space-between" align="center">
                                         <Group>
-                                            <IconBuildings size={20} color="#1971c2" />
-                                            <Title order={4} c="blue.9">{university?.name}</Title>
+                                            <IconBuildings size={18} color="#1971c2" />
+                                            <Title order={5} c="blue.9">{university?.name}</Title>
                                         </Group>
                                     </Group>
                                     <Group>

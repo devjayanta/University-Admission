@@ -34,7 +34,7 @@ import {
     IconLibraryPlus
 } from "@tabler/icons-react";
 import { useMediaQuery } from "@mantine/hooks";
-import Announcement from "../../components/AdminDashboard/Announcement";
+import Announcement from "../../components/AdminDashboard/AnnouncementForm";
 import Students from "../../components/AdminDashboard/Students";
 import Applications from "../../components/AdminDashboard/Applications";
 import Programs from "../../components/AdminDashboard/Programs";
