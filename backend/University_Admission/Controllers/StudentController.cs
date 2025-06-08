@@ -29,7 +29,7 @@ namespace University_Admission.Controllers
             try
             {
                 var students = await _db
-                    .Users.Where(u => u.Role == Role.Student && u.DeletedAt == null)
+                    .Users.Where(u => u.Role == Role.Student && u.DeletedAt == null).Include(u=>u.Nationality)
                     .ToListAsync();
                 if (students == null)
                 {
@@ -60,6 +60,7 @@ namespace University_Admission.Controllers
                     .ThenInclude(p => p.UniversityProgram)
                     .Include(u => u.Processes)
                     .ThenInclude(p => p.Requirements)
+                    .Include(U=>U.Nationality)
                     .SingleOrDefaultAsync();
                 if (student == null)
                 {

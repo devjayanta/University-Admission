@@ -10,8 +10,8 @@ import {
     Table,
     Checkbox,
     ActionIcon,
-    rem,
-    ScrollArea
+    ScrollArea,
+    SimpleGrid
 } from "@mantine/core";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
 import GLoader from "../GLoader";
@@ -26,21 +26,26 @@ export default function UniversityForm() {
         name: "",
         level: "",
         fee: "",
+        currency:"",
+        language:"",
         programRequirements: [],
     });
     const [newRequirement, setNewRequirement] = useState({
         name: "",
         isMandatory: false,
-        type: "Bool"
+        type: "",
+        value: "",
     });
 
-   
+    console.log("ProgramReqs", programRequirements)
 
     const levels = ["Bachelor", "Master", "PhD"];
     const levelOptions = levels.map((level) => ({
         value: level,
         label: level,
     }));
+
+    const reqTypes = [{ value: "Bool", label: "True/False" }, { value: "Str", label: "Text" }, { value: "Num", label: "Number" }, { value: "File", label: "File" }]
 
     const getUniversities = () => {
         apiService.universityGetAllList().then((response) => {
@@ -59,7 +64,6 @@ export default function UniversityForm() {
             await getUniversities();
             setLoading(false);
         };
-
         fetchData();
     }, []);
 
@@ -70,7 +74,7 @@ export default function UniversityForm() {
             ...prev,
             programRequirements: [...prev.programRequirements, newRequirement],
         }));
-        setNewRequirement({ name: "", isMandatory: false });
+        handleResetNewRequirement();
     };
 
     const handleSave = async () => {
@@ -80,22 +84,26 @@ export default function UniversityForm() {
         }
 
         setLoading(true);
-        apiService.programCreate(newProgram).then(response=>{
+        apiService.programCreate(newProgram).then(response => {
             showAlert("Program saved successfully!", "success");
             handleReset();
-        }).finally(()=>{
+        }).finally(() => {
             setLoading(false);
         })
     };
 
     const handleReset = () => {
         setNewProgram({
-            universityId: "",
+            universityId: null,
             name: "",
-            level: "",
+            level: null,
             fee: "",
             programRequirements: [],
         });
+    }
+
+    const handleResetNewRequirement = () => {
+        setNewRequirement({ name: "", isMandatory: false, type: null, value: "", });
     }
 
     return (
@@ -112,7 +120,7 @@ export default function UniversityForm() {
                         onChange={(value) =>
                             setNewProgram({ ...newProgram, universityId: value || "" })
                         }
-                        required
+                        withAsterisk
                         searchable
                         placeholder="Select University"
                     />
@@ -122,7 +130,7 @@ export default function UniversityForm() {
                         onChange={(e) =>
                             setNewProgram({ ...newProgram, name: e.target.value })
                         }
-                        required
+                        withAsterisk
                     />
                     <Select
                         label="Level"
@@ -133,7 +141,7 @@ export default function UniversityForm() {
                         }
                         placeholder="Select level"
                         searchable
-                        required
+                        withAsterisk
                     />
                     <TextInput
                         label="Fee"
@@ -142,33 +150,85 @@ export default function UniversityForm() {
                             setNewProgram({ ...newProgram, fee: e.target.value })
                         }
                     />
+                    <TextInput
+                        label="Currency"
+                        value={newProgram.currency}
+                        onChange={(e) =>
+                            setNewProgram({ ...newProgram, currency: e.target.value })
+                        }
+                    />
+                    <TextInput
+                        label="Language"
+                        value={newProgram.language}
+                        onChange={(e) =>
+                            setNewProgram({ ...newProgram, language: e.target.value })
+                        }
+                    />
 
-                    <Group align="end" grow>
-                        <TextInput
-                            label="Requirement"
-                            value={newRequirement.name}
-                            onChange={(e) =>
-                                setNewRequirement({ ...newRequirement, name: e.target.value })
-                            }
-                        />
-                        <Checkbox
-                            label="Mandatory"
-                            checked={newRequirement.isMandatory}
-                            onChange={(e) =>
-                                setNewRequirement({
-                                    ...newRequirement,
-                                    isMandatory: e.currentTarget.checked,
-                                })
-                            }
-                        />
-                        <Button
-                            color="blue"
-                            leftSection={<IconPlus size={16} />}
-                            onClick={handleAddRequirement}
-                        >
+                    <Paper shadow="md" p="lg" radius="md" withBorder>
+                        <Title order={6} mb="md" c="blue.7">
                             Add Requirement
-                        </Button>
-                    </Group>
+                        </Title>
+
+                        <SimpleGrid
+                            cols={{ base: 1, sm: 2, md: 2, lg: 3 }}
+                            spacing="md"
+                            verticalSpacing="md"
+                        >
+                            <TextInput
+                                label="Requirement"
+                                value={newRequirement.name}
+                                onChange={(e) =>
+                                    setNewRequirement({ ...newRequirement, name: e.target.value })
+                                }
+                                radius="md"
+                            />
+
+                            <Select
+                                label="Type"
+                                data={reqTypes}
+                                value={newRequirement.type}
+                                onChange={(value) =>
+                                    setNewRequirement({ ...newRequirement, type: value || "" })
+                                }
+                                placeholder="Select type"
+                                radius="md"
+                            />
+
+                            <TextInput
+                                label="Required Value (e.g., GPA, GRE, IELTS)"
+                                value={newRequirement.value}
+                                onChange={(e) =>
+                                    setNewRequirement({ ...newRequirement, value: e.target.value })
+                                }
+                                radius="md"
+                            />
+                        </SimpleGrid>
+
+                        <Group mt="md" justify="space-between" align="center">
+                            <Checkbox
+                                label="Mandatory"
+                                checked={newRequirement.isMandatory}
+                                onChange={(e) =>
+                                    setNewRequirement({
+                                        ...newRequirement,
+                                        isMandatory: e.currentTarget.checked,
+                                    })
+                                }
+                                color="blue"
+                                radius="md"
+                            />
+
+                            <Button
+                                color="blue"
+                                leftSection={<IconPlus size={16} />}
+                                onClick={handleAddRequirement}
+                                radius="md"
+                            >
+                                Add Requirement
+                            </Button>
+                        </Group>
+                    </Paper>
 
                     <ScrollArea>
                         {newProgram.programRequirements.length > 0 && (
@@ -176,7 +236,9 @@ export default function UniversityForm() {
                                 <Table.Thead>
                                     <Table.Tr>
                                         <Table.Th>Name</Table.Th>
-                                        <Table.Th>Mandatory</Table.Th>
+                                        <Table.Th>Type</Table.Th>
+                                        <Table.Th>Type</Table.Th>
+                                        <Table.Th>Value</Table.Th>
                                         <Table.Th>Actions</Table.Th>
                                     </Table.Tr>
                                 </Table.Thead>
@@ -184,6 +246,10 @@ export default function UniversityForm() {
                                     {newProgram.programRequirements.map((req, idx) => (
                                         <Table.Tr key={idx}>
                                             <Table.Td>{req.name}</Table.Td>
+                                            <Table.Td>
+                                                {reqTypes?.find(rq=>rq.value === req.type)?.label || "-" }
+                                            </Table.Td>
+                                            <Table.Td>{req.value || "-"}</Table.Td>
                                             <Table.Td>{req.isMandatory ? "Yes" : "No"}</Table.Td>
                                             <Table.Td>
                                                 <ActionIcon

@@ -1,5 +1,6 @@
 'use client';
 
+import apiService from '@/app/http/ApiService';
 import {
   Box,
   Button,
@@ -16,17 +17,29 @@ import {
   Grid,
 } from '@mantine/core';
 import { IconTrash, IconEdit, IconSearch } from '@tabler/icons-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import GLoader from '../GLoader';
 
 export default function Students() {
   const [students, setStudents] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
   const [activePage, setPage] = useState(1);
+
+  useEffect(()=>{
+    setLoading(true);
+    apiService.studentList().then(response=>{
+      console.log("stuents", response?.data?.data)
+      setStudents(response?.data?.data)
+    }).finally(()=>{
+      setLoading(false);
+    })
+  }, [])
 
   const pageSize = 5;
   const filtered = students.filter(
     (a) =>
-      a.name.toLowerCase().includes(search.toLowerCase()) ||
+      a.firstName.toLowerCase().includes(search.toLowerCase()) ||
       a.passportNo.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -65,10 +78,10 @@ export default function Students() {
             {paginated.length > 0 ? (
               paginated.map((a) => (
                 <Table.Tr key={a.id}>
-                  <Table.Td>{a.name}</Table.Td>
+                  <Table.Td>{a.firstName + " " + a.middleName	+ " " + a.lastName}</Table.Td>
                   <Table.Td>{a.email}</Table.Td>
-                  <Table.Td>{a.passport}</Table.Td>
-                  <Table.Td>{a.natioinality}</Table.Td>
+                  <Table.Td>{a.passportNo}</Table.Td>
+                  <Table.Td>{a.nationality.name}</Table.Td>
                   <Table.Td>{a.gender}</Table.Td>
                 </Table.Tr>
               ))
@@ -92,6 +105,8 @@ export default function Students() {
           </Group>
         )}
       </Paper>
+
+        <GLoader opened={loading} />
     </Stack>
   )
 

@@ -93,7 +93,7 @@ export default function UniversityForm() {
     }
 
     const handleReset = () => {
-        setUniversity({ name: '', addressLine1: '', addressLine2: '', countryId: '', webSite: '' })
+        setUniversity({ name: '', addressLine1: '', addressLine2: '', countryId: null, webSite: '' })
         setEditId(null);
     }
 
@@ -112,7 +112,7 @@ export default function UniversityForm() {
 
     const handleUpdate = (u) => {
         setEditId(u.id);
-        setUniversity({ name: u.name, addressLine1: u.addressLine1, addressLine2: u.addressLine2, countryId: u.country?.toString(), webSite: u.webSite })
+        setUniversity({ name: u.name, addressLine1: u.addressLine1, addressLine2: u.addressLine2, countryId: u.country.id?.toString(), webSite: u.webSite })
         setTimeout(() => {
             nameRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
             nameRef.current?.focus();
@@ -198,7 +198,7 @@ export default function UniversityForm() {
                                     <Table.Tr key={a.id}>
                                         <Table.Td>{a.name}</Table.Td>
                                         <Table.Td>
-                                            {countries.find((c) => c.value === a.country?.toString())?.label || "-"}
+                                            {countries.find((c) => c.value === a.country.id?.toString())?.label || "-"}
                                         </Table.Td>
                                         <Table.Td>{a.addressLine1}</Table.Td>
                                         <Table.Td>{a.webSite}</Table.Td>

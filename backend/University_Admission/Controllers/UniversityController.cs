@@ -55,7 +55,7 @@ namespace University_Admission.Controllers
             try
             {
                 var university = await _db
-                    .Universities.Where(u => u.DeletedAt == null)
+                    .Universities.Where(u => u.DeletedAt == null).Include(u=>u.Country)
                     .ToListAsync();
                 if (university == null)
                 {

@@ -70,7 +70,7 @@ export default function ProgramCards() {
                       {program.name}
                     </Title>
                     <Text size="sm" c="dimmed">
-                      {program.university}
+                      {program.universityName}
                     </Text>
 
                     <Divider my="sm" />

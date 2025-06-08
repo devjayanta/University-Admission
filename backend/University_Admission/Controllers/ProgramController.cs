@@ -60,6 +60,7 @@ namespace University_Admission.Controllers
                 var program = await _db
                     .UniversityPrograms.Where(up => up.DeletedAt == null)
                     .Include(up => up.University)
+                    .Include(up => up.ProgramRequirements.Where(pr => pr.DeletedAt == null))
                     .ToListAsync();
                 if (program == null)
                 {

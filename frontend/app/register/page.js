@@ -21,6 +21,7 @@ import { useState, useEffect } from 'react';
 import swal from "sweetalert";
 import { useRouter } from 'next/navigation';
 import apiService from '../http/ApiService';
+import { Footer, Header } from '@/components/Layout';
 
 export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
@@ -81,59 +82,65 @@ export default function RegisterPage() {
   }, [])
 
   return (
-    <Container size={420} my={40}>
-      <Title align="center" mb={20}>Register</Title>
-      <Paper shadow="md" p={10} radius="md">
-        <form onSubmit={form.onSubmit(handleSubmit)}>
-          <Stack>
-            <TextInput label="Username" {...form.getInputProps('username')} required />
-            <TextInput label="First Name" {...form.getInputProps('firstname')} required />
-            <TextInput label="Middle Name" {...form.getInputProps('middlename')} />
-            <TextInput label="Last Name" {...form.getInputProps('lastname')} required />
-            <PasswordInput label="Password" {...form.getInputProps('password')} required />
-            <PasswordInput
-              label="Confirm Password"
-              {...form.getInputProps('confirmPassword')}
-              required
-            />
-            <TextInput
-              label="Email"
-              type="email"
-              placeholder="jayanta@gmail.com"
-              {...form.getInputProps('email')}
-              required
-            />
-            <Select
-              label="Country"
-              data={countries}
-              {...form.getInputProps('country')}
-              required
-              placeholder="Select country"
-            />
-            <TextInput label="Passport No" {...form.getInputProps('passportno')} required />
-            <Select
-              label="Gender"
-              data={['Male', 'Female', 'Other']}
-              {...form.getInputProps('gender')}
-              required
-              placeholder="Select gender"
-            />
-            <Center mt="md">
-              <Button type="submit">
-                Register
-              </Button>
-            </Center>
-            <Text align="center" mt="sm">
-              Already have an account?{' '}
-              <Link href="/">
-                <u style={{ color: 'blue' }}>Go to Login</u>
-              </Link>
-            </Text>
-          </Stack>
-        </form>
-      </Paper>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <Header />
+      <Container size={420} my={40} style={{ flex: 1 }}>
+        <Title align="center" mb={20}>Register</Title>
+        <Paper shadow="md" p={10} radius="md">
+          <form onSubmit={form.onSubmit(handleSubmit)}>
+            <Stack>
+              <TextInput label="Username" {...form.getInputProps('username')} required />
+              <TextInput label="First Name" {...form.getInputProps('firstname')} required />
+              <TextInput label="Middle Name" {...form.getInputProps('middlename')} />
+              <TextInput label="Last Name" {...form.getInputProps('lastname')} required />
+              <PasswordInput label="Password" {...form.getInputProps('password')} required />
+              <PasswordInput
+                label="Confirm Password"
+                {...form.getInputProps('confirmPassword')}
+                required
+              />
+              <TextInput
+                label="Email"
+                type="email"
+                placeholder="jayanta@gmail.com"
+                {...form.getInputProps('email')}
+                required
+              />
+              <Select
+                label="Country"
+                data={countries}
+                {...form.getInputProps('country')}
+                required
+                placeholder="Select country"
+              />
+              <TextInput label="Passport No" {...form.getInputProps('passportno')} required />
+              <Select
+                label="Gender"
+                data={['Male', 'Female', 'Other']}
+                {...form.getInputProps('gender')}
+                required
+                placeholder="Select gender"
+              />
+              <Center mt="md">
+                <Button type="submit">
+                  Register
+                </Button>
+              </Center>
+              <Text align="center" mt="sm">
+                Already have an account?{' '}
+                <Link href="/">
+                  <u style={{ color: 'blue' }}>Go to Login</u>
+                </Link>
+              </Text>
+            </Stack>
+          </form>
+        </Paper>
+      </Container>
+      <Footer />
 
       <GLoader opened={loading} />
-    </Container>
+
+    </div>
+
   )
 }
