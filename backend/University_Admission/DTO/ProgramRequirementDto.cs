@@ -13,6 +13,7 @@ namespace University_Admission.DTO
         public string Name { get; set; }
         public bool IsMandatory { get; set; }
         public RequirementType Type { get; set; }
+        public string? Value { get; set; }
 
         public ProgramRequirementDto()
         {

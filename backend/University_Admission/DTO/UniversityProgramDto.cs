@@ -12,6 +12,8 @@ namespace University_Admission.DTO
         public string Name { get; set; }
         public string? Level { get; set; }
         public decimal? Fee { get; set; }
+        public string? Currency { get; set; }
+        public string? Language { get; set; }
         public List<ProgramRequirementDto>? ProgramRequirements { get; set; }
 
         public UniversityProgramDto()

@@ -19,6 +19,12 @@ namespace University_Admission.Domain.Entities.ProgramEntities
         [StringLength(50)]
         public string? Level { get; private set; }
         public decimal? Fee { get; private set; }
+
+        [StringLength(50)]
+        public string? Currency { get; private set; }
+
+        [StringLength(100)]
+        public string? Language { get; private set; }
         public virtual ICollection<ProgramRequirement> ProgramRequirements { get; private set; } =
             [];
 
@@ -26,20 +32,19 @@ namespace University_Admission.Domain.Entities.ProgramEntities
         public UniversityProgram() { }
 #pragma warning restore CS8618
 
-        public UniversityProgram(int universityId, string name, string? level, decimal? fee)
-        {
-            UniversityId = universityId;
-            University = default!;
-            Name = name;
-            Level = level;
-            Fee = fee;
-        }
-
-        public void Update(string name, string? level, decimal? fee)
+        public void Update(
+            string name,
+            string? level,
+            decimal? fee,
+            string? currency,
+            string? language
+        )
         {
             Name = name;
             Level = level;
             Fee = fee;
+            Currency = currency;
+            Language = language;
         }
     }
 }

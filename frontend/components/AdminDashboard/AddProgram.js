@@ -37,8 +37,6 @@ export default function UniversityForm() {
         value: "",
     });
 
-    console.log("ProgramReqs", programRequirements)
-
     const levels = ["Bachelor", "Master", "PhD"];
     const levelOptions = levels.map((level) => ({
         value: level,

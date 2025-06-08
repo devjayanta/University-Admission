@@ -8,14 +8,17 @@ namespace University_Admission.Domain.Entities.ProgramEntities
     public class ProgramRequirement : DatedEntity
     {
         [Key]
-        public int Id { get; set; }
-        public int UniversityProgramId { get; set; }
+        public int Id { get; private set; }
+        public int UniversityProgramId { get; private set; }
 
         [ForeignKey("UniversityProgramId")]
-        public virtual UniversityProgram UniversityProgram { get; set; }
-        public string Name { get; set; }
-        public bool IsMandatory { get; set; }
-        public RequirementType Type { get; set; }
+        public virtual UniversityProgram UniversityProgram { get; private set; }
+        public string Name { get; private set; }
+        public bool IsMandatory { get; private set; }
+        public RequirementType Type { get; private set; }
+
+        [StringLength(2000)]
+        public string? Value { get; private set; }
 
 #pragma warning disable CS8618
         public ProgramRequirement() { }
@@ -35,11 +38,12 @@ namespace University_Admission.Domain.Entities.ProgramEntities
             Type = type;
         }
 
-        public void Update(string name, bool isMandatory, RequirementType type)
+        public void Update(string name, bool isMandatory, RequirementType type, string? value)
         {
             Name = name;
             IsMandatory = isMandatory;
             Type = type;
+            Value = value;
         }
     }
 }

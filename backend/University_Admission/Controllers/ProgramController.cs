@@ -150,7 +150,7 @@ namespace University_Admission.Controllers
                 }
 
                 // update program
-                program.Update(request.Name, request.Level, request.Fee);
+                program.Update(request.Name, request.Level, request.Fee, request.Currency, request.Language);
                 program.MarkUpdated();
 
                 // requirements with id null are newly added ones so create accordingly
@@ -179,7 +179,8 @@ namespace University_Admission.Controllers
                         updatePR.Update(
                             updatePRReq.Name,
                             updatePRReq.IsMandatory,
-                            updatePRReq.Type
+                            updatePRReq.Type,
+                            updatePRReq.Value
                         );
                     }
                 }

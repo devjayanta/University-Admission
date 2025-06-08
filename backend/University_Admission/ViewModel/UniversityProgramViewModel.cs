@@ -11,6 +11,8 @@ namespace University_Admission.ViewModel
         public string Name { get; set; }
         public string? Level { get; set; }
         public decimal? Fee { get; set; }
+        public string? Currency {  get; set; }
+        public string? Language { get; set; }
         public List<ProgramRequirementViewModel>? ProgramRequirements { get; set; }
 
         public UniversityProgramViewModel()
