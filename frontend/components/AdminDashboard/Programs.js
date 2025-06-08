@@ -33,7 +33,7 @@ export default function ProgramCards() {
   }, [])
 
 
-  const filtered = programs.filter(
+  const filtered = programs?.filter(
     (p) =>
       p.name.toLowerCase().includes(search.toLowerCase()) ||
       p.university.toLowerCase().includes(search.toLowerCase())

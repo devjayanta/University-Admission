@@ -25,6 +25,7 @@ export default function UniversityForm() {
         universityId: "",
         name: "",
         level: "",
+        duration:"",
         fee: "",
         currency:"",
         language:"",
@@ -37,7 +38,6 @@ export default function UniversityForm() {
         value: "",
     });
 
-    console.log("ProgramReqs", programRequirements)
 
     const levels = ["Bachelor", "Master", "PhD"];
     const levelOptions = levels.map((level) => ({
@@ -142,6 +142,13 @@ export default function UniversityForm() {
                         placeholder="Select level"
                         searchable
                         withAsterisk
+                    />
+                     <TextInput
+                        label="Duration (Semester/Year)"
+                        value={newProgram.duration}
+                        onChange={(e) =>
+                            setNewProgram({ ...newProgram, duration: e.target.value })
+                        }
                     />
                     <TextInput
                         label="Fee"
