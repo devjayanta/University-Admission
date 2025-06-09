@@ -28,5 +28,10 @@ namespace University_Admission.Domain.Entities.UserEntities
         {
             Value = value;
         }
+
+        public void AddUser(int userId)
+        {
+            UserId = userId;
+        }
     }
 }

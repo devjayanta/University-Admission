@@ -15,6 +15,7 @@ import {
   AnnouncementViewModelResponse,
   AuthViewModelResponse,
   CountryViewModelListResponse,
+  DocumentViewModelListResponse,
   FileContentResultResponse,
   LoginDto,
   RegisterDto,
@@ -27,6 +28,9 @@ import {
   UniversityProgramViewModelResponse,
   UniversityViewModelListResponse,
   UniversityViewModelResponse,
+  UserDocumentDto,
+  UserDocumentViewModelListResponse,
+  UserDocumentViewModelResponse,
   UserProcessDto,
   UserProcessViewModelListResponse,
   UserProcessViewModelResponse,
@@ -134,6 +138,14 @@ export declare class Api<SecurityDataType = unknown> extends HttpClient<Security
   /**
    * No description
    *
+   * @tags Common
+   * @name CommonGetAllDocumentTypesList
+   * @request GET:/api/Common/GetAllDocumentTypes
+   */
+  commonGetAllDocumentTypesList: (params?: RequestParams) => Promise<AxiosResponse<DocumentViewModelListResponse>>;
+  /**
+   * No description
+   *
    * @tags File
    * @name FileCreate
    * @request POST:/api/File
@@ -219,7 +231,12 @@ export declare class Api<SecurityDataType = unknown> extends HttpClient<Security
    * @name ProgramGetAllList
    * @request GET:/api/Program/GetAll
    */
-  programGetAllList: (params?: RequestParams) => Promise<AxiosResponse<UniversityProgramViewModelListResponse>>;
+  programGetAllList: (
+    query?: {
+      status?: string;
+    },
+    params?: RequestParams,
+  ) => Promise<AxiosResponse<UniversityProgramViewModelListResponse>>;
   /**
    * No description
    *
@@ -318,6 +335,54 @@ export declare class Api<SecurityDataType = unknown> extends HttpClient<Security
    * @request GET:/api/University/GetAll
    */
   universityGetAllList: (params?: RequestParams) => Promise<AxiosResponse<UniversityViewModelListResponse>>;
+  /**
+   * No description
+   *
+   * @tags User
+   * @name UserGetAllUserDocumentsList
+   * @request GET:/api/User/GetAllUserDocuments
+   */
+  userGetAllUserDocumentsList: (params?: RequestParams) => Promise<AxiosResponse<UserDocumentViewModelListResponse>>;
+  /**
+   * No description
+   *
+   * @tags User
+   * @name UserCreateUserDocumentCreate
+   * @request POST:/api/User/CreateUserDocument
+   */
+  userCreateUserDocumentCreate: (
+    data: UserDocumentDto,
+    params?: RequestParams,
+  ) => Promise<AxiosResponse<UserDocumentViewModelResponse>>;
+  /**
+   * No description
+   *
+   * @tags User
+   * @name UserUpdateUserDocumentUpdate
+   * @request PUT:/api/User/UpdateUserDocument
+   */
+  userUpdateUserDocumentUpdate: (
+    data: UserDocumentDto,
+    query?: {
+      /** @format int32 */
+      Id?: number;
+    },
+    params?: RequestParams,
+  ) => Promise<AxiosResponse<UserDocumentViewModelResponse>>;
+  /**
+   * No description
+   *
+   * @tags User
+   * @name UserDeleteUserDocumentDelete
+   * @request DELETE:/api/User/DeleteUserDocument
+   */
+  userDeleteUserDocumentDelete: (
+    query?: {
+      /** @format int32 */
+      Id?: number;
+    },
+    params?: RequestParams,
+  ) => Promise<AxiosResponse<UserDocumentViewModelResponse>>;
   /**
    * No description
    *

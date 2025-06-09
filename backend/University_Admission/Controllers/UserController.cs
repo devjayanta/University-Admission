@@ -6,6 +6,7 @@ using University_Admission.Data;
 using University_Admission.Domain.Entities.UserEntities;
 using University_Admission.DTO;
 using University_Admission.Interfaces;
+using University_Admission.Services;
 using University_Admission.ViewModel;
 
 namespace University_Admission.Controllers
@@ -65,7 +66,9 @@ namespace University_Admission.Controllers
         {
             try
             {
+                
                 var document = _mapper.Map<UserDocument>(request);
+                document.AddUser(_currentUserService.UserId);
                 _db.UserDocuments.Add(document);
                 await _db.SaveChangesAsync();
                 return Response<UserDocumentViewModel>.SuccessResponse(
