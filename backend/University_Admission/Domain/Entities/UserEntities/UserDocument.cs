@@ -17,7 +17,7 @@ namespace University_Admission.Domain.Entities.UserEntities
         [ForeignKey("DocumentId")]
         public virtual Document Document { get; set; }
 
-        [StringLength(50)]
+        [StringLength(250)]
         public string Value { get; set; }
 
 #pragma warning disable CS8618
