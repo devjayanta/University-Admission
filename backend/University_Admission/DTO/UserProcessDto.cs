@@ -5,6 +5,7 @@ namespace University_Admission.DTO
 {
     public class UserProcessDto
     {
+        public int UniversityId { get; set; }
         public int UniversityProgramId { get; set; }
         public List<UserRequirementsDto>? Requirements { get; set; }
 

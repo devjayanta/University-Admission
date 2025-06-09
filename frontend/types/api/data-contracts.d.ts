@@ -57,6 +57,16 @@ export interface CountryViewModelListResponse {
   message?: string | null;
   data?: CountryViewModel[] | null;
 }
+export interface DocumentViewModel {
+  /** @format int32 */
+  id?: number;
+  name?: string | null;
+}
+export interface DocumentViewModelListResponse {
+  success?: boolean;
+  message?: string | null;
+  data?: DocumentViewModel[] | null;
+}
 export interface FileContentResultResponse {
   success?: boolean;
   message?: string | null;
@@ -81,6 +91,7 @@ export interface ProgramRequirementDto {
   name: string;
   isMandatory?: boolean;
   type?: RequirementType;
+  value?: string | null;
 }
 export interface ProgramRequirementViewModel {
   /** @format int32 */
@@ -91,6 +102,7 @@ export interface ProgramRequirementViewModel {
   name?: string | null;
   isMandatory?: boolean;
   type?: RequirementType;
+  value?: string | null;
 }
 export interface RegisterDto {
   /** @minLength 1 */
@@ -163,6 +175,9 @@ export interface UniversityProgramDto {
   level?: string | null;
   /** @format double */
   fee?: number | null;
+  currency?: string | null;
+  language?: string | null;
+  duration?: string | null;
   programRequirements?: ProgramRequirementDto[] | null;
 }
 export interface UniversityProgramViewModel {
@@ -175,6 +190,9 @@ export interface UniversityProgramViewModel {
   level?: string | null;
   /** @format double */
   fee?: number | null;
+  currency?: string | null;
+  language?: string | null;
+  duration?: string | null;
   programRequirements?: ProgramRequirementViewModel[] | null;
 }
 export interface UniversityProgramViewModelListResponse {
@@ -206,6 +224,31 @@ export interface UniversityViewModelResponse {
   success?: boolean;
   message?: string | null;
   data?: UniversityViewModel;
+}
+export interface UserDocumentDto {
+  /** @format int32 */
+  documentId?: number;
+  value?: string | null;
+}
+export interface UserDocumentViewModel {
+  /** @format int32 */
+  id?: number;
+  /** @format int32 */
+  userId?: number;
+  /** @format int32 */
+  documentId?: number;
+  documentName?: string | null;
+  value?: string | null;
+}
+export interface UserDocumentViewModelListResponse {
+  success?: boolean;
+  message?: string | null;
+  data?: UserDocumentViewModel[] | null;
+}
+export interface UserDocumentViewModelResponse {
+  success?: boolean;
+  message?: string | null;
+  data?: UserDocumentViewModel;
 }
 export interface UserProcessDto {
   /** @format int32 */

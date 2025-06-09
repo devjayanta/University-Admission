@@ -151,6 +151,20 @@ export class Api extends HttpClient {
   /**
    * No description
    *
+   * @tags Common
+   * @name CommonGetAllDocumentTypesList
+   * @request GET:/api/Common/GetAllDocumentTypes
+   */
+  commonGetAllDocumentTypesList = (params = {}) =>
+    this.request({
+      path: `/api/Common/GetAllDocumentTypes`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
    * @tags File
    * @name FileCreate
    * @request POST:/api/File
@@ -249,10 +263,11 @@ export class Api extends HttpClient {
    * @name ProgramGetAllList
    * @request GET:/api/Program/GetAll
    */
-  programGetAllList = (params = {}) =>
+  programGetAllList = (query, params = {}) =>
     this.request({
       path: `/api/Program/GetAll`,
       method: "GET",
+      query: query,
       format: "json",
       ...params,
     });
@@ -374,6 +389,68 @@ export class Api extends HttpClient {
     this.request({
       path: `/api/University/GetAll`,
       method: "GET",
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags User
+   * @name UserGetAllUserDocumentsList
+   * @request GET:/api/User/GetAllUserDocuments
+   */
+  userGetAllUserDocumentsList = (params = {}) =>
+    this.request({
+      path: `/api/User/GetAllUserDocuments`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags User
+   * @name UserCreateUserDocumentCreate
+   * @request POST:/api/User/CreateUserDocument
+   */
+  userCreateUserDocumentCreate = (data, params = {}) =>
+    this.request({
+      path: `/api/User/CreateUserDocument`,
+      method: "POST",
+      body: data,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags User
+   * @name UserUpdateUserDocumentUpdate
+   * @request PUT:/api/User/UpdateUserDocument
+   */
+  userUpdateUserDocumentUpdate = (data, query, params = {}) =>
+    this.request({
+      path: `/api/User/UpdateUserDocument`,
+      method: "PUT",
+      query: query,
+      body: data,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags User
+   * @name UserDeleteUserDocumentDelete
+   * @request DELETE:/api/User/DeleteUserDocument
+   */
+  userDeleteUserDocumentDelete = (query, params = {}) =>
+    this.request({
+      path: `/api/User/DeleteUserDocument`,
+      method: "DELETE",
+      query: query,
       format: "json",
       ...params,
     });
