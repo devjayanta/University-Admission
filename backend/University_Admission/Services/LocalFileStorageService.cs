@@ -6,10 +6,12 @@ namespace University_Admission.Services
     {
         private readonly string _root;
         private readonly string _upload_folder = "Upload";
+        private readonly IHttpContextAccessor _contextAccessor;
 
-        public LocalFileStorageService(IWebHostEnvironment hostEnvironment)
+        public LocalFileStorageService(IWebHostEnvironment hostEnvironment, IHttpContextAccessor contextAccessor)
         {
-            _root = hostEnvironment.ContentRootPath;
+            _root = hostEnvironment.WebRootPath;
+            _contextAccessor = contextAccessor;
         }
 
         public async Task<byte[]> GetFile(string fileName)
@@ -36,7 +38,9 @@ namespace University_Admission.Services
                 {
                     await file.CopyToAsync(stream);
                 }
-                return fileName;
+                string url = $"{_contextAccessor.HttpContext?.Request.Scheme}://{_contextAccessor.HttpContext?.Request.Host}";
+                string outputPath = Path.Combine(url, _upload_folder, fileName).Replace("\\", "/");
+                return outputPath;
             }
             catch
             {
