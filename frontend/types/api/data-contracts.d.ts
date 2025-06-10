@@ -141,6 +141,7 @@ export interface StringResponse {
 export interface StudentViewModel {
   /** @format int32 */
   id?: number;
+  userName?: string | null;
   firstName?: string | null;
   middleName?: string | null;
   lastName?: string | null;
@@ -240,6 +241,7 @@ export interface UserDocumentViewModel {
   id?: number;
   /** @format int32 */
   userId?: number;
+  fullName?: string | null;
   /** @format int32 */
   documentId?: number;
   documentName?: string | null;
@@ -279,6 +281,8 @@ export interface UserProcessViewModel {
   /** @format int32 */
   universityProgramId?: number | null;
   universityProgramName?: string | null;
+  status?: ActionStatus;
+  remarks?: string | null;
   requirements?: UserRequirementsViewModel[] | null;
 }
 export interface UserProcessViewModelListResponse {

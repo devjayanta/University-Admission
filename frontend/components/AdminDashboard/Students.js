@@ -79,7 +79,7 @@ export default function Students() {
             {paginated.length > 0 ? (
               paginated.map((a) => (
                 <Table.Tr key={a.id}>
-                   <Table.Td></Table.Td>
+                   <Table.Td>{a.userName}</Table.Td>
                   <Table.Td>{a.firstName + " " + a.middleName	+ " " + a.lastName}</Table.Td>
                   <Table.Td>{a.email}</Table.Td>
                   <Table.Td>{a.passportNo}</Table.Td>

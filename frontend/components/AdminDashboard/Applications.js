@@ -47,13 +47,16 @@ export default function Students() {
     activePage * pageSize
   );
 
-  useEffect(() => {
-    setLoading(true);
+  const getApplicationList = () => {
     apiService.userProcessGetAllList().then(response => {
       setApplications(response?.data?.data);
-    }).finally(() => {
-      setLoading(false);
     })
+  }
+
+  useEffect(() => {
+    setLoading(true);
+    getApplicationList();
+    setLoading(false)
   }, [])
 
 
@@ -67,6 +70,7 @@ export default function Students() {
           "remarks": "Your Application is Approved!!"
         }).then((response) => {
           showAlert("Approved successfully", "success");
+          getApplicationList();
         }).finally(() => {
           setLoading(false);
         })
@@ -92,6 +96,7 @@ export default function Students() {
         "remarks": rejectedMessage
       }).then(() => {
         showAlert("Successfully Rejected!!", 'success');
+        getApplicationList();
         setRejectedMessage("");
         setRejectedId(null);
         close();
@@ -144,24 +149,32 @@ export default function Students() {
                   <Table.Td>{a.universityName}</Table.Td>
                   <Table.Td>{a.universityProgramName}</Table.Td>
                   <Table.Td>
-                    <Group gap="xs">
-                      <ActionIcon
-                        color="green"
-                        variant="light"
-                        onClick={() => handleApprove(a.id)}
-                        title='Approve'
-                      >
-                        <IconThumbUp size={18} />
-                      </ActionIcon>
-                      <ActionIcon
-                        color="red"
-                        variant="light"
-                        title='Reject'
-                        onClick={() => handleReject(a.id)}
-                      >
-                        <IconThumbDown size={18} />
-                      </ActionIcon>
-                    </Group>
+                    {
+                      a.status == null ? (
+                        <Group gap="xs">
+                          <ActionIcon
+                            color="green"
+                            variant="light"
+                            onClick={() => handleApprove(a.id)}
+                            title='Approve'
+                          >
+                            <IconThumbUp size={18} />
+                          </ActionIcon>
+                          <ActionIcon
+                            color="red"
+                            variant="light"
+                            title='Reject'
+                            onClick={() => handleReject(a.id)}
+                          >
+                            <IconThumbDown size={18} />
+                          </ActionIcon>
+                        </Group>
+                      ) :
+                        <>
+                          {a.status}
+                        </>
+                    }
+
                   </Table.Td>
                 </Table.Tr>
               ))

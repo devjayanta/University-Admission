@@ -363,6 +363,19 @@ export declare class Api<SecurityDataType = unknown> extends HttpClient<Security
    * No description
    *
    * @tags User
+   * @name UserGetAllUserDocumentsByUserNameList
+   * @request GET:/api/User/GetAllUserDocumentsByUserName
+   */
+  userGetAllUserDocumentsByUserNameList: (
+    query?: {
+      UserName?: string;
+    },
+    params?: RequestParams,
+  ) => Promise<AxiosResponse<UserDocumentViewModelListResponse>>;
+  /**
+   * No description
+   *
+   * @tags User
    * @name UserCreateUserDocumentCreate
    * @request POST:/api/User/CreateUserDocument
    */

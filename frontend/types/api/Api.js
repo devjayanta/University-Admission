@@ -425,6 +425,21 @@ export class Api extends HttpClient {
    * No description
    *
    * @tags User
+   * @name UserGetAllUserDocumentsByUserNameList
+   * @request GET:/api/User/GetAllUserDocumentsByUserName
+   */
+  userGetAllUserDocumentsByUserNameList = (query, params = {}) =>
+    this.request({
+      path: `/api/User/GetAllUserDocumentsByUserName`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags User
    * @name UserCreateUserDocumentCreate
    * @request POST:/api/User/CreateUserDocument
    */
