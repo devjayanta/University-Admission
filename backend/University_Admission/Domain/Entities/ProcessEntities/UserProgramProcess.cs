@@ -6,7 +6,7 @@ using University_Admission.Domain.Entities.UserEntities;
 
 namespace University_Admission.Domain.Entities.ProcessEntities
 {
-    public class UserProgramProcess : DatedEntity
+    public class UserProgramProcess : ActionableEntity
     {
         [Key]
         public int Id { get; private set; }

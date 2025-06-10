@@ -6,7 +6,6 @@ using University_Admission.Data;
 using University_Admission.Domain.Entities.UserEntities;
 using University_Admission.DTO;
 using University_Admission.Interfaces;
-using University_Admission.Services;
 using University_Admission.ViewModel;
 
 namespace University_Admission.Controllers
@@ -59,6 +58,34 @@ namespace University_Admission.Controllers
             }
         }
 
+        [HttpGet("GetAllUserDocumentsByUserId")]
+        [Authorize(Roles = "admin")]
+        public async Task<
+            ActionResult<Response<List<UserDocumentViewModel>>>
+        > GetAllUserDocumentsByUserId([FromQuery] int Id)
+        {
+            try
+            {
+                var document = await _db
+                    .UserDocuments.Where(ud => ud.UserId == Id)
+                    .Include(ud => ud.Document)
+                    .ToListAsync();
+                if (document == null)
+                {
+                    return Response<List<UserDocumentViewModel>>.FailureResponse(
+                        "No documents uploaded yet"
+                    );
+                }
+                return Response<List<UserDocumentViewModel>>.SuccessResponse(
+                    _mapper.Map<List<UserDocumentViewModel>>(document)
+                );
+            }
+            catch (Exception ex)
+            {
+                return Response<List<UserDocumentViewModel>>.FailureResponse(ex);
+            }
+        }
+
         [HttpPost("CreateUserDocument")]
         public async Task<ActionResult<Response<UserDocumentViewModel>>> CreateUserDocument(
             [FromBody] UserDocumentDto request
@@ -66,7 +93,6 @@ namespace University_Admission.Controllers
         {
             try
             {
-                
                 var document = _mapper.Map<UserDocument>(request);
                 document.AddUser(_currentUserService.UserId);
                 _db.UserDocuments.Add(document);
