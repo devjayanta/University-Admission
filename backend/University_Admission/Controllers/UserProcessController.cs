@@ -120,6 +120,7 @@ namespace University_Admission.Controllers
             try
             {
                 var process = _mapper.Map<UserProgramProcess>(request);
+                process.SetUser(_currentUserService.UserId);
                 _db.UserProgramProcesses.Add(process);
                 await _db.SaveChangesAsync();
                 return Response<UserProcessViewModel>.SuccessResponse(

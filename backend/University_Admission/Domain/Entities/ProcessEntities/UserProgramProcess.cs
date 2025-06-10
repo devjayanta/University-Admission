@@ -27,5 +27,10 @@ namespace University_Admission.Domain.Entities.ProcessEntities
 #pragma warning disable CS8618
         public UserProgramProcess() { }
 #pragma warning restore CS8618
+
+        public void SetUser(int userId)
+        {
+            UserId = userId;
+        }
     }
 }
