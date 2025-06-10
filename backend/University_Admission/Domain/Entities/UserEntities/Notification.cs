@@ -27,5 +27,14 @@ namespace University_Admission.Domain.Entities.UserEntities
         {
             IsRead = true;
         }
+
+        public Notification(string title, string description, bool isRead, int userId, User user)
+        {
+            Title = title;
+            Description = description;
+            IsRead = isRead;
+            UserId = userId;
+            User = user;
+        }
     }
 }
