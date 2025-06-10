@@ -100,6 +100,7 @@ namespace University_Admission.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<Response<AnnouncementViewModel>>> Update(
             [FromQuery] int Id,
             [FromBody] AnnouncementDto request
@@ -131,6 +132,7 @@ namespace University_Admission.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<Response<AnnouncementViewModel>>> Delete([FromQuery] int Id)
         {
             try

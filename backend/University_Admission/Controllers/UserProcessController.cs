@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using University_Admission.Data;
 using University_Admission.Domain.Entities.ProcessEntities;
+using University_Admission.Domain.Enum;
 using University_Admission.DTO;
 using University_Admission.Interfaces;
 using University_Admission.ViewModel;
@@ -60,12 +61,16 @@ namespace University_Admission.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<ActionResult<Response<List<UserProcessViewModel>>>> GetAll()
+        public async Task<ActionResult<Response<List<UserProcessViewModel>>>> GetAll(
+            [FromQuery] ActionStatus? Status
+        )
         {
             try
             {
                 var process = await _db
-                    .UserProgramProcesses.Where(up => up.DeletedAt == null)
+                    .UserProgramProcesses.Where(up =>
+                        up.DeletedAt == null && (Status == null || up.Status == Status)
+                    )
                     .Include(up => up.University)
                     .Include(up => up.UniversityProgram)
                     .ToListAsync();
@@ -220,6 +225,98 @@ namespace University_Admission.Controllers
                 return Response<UserProcessViewModel>.SuccessResponse(
                     _mapper.Map<UserProcessViewModel>(process),
                     "Successfully Deleted"
+                );
+            }
+            catch (Exception ex)
+            {
+                return Response<UserProcessViewModel>.FailureResponse(ex);
+            }
+        }
+
+        [HttpPost("SubmitProcess")]
+        public async Task<ActionResult<Response<UserProcessViewModel>>> SubmitProcess(
+            [FromQuery] int Id
+        )
+        {
+            try
+            {
+                var process = await _db
+                    .UserProgramProcesses.Where(up => up.Id == Id && up.DeletedAt == null)
+                    .SingleOrDefaultAsync();
+                if (process == null)
+                {
+                    return Response<UserProcessViewModel>.FailureResponse(
+                        $"Process with ID {Id} does not exist"
+                    );
+                }
+                process.Submit();
+                process.MarkUpdated();
+                await _db.SaveChangesAsync();
+                return Response<UserProcessViewModel>.SuccessResponse(
+                    _mapper.Map<UserProcessViewModel>(process),
+                    "Successfully Submitted"
+                );
+            }
+            catch (Exception ex)
+            {
+                return Response<UserProcessViewModel>.FailureResponse(ex);
+            }
+        }
+
+        [HttpPost("ApproveProcess")]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<Response<UserProcessViewModel>>> ApproveProcess(
+            [FromBody] UserProcessActionDto request
+        )
+        {
+            try
+            {
+                var process = await _db
+                    .UserProgramProcesses.Where(up => up.Id == request.Id && up.DeletedAt == null)
+                    .SingleOrDefaultAsync();
+                if (process == null)
+                {
+                    return Response<UserProcessViewModel>.FailureResponse(
+                        $"Process with ID {request.Id} does not exist"
+                    );
+                }
+                process.Approve(_currentUserService.UserId, request.Remarks);
+                process.MarkUpdated();
+                await _db.SaveChangesAsync();
+                return Response<UserProcessViewModel>.SuccessResponse(
+                    _mapper.Map<UserProcessViewModel>(process),
+                    "Successfully Approved"
+                );
+            }
+            catch (Exception ex)
+            {
+                return Response<UserProcessViewModel>.FailureResponse(ex);
+            }
+        }
+
+        [HttpPost("RejectProcess")]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<Response<UserProcessViewModel>>> RejectProcess(
+            [FromBody] UserProcessActionDto request
+        )
+        {
+            try
+            {
+                var process = await _db
+                    .UserProgramProcesses.Where(up => up.Id == request.Id && up.DeletedAt == null)
+                    .SingleOrDefaultAsync();
+                if (process == null)
+                {
+                    return Response<UserProcessViewModel>.FailureResponse(
+                        $"Process with ID {request.Id} does not exist"
+                    );
+                }
+                process.Reject(_currentUserService.UserId, request.Remarks);
+                process.MarkUpdated();
+                await _db.SaveChangesAsync();
+                return Response<UserProcessViewModel>.SuccessResponse(
+                    _mapper.Map<UserProcessViewModel>(process),
+                    "Successfully Rejected"
                 );
             }
             catch (Exception ex)

@@ -33,6 +33,12 @@ namespace University_Admission.Data
             builder.Entity<Country>().HasData(CountrySeed.Countries);
 
             builder.Entity<Document>().HasData(DocumentSeed.Documents);
+
+            builder
+                .Entity<UserProgramProcess>()
+                .HasOne(x => x.ActionUser)
+                .WithMany()
+                .HasForeignKey(x => x.ActionUserId);
         }
     }
 }
