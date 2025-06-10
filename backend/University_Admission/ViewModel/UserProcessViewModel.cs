@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using University_Admission.Domain.Entities.ProcessEntities;
+using University_Admission.Domain.Enum;
 
 namespace University_Admission.ViewModel
 {
@@ -12,6 +13,8 @@ namespace University_Admission.ViewModel
         public string? UniversityName { get; set; }
         public int? UniversityProgramId { get; set; }
         public string? UniversityProgramName { get; set; }
+        public ActionStatus? Status { get; set; }
+        public string? Remarks { get; set; }
         public List<UserRequirementsViewModel>? Requirements { get; set; }
 
         public UserProcessViewModel() { }

@@ -73,6 +73,7 @@ namespace University_Admission.Controllers
                     )
                     .Include(up => up.University)
                     .Include(up => up.UniversityProgram)
+                    .Include(up => up.User)
                     .ToListAsync();
                 if (process == null)
                 {
