@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     AppShell,
     Text,
@@ -43,10 +43,30 @@ import ApplicationForm from "../../components/StudentDashboard/ApplicationForm";
 import Announcements from "../../components/StudentDashboard/Announcements.js";
 
 export default function AdminPanel() {
+    const [user, setUser] = useState("");
     const [active, setActive] = useState("dashboard");
     const [mobileOpened, setMobileOpened] = useState(false);
     const [unreadCount, setUnreadContent] = useState(1)
     const isSmallScreen = useMediaQuery("(max-width: 768px)");
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            {
+                const token = localStorage.getItem('token');
+                if (token) {
+                    try {
+                        const payload = token.split('.')[1];
+                        const decodedPayload = atob(payload);
+                        const info = JSON.parse(decodedPayload);
+                        setUser(info.FullName || '');
+                    } catch (error) {
+                        console.error('Failed to decode token:', error);
+                    }
+                }
+            }
+        }
+
+    }, []);
 
     const menuItems = [
         { label: "Dashboard", value: "dashboard", icon: <IconDashboard size={20} /> },
@@ -123,7 +143,7 @@ export default function AdminPanel() {
 
                     <Group gap="sm" wrap="wrap" justify="flex-end">
                         <Avatar src="https://i.pravatar.cc/40" alt="User" radius="xl" size="sm" />
-                        {!isSmallScreen && <Text size="sm">Student</Text>}
+                        {!isSmallScreen && <Text size="sm">{user}</Text>}
 
                         <ActionIcon
                             variant="subtle"

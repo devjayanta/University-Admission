@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     AppShell,
     Text,
@@ -75,15 +75,14 @@ function DashboardContent() {
 }
 
 
-
-function SettingsContent() {
-    return <Text>Settings form will go here.</Text>;
-}
-
 export default function AdminPanel() {
     const [active, setActive] = useState("dashboard");
     const [mobileOpened, setMobileOpened] = useState(false);
     const isSmallScreen = useMediaQuery("(max-width: 768px)");
+
+    useEffect(()=>{
+
+    }, [])
 
     const menuItems = [
         { label: "Dashboard", value: "dashboard", icon: <IconDashboard size={20} /> },

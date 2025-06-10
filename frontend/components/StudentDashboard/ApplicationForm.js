@@ -180,7 +180,7 @@ export default function ApplicationForm() {
 
   return (
     <Stack spacing="xl">
-      <Paper shadow="md" p="lg" radius="md" withBorder>
+      <Paper shadow="md" p="lg" radius="md" >
         <Stack spacing="md">
           <Title order={4} c="blue.9">
             Apply to a Program
@@ -211,7 +211,7 @@ export default function ApplicationForm() {
 
       {selectedProgram && (
         <>
-          <Paper shadow="md" p="lg" radius="md" withBorder>
+          <Paper shadow="md" p="lg" radius="md" >
             <Title order={5} mb="sm" c="blue.9">
               Upload Required Documents
             </Title>
@@ -257,7 +257,7 @@ export default function ApplicationForm() {
                 <Title order={6} c="blue.8">
                   Uploaded Files
                 </Title>
-                <Table striped withBorder withColumnBorders>
+                <Table striped >
                   <Table.Thead>
                     <Table.Tr>
                       <Table.Th>Document Type</Table.Th>
