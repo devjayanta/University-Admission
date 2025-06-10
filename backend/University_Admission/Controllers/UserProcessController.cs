@@ -68,7 +68,7 @@ namespace University_Admission.Controllers
                     .UserProgramProcesses.Where(up => up.DeletedAt == null)
                     .Include(up => up.University)
                     .Include(up => up.UniversityProgram)
-                    .SingleOrDefaultAsync();
+                    .ToListAsync();
                 if (process == null)
                 {
                     return Response<List<UserProcessViewModel>>.FailureResponse(
@@ -95,7 +95,7 @@ namespace University_Admission.Controllers
                     .UserProgramProcesses.Where(up => up.UserId == userId && up.DeletedAt == null)
                     .Include(up => up.University)
                     .Include(up => up.UniversityProgram)
-                    .SingleOrDefaultAsync();
+                    .ToListAsync();
                 if (process == null)
                 {
                     return Response<List<UserProcessViewModel>>.FailureResponse(
