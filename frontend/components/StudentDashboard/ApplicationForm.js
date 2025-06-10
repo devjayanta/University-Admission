@@ -9,18 +9,14 @@ import {
   Textarea,
   Group,
   Button,
-  Badge,
-  Divider,
-  Text,
   Grid,
   Table,
   ActionIcon,
 } from "@mantine/core";
-import { IconSend, IconSearch, IconTrash, IconUpload, IconEye } from "@tabler/icons-react";
+import { IconSend, IconTrash, IconUpload, IconEye } from "@tabler/icons-react";
 import apiService from "@/app/http/ApiService";
 import GLoader from "../GLoader";
 import { showAlert, showConfirmAlert } from "../Alert";
-import axios from "axios";
 
 const MAX_FILE_SIZE_MB = 5;
 
@@ -70,9 +66,7 @@ export default function ApplicationForm() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      await getUniversities();
-      await getDocumentTypes();
-      await getUploadedDocuments();
+      await Promise.all([getUniversities(), getDocumentTypes(), getUploadedDocuments()]);
       setLoading(false);
     };
     fetchData();
@@ -140,48 +134,8 @@ export default function ApplicationForm() {
     })
   };
 
-  const handleViewPDf = (docName) => {
-    setLoading(true);
-    axios.get(`http://localhost:5224/api/File?FileName=${docName}`, { responseType: 'blob' }).then(response => {
-      const blob = response?.data;
-      if (!blob) {
-        showAlert("Failed to load PDF", "error");
-        return;
-      }
-      const fileBlob = new Blob([response.data], { type: "application/pdf" });
-      const uri = URL.createObjectURL(fileBlob);
-
-      const downloadLink = document.createElement("a");
-      downloadLink.href = uri;
-      downloadLink.download = "annex6.pdf";
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
-      document.body.removeChild(downloadLink);
-
-      URL.revokeObjectURL(uri);
-    }).finally(() => {
-      setLoading(false);
-    })
-    // apiService.fileList({ FileName: docName }, { responseType: 'blob' }).then(response => {
-    //   const blob = response?.data;
-    //   if (!blob) {
-    //     showAlert("Failed to load PDF", "error");
-    //     return;
-    //   }
-    //   const fileBlob = new Blob([response.data], { type: "application/pdf" });
-    //   const uri = URL.createObjectURL(fileBlob);
-
-    //   const downloadLink = document.createElement("a");
-    //   downloadLink.href = uri;
-    //   downloadLink.download = "annex6.pdf";
-    //   document.body.appendChild(downloadLink);
-    //   downloadLink.click();
-    //   document.body.removeChild(downloadLink);
-
-    //   URL.revokeObjectURL(uri);
-    // }).finally(() => {
-    //   setLoading(false);
-    // })
+  const handleViewPDf = (fileUrl) => {
+    window.open(fileUrl, '_blank');
   }
 
   const handleDelete = (docId) => {
@@ -201,7 +155,6 @@ export default function ApplicationForm() {
       }
     );
   };
-
 
   const handleSubmitApplication = () => {
     setLoading(true);
@@ -241,23 +194,14 @@ export default function ApplicationForm() {
 
       {selectedProgram && (
         <>
-          {/* <Paper shadow="md" p="lg" radius="md" withBorder>
+          <Paper shadow="md" p="lg" radius="md" withBorder>
             <Title order={5} mb="sm" c="blue.9">
-              Upload Required Documents
+              Requirements
             </Title>
             <Stack spacing="sm">
-              {selectedProgram.programRequirements.map((req, idx) => (
-                <FileInput
-                  key={idx}
-                  label={`${req.name} ${req.isMandatory ? "*" : "(Optional)"}`}
-                  placeholder="Upload PDF"
-                  accept="application/pdf"
-                  onChange={(file) => handleFileChange(req.name, file)}
-                  withAsterisk={req.isMandatory}
-                />
-              ))}
+              <TextInput label="GPA:" />
             </Stack>
-          </Paper> */}
+          </Paper>
 
           <Paper shadow="md" p="lg" radius="md" withBorder>
             <Title order={5} mb="sm" c="blue.9">
