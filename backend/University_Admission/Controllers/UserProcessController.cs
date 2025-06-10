@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using University_Admission.Data;
 using University_Admission.Domain.Entities.ProcessEntities;
+using University_Admission.Domain.Entities.UserEntities;
 using University_Admission.Domain.Enum;
 using University_Admission.DTO;
 using University_Admission.Interfaces;
@@ -274,6 +275,8 @@ namespace University_Admission.Controllers
             {
                 var process = await _db
                     .UserProgramProcesses.Where(up => up.Id == request.Id && up.DeletedAt == null)
+                    .Include(up => up.University)
+                    .Include(up => up.UniversityProgram)
                     .SingleOrDefaultAsync();
                 if (process == null)
                 {
@@ -283,6 +286,17 @@ namespace University_Admission.Controllers
                 }
                 process.Approve(_currentUserService.UserId, request.Remarks);
                 process.MarkUpdated();
+
+                var studentUser = await _db.Users.SingleAsync(u => u.Id == process.UserId);
+                var approveNotification = new Notification(
+                    "Process Approved",
+                    $"Your application process for {process.UniversityProgram.Name} in {process.University.Name} has been approved.",
+                    false,
+                    studentUser.Id,
+                    studentUser
+                );
+                studentUser.AddNotification(approveNotification);
+
                 await _db.SaveChangesAsync();
                 return Response<UserProcessViewModel>.SuccessResponse(
                     _mapper.Map<UserProcessViewModel>(process),
@@ -305,6 +319,8 @@ namespace University_Admission.Controllers
             {
                 var process = await _db
                     .UserProgramProcesses.Where(up => up.Id == request.Id && up.DeletedAt == null)
+                    .Include(up => up.University)
+                    .Include(up => up.UniversityProgram)
                     .SingleOrDefaultAsync();
                 if (process == null)
                 {
@@ -314,6 +330,17 @@ namespace University_Admission.Controllers
                 }
                 process.Reject(_currentUserService.UserId, request.Remarks);
                 process.MarkUpdated();
+
+                var studentUser = await _db.Users.SingleAsync(u => u.Id == process.UserId);
+                var approveNotification = new Notification(
+                    "Process Rejected",
+                    $"Your application process for {process.UniversityProgram.Name} in {process.University.Name} has been rejected with remarks \"{request.Remarks}\".",
+                    false,
+                    studentUser.Id,
+                    studentUser
+                );
+                studentUser.AddNotification(approveNotification);
+
                 await _db.SaveChangesAsync();
                 return Response<UserProcessViewModel>.SuccessResponse(
                     _mapper.Map<UserProcessViewModel>(process),

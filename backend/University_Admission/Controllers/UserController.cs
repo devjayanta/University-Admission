@@ -193,5 +193,26 @@ namespace University_Admission.Controllers
                 return Response<UserDocumentViewModel>.FailureResponse(ex);
             }
         }
+
+        [HttpGet("GetAllUserNotifications")]
+        public async Task<
+            ActionResult<Response<List<NotificationViewModel>>>
+        > GetAllUserNotifications()
+        {
+            try
+            {
+                var notification = await _db
+                    .Notification.Where(n => n.UserId == _currentUserService.UserId)
+                    .OrderByDescending(n => n.IsRead)
+                    .ToListAsync();
+                return Response<List<NotificationViewModel>>.SuccessResponse(
+                    _mapper.Map<List<NotificationViewModel>>(notification)
+                );
+            }
+            catch (Exception ex)
+            {
+                return Response<List<NotificationViewModel>>.FailureResponse(ex);
+            }
+        }
     }
 }

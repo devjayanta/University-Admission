@@ -39,6 +39,8 @@ namespace University_Admission.Data
                 .HasOne(x => x.ActionUser)
                 .WithMany()
                 .HasForeignKey(x => x.ActionUserId);
+
+            builder.Entity<User>().HasIndex(x => x.UserName).IsUnique();
         }
     }
 }

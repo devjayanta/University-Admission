@@ -76,9 +76,15 @@ namespace University_Admission.Domain.Entities.UserEntities
             Role = role;
             PasswordHash = string.Empty;
         }
+
         public void UpdatePassword(string password)
         {
             PasswordHash = password;
+        }
+
+        public void AddNotification(Notification notification)
+        {
+            Notifications.Add(notification);
         }
     }
 }
