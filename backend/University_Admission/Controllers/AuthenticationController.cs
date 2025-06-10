@@ -73,7 +73,14 @@ namespace University_Admission.Controllers
                         "Username or Password is Incorrect"
                     );
                 }
-                var token = _jwt.GenerateJwtToken(dto.Username, user.Id, user.Role.ToString().ToLower());
+                var token = _jwt.GenerateJwtToken(
+                    new TokenDto(
+                        user.Id,
+                        dto.Username,
+                        user.Role.ToString().ToLower(),
+                        user.FullName
+                    )
+                );
                 return Response<AuthViewModel>.SuccessResponse(new AuthViewModel(user.Id, token));
             }
             catch (Exception ex)

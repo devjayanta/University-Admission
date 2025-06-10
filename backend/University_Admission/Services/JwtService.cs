@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using University_Admission.DTO;
 
 namespace University_Admission.Services
 {
@@ -14,14 +15,16 @@ namespace University_Admission.Services
             _config = config;
         }
 
-        public string GenerateJwtToken(string username, int userId, string role)
+        public string GenerateJwtToken(TokenDto info)
         {
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, username),
+                new Claim(JwtRegisteredClaimNames.Sub, info.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim("UserId", userId.ToString()),
-                new Claim(ClaimTypes.Role, role)
+                new Claim("UserId", info.UserId.ToString()),
+                new Claim(ClaimTypes.Role, info.Role),
+                new Claim("Role", info.Role),
+                new Claim("FullName", info.FullName),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Secret"]!));
