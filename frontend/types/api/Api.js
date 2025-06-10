@@ -410,6 +410,21 @@ export class Api extends HttpClient {
    * No description
    *
    * @tags User
+   * @name UserGetAllUserDocumentsByUserIdList
+   * @request GET:/api/User/GetAllUserDocumentsByUserId
+   */
+  userGetAllUserDocumentsByUserIdList = (query, params = {}) =>
+    this.request({
+      path: `/api/User/GetAllUserDocumentsByUserId`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags User
    * @name UserCreateUserDocumentCreate
    * @request POST:/api/User/CreateUserDocument
    */
@@ -524,10 +539,11 @@ export class Api extends HttpClient {
    * @name UserProcessGetAllList
    * @request GET:/api/UserProcess/GetAll
    */
-  userProcessGetAllList = (params = {}) =>
+  userProcessGetAllList = (query, params = {}) =>
     this.request({
       path: `/api/UserProcess/GetAll`,
       method: "GET",
+      query: query,
       format: "json",
       ...params,
     });
@@ -542,6 +558,53 @@ export class Api extends HttpClient {
     this.request({
       path: `/api/UserProcess/GetByUserId`,
       method: "GET",
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags UserProcess
+   * @name UserProcessSubmitProcessCreate
+   * @request POST:/api/UserProcess/SubmitProcess
+   */
+  userProcessSubmitProcessCreate = (query, params = {}) =>
+    this.request({
+      path: `/api/UserProcess/SubmitProcess`,
+      method: "POST",
+      query: query,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags UserProcess
+   * @name UserProcessApproveProcessCreate
+   * @request POST:/api/UserProcess/ApproveProcess
+   */
+  userProcessApproveProcessCreate = (data, params = {}) =>
+    this.request({
+      path: `/api/UserProcess/ApproveProcess`,
+      method: "POST",
+      body: data,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags UserProcess
+   * @name UserProcessRejectProcessCreate
+   * @request POST:/api/UserProcess/RejectProcess
+   */
+  userProcessRejectProcessCreate = (data, params = {}) =>
+    this.request({
+      path: `/api/UserProcess/RejectProcess`,
+      method: "POST",
+      body: data,
+      type: ContentType.Json,
       format: "json",
       ...params,
     });

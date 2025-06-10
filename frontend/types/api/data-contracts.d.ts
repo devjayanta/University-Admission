@@ -9,6 +9,11 @@
  * ---------------------------------------------------------------
  */
 
+export declare enum ActionStatus {
+  Submitted = "Submitted",
+  Approved = "Approved",
+  Rejected = "Rejected",
+}
 export interface AnnouncementDto {
   /** @minLength 1 */
   title: string;
@@ -250,7 +255,14 @@ export interface UserDocumentViewModelResponse {
   message?: string | null;
   data?: UserDocumentViewModel;
 }
+export interface UserProcessActionDto {
+  /** @format int32 */
+  id?: number;
+  remarks?: string | null;
+}
 export interface UserProcessDto {
+  /** @format int32 */
+  universityId?: number;
   /** @format int32 */
   universityProgramId?: number;
   requirements?: UserRequirementsDto[] | null;

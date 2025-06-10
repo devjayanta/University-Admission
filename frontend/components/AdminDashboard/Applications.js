@@ -15,21 +15,31 @@ import {
   rem,
   Pagination,
   Grid,
+  Modal
 } from '@mantine/core';
-import { IconTrash, IconEdit, IconSearch } from '@tabler/icons-react';
+import { IconSearch, IconThumbUp, IconThumbDown } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
+import GLoader from '../GLoader';
+import { useDisclosure } from '@mantine/hooks';
+import { showAlert, showConfirmAlert } from '../Alert';
 
 export default function Students() {
-  const [students, setStudents] = useState([]);
   const [applications, setApplications] = useState([]);
   const [search, setSearch] = useState('');
   const [activePage, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+
+  const [opened, { open, close }] = useDisclosure(false);
+  const [rejectedId, setRejectedId] = useState(null);
+  const [rejectedMessage, setRejectedMessage] = useState("");
+
 
   const pageSize = 5;
-  const filtered = students.filter(
+  const filtered = applications?.filter(
     (a) =>
-      a.name.toLowerCase().includes(search.toLowerCase()) ||
-      a.passportNo.toLowerCase().includes(search.toLowerCase())
+      a?.universityName?.toLowerCase().includes(search.toLowerCase()) ||
+      a?.userName?.toLowerCase().includes(search.toLowerCase()) ||
+      a?.universityProgramName?.toLowerCase().includes(search.toLowerCase())
   );
 
   const paginated = filtered.slice(
@@ -38,10 +48,58 @@ export default function Students() {
   );
 
   useEffect(() => {
+    setLoading(true);
     apiService.userProcessGetAllList().then(response => {
-      console.log(response?.data?.data)
+      setApplications(response?.data?.data);
+    }).finally(() => {
+      setLoading(false);
     })
   }, [])
+
+
+  const handleApprove = (aid) => {
+    showConfirmAlert(
+      "Are you sure to approve?",
+      () => {
+        setLoading(true);
+        apiService.userProcessApproveProcessCreate({
+          "id": aid,
+          "remarks": "Your Application is Approved!!"
+        }).then((response) => {
+          showAlert("Approved successfully", "success");
+        }).finally(() => {
+          setLoading(false);
+        })
+      },
+      () => {
+        console.log("cancelled");
+      }
+    );
+  };
+
+  const handleReject = (id) => {
+    setRejectedId(id);
+    open();
+  };
+
+  const submitRejection = () => {
+    if (!rejectedMessage.trim()) return;
+
+    setLoading(true);
+    apiService.userProcessRejectProcessCreate(
+      {
+        "id": rejectedId,
+        "remarks": rejectedMessage
+      }).then(() => {
+        showAlert("Successfully Rejected!!", 'success');
+        setRejectedMessage("");
+        setRejectedId(null);
+        close();
+      }).finally(() => {
+        setLoading(false);
+      })
+  };
+
 
 
   return (
@@ -59,30 +117,57 @@ export default function Students() {
           />
         </Group>
 
-        <Table striped highlightOnHover withTableBorder verticalSpacing="sm">
+        <p style={{ marginTop: -10 }}>
+          You can view a student's documents by username from the Documents menu.
+        </p>
+
+        <Table
+          striped
+          highlightOnHover
+          withTableBorder
+          verticalSpacing="sm"
+          horizontalSpacing="md"
+        >
           <Table.Thead>
             <Table.Tr>
-              <Table.Th>Name</Table.Th>
-              <Table.Th>Email</Table.Th>
-              <Table.Th>Passport No.</Table.Th>
-              <Table.Th>Nationality</Table.Th>
-              <Table.Th>Gender</Table.Th>
+              <Table.Th>User Name</Table.Th>
+              <Table.Th>Applied University</Table.Th>
+              <Table.Th>Applied Program</Table.Th>
+              <Table.Th>Action</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
             {paginated.length > 0 ? (
               paginated.map((a) => (
                 <Table.Tr key={a.id}>
-                  <Table.Td>{a.name}</Table.Td>
-                  <Table.Td>{a.email}</Table.Td>
-                  <Table.Td>{a.passport}</Table.Td>
-                  <Table.Td>{a.natioinality}</Table.Td>
-                  <Table.Td>{a.gender}</Table.Td>
+                  <Table.Td>{a.userName}</Table.Td>
+                  <Table.Td>{a.universityName}</Table.Td>
+                  <Table.Td>{a.universityProgramName}</Table.Td>
+                  <Table.Td>
+                    <Group gap="xs">
+                      <ActionIcon
+                        color="green"
+                        variant="light"
+                        onClick={() => handleApprove(a.id)}
+                        title='Approve'
+                      >
+                        <IconThumbUp size={18} />
+                      </ActionIcon>
+                      <ActionIcon
+                        color="red"
+                        variant="light"
+                        title='Reject'
+                        onClick={() => handleReject(a.id)}
+                      >
+                        <IconThumbDown size={18} />
+                      </ActionIcon>
+                    </Group>
+                  </Table.Td>
                 </Table.Tr>
               ))
             ) : (
               <Table.Tr>
-                <Table.Td colSpan={5} style={{ textAlign: 'center' }}>
+                <Table.Td colSpan={4} style={{ textAlign: "center" }}>
                   No applications found.
                 </Table.Td>
               </Table.Tr>
@@ -100,6 +185,35 @@ export default function Students() {
           </Group>
         )}
       </Paper>
+
+      <GLoader opened={loading} />
+
+      <Modal
+        opened={opened}
+        onClose={close}
+        title="Enter the reason for rejection:"
+        centered
+        size="lg"
+      >
+        <Stack>
+          <Textarea
+            placeholder="Type reason..."
+            value={rejectedMessage}
+            onChange={(e) => setRejectedMessage(e.target.value)}
+            autosize
+            minRows={3}
+          />
+          <Group justify="flex-end">
+            <Button variant="default" onClick={close}>
+              Cancel
+            </Button>
+            <Button color="red" onClick={submitRejection}>
+              Submit Rejection
+            </Button>
+          </Group>
+        </Stack>
+      </Modal>
+
     </Stack>
   )
 

@@ -10,6 +10,7 @@
  */
 
 import {
+  ActionStatus,
   AnnouncementDto,
   AnnouncementViewModelListResponse,
   AnnouncementViewModelResponse,
@@ -31,6 +32,7 @@ import {
   UserDocumentDto,
   UserDocumentViewModelListResponse,
   UserDocumentViewModelResponse,
+  UserProcessActionDto,
   UserProcessDto,
   UserProcessViewModelListResponse,
   UserProcessViewModelResponse,
@@ -347,6 +349,20 @@ export declare class Api<SecurityDataType = unknown> extends HttpClient<Security
    * No description
    *
    * @tags User
+   * @name UserGetAllUserDocumentsByUserIdList
+   * @request GET:/api/User/GetAllUserDocumentsByUserId
+   */
+  userGetAllUserDocumentsByUserIdList: (
+    query?: {
+      /** @format int32 */
+      Id?: number;
+    },
+    params?: RequestParams,
+  ) => Promise<AxiosResponse<UserDocumentViewModelListResponse>>;
+  /**
+   * No description
+   *
+   * @tags User
    * @name UserCreateUserDocumentCreate
    * @request POST:/api/User/CreateUserDocument
    */
@@ -444,7 +460,12 @@ export declare class Api<SecurityDataType = unknown> extends HttpClient<Security
    * @name UserProcessGetAllList
    * @request GET:/api/UserProcess/GetAll
    */
-  userProcessGetAllList: (params?: RequestParams) => Promise<AxiosResponse<UserProcessViewModelListResponse>>;
+  userProcessGetAllList: (
+    query?: {
+      Status?: ActionStatus;
+    },
+    params?: RequestParams,
+  ) => Promise<AxiosResponse<UserProcessViewModelListResponse>>;
   /**
    * No description
    *
@@ -453,4 +474,40 @@ export declare class Api<SecurityDataType = unknown> extends HttpClient<Security
    * @request GET:/api/UserProcess/GetByUserId
    */
   userProcessGetByUserIdList: (params?: RequestParams) => Promise<AxiosResponse<UserProcessViewModelListResponse>>;
+  /**
+   * No description
+   *
+   * @tags UserProcess
+   * @name UserProcessSubmitProcessCreate
+   * @request POST:/api/UserProcess/SubmitProcess
+   */
+  userProcessSubmitProcessCreate: (
+    query?: {
+      /** @format int32 */
+      Id?: number;
+    },
+    params?: RequestParams,
+  ) => Promise<AxiosResponse<UserProcessViewModelResponse>>;
+  /**
+   * No description
+   *
+   * @tags UserProcess
+   * @name UserProcessApproveProcessCreate
+   * @request POST:/api/UserProcess/ApproveProcess
+   */
+  userProcessApproveProcessCreate: (
+    data: UserProcessActionDto,
+    params?: RequestParams,
+  ) => Promise<AxiosResponse<UserProcessViewModelResponse>>;
+  /**
+   * No description
+   *
+   * @tags UserProcess
+   * @name UserProcessRejectProcessCreate
+   * @request POST:/api/UserProcess/RejectProcess
+   */
+  userProcessRejectProcessCreate: (
+    data: UserProcessActionDto,
+    params?: RequestParams,
+  ) => Promise<AxiosResponse<UserProcessViewModelResponse>>;
 }

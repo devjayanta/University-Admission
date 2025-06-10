@@ -39,8 +39,8 @@ export default function Students() {
   const pageSize = 5;
   const filtered = students.filter(
     (a) =>
-      a.firstName.toLowerCase().includes(search.toLowerCase()) ||
-      a.passportNo.toLowerCase().includes(search.toLowerCase())
+      a?.firstName?.toLowerCase().includes(search.toLowerCase()) ||
+      a?.passportNo?.toLowerCase().includes(search.toLowerCase())
   );
 
   const paginated = filtered.slice(
@@ -67,7 +67,8 @@ export default function Students() {
         <Table striped highlightOnHover withTableBorder verticalSpacing="sm">
           <Table.Thead>
             <Table.Tr>
-              <Table.Th>Name</Table.Th>
+              <Table.Th>User Name</Table.Th>
+              <Table.Th>Full Name</Table.Th>
               <Table.Th>Email</Table.Th>
               <Table.Th>Passport No.</Table.Th>
               <Table.Th>Nationality</Table.Th>
@@ -78,6 +79,7 @@ export default function Students() {
             {paginated.length > 0 ? (
               paginated.map((a) => (
                 <Table.Tr key={a.id}>
+                   <Table.Td></Table.Td>
                   <Table.Td>{a.firstName + " " + a.middleName	+ " " + a.lastName}</Table.Td>
                   <Table.Td>{a.email}</Table.Td>
                   <Table.Td>{a.passportNo}</Table.Td>

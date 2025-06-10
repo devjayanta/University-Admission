@@ -9,6 +9,12 @@
  * ---------------------------------------------------------------
  */
 
+export var ActionStatus;
+(function (ActionStatus) {
+  ActionStatus["Submitted"] = "Submitted";
+  ActionStatus["Approved"] = "Approved";
+  ActionStatus["Rejected"] = "Rejected";
+})(ActionStatus || (ActionStatus = {}));
 export var Gender;
 (function (Gender) {
   Gender["Male"] = "Male";
