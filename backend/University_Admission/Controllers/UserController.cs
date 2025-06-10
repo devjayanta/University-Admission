@@ -86,6 +86,35 @@ namespace University_Admission.Controllers
             }
         }
 
+        [HttpGet("GetAllUserDocumentsByUserName")]
+        [Authorize(Roles = "admin")]
+        public async Task<
+            ActionResult<Response<List<UserDocumentViewModel>>>
+        > GetAllUserDocumentsByUserName([FromQuery] string UserName)
+        {
+            try
+            {
+                var document = await _db
+                    .UserDocuments.Where(ud => ud.User.UserName == UserName)
+                    .Include(ud => ud.Document)
+                    .Include(ud => ud.User)
+                    .ToListAsync();
+                if (document == null)
+                {
+                    return Response<List<UserDocumentViewModel>>.FailureResponse(
+                        "No documents uploaded yet"
+                    );
+                }
+                return Response<List<UserDocumentViewModel>>.SuccessResponse(
+                    _mapper.Map<List<UserDocumentViewModel>>(document)
+                );
+            }
+            catch (Exception ex)
+            {
+                return Response<List<UserDocumentViewModel>>.FailureResponse(ex);
+            }
+        }
+
         [HttpPost("CreateUserDocument")]
         public async Task<ActionResult<Response<UserDocumentViewModel>>> CreateUserDocument(
             [FromBody] UserDocumentDto request

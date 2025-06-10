@@ -7,6 +7,7 @@ namespace University_Admission.ViewModel
     public class StudentViewModel
     {
         public int Id { get; set; }
+        public string UserName { get; set; }
         public string FirstName { get; set; }
         public string? MiddleName { get; set; }
         public string LastName { get; set; }
@@ -21,6 +22,7 @@ namespace University_Admission.ViewModel
 
         public StudentViewModel()
         {
+            UserName = string.Empty;
             FirstName = string.Empty;
             LastName = string.Empty;
             FullName = string.Empty;
