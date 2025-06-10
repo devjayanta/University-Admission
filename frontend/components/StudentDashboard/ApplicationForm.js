@@ -34,6 +34,9 @@ export default function ApplicationForm() {
   const [uploadedDocs, setUploadedDocs] = useState([]);
   const [documentTypes, setDocumentTypes] = useState([]);
 
+  const [formData, setFormData] = useState({});
+  const [errors, setErrors] = useState({});
+
 
   const getUniversities = () => {
     apiService.universityGetAllList().then((response) => {
@@ -156,9 +159,23 @@ export default function ApplicationForm() {
     );
   };
 
-  const handleSubmitApplication = () => {
-    setLoading(true);
 
+
+  const handleSubmitApplication = () => {
+    if (!universityId || !programId) {
+      return;
+    }
+
+    setLoading(true);
+    apiService.userProcessCreate({
+      "universityId": universityId,
+      "universityProgramId": programId,
+      "requirements": []
+    }).then(response=>{
+        showAlert("Submitted Successfully!!", 'success')
+    }).finally(()=>{
+      setLoading(false);
+    })
   };
 
   return (
@@ -194,15 +211,6 @@ export default function ApplicationForm() {
 
       {selectedProgram && (
         <>
-          <Paper shadow="md" p="lg" radius="md" withBorder>
-            <Title order={5} mb="sm" c="blue.9">
-              Requirements
-            </Title>
-            <Stack spacing="sm">
-              <TextInput label="GPA:" />
-            </Stack>
-          </Paper>
-
           <Paper shadow="md" p="lg" radius="md" withBorder>
             <Title order={5} mb="sm" c="blue.9">
               Upload Required Documents
@@ -286,19 +294,6 @@ export default function ApplicationForm() {
                 </Table>
               </Stack>
             )}
-          </Paper>
-
-          <Paper shadow="md" p="lg" radius="md" withBorder>
-            <Title order={5} mb="sm" c="blue.9">
-              Additional Information
-            </Title>
-            <Textarea
-              label="Your Message / Special Consideration"
-              placeholder="Write any additional info..."
-              minRows={3}
-              value={additionalInfo}
-              onChange={(e) => setAdditionalInfo(e.target.value)}
-            />
           </Paper>
 
           <Group justify="end">

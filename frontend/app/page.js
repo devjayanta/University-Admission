@@ -35,7 +35,8 @@ export default function LoginPage() {
   const handleSubmit = (values) => {
     setLoading(true);
     apiService.authenticationLoginCreate({ username: values.username, password: values.password }).then(response => {
-      localStorage.setItem('token', response.data.data.token)
+      localStorage.setItem('token', response?.data?.data?.token)
+      const info = atob(response?.data?.data?.token.split('.')[0])
       //router.push('/admin');
       router.push('/student');
     }).finally(() => {

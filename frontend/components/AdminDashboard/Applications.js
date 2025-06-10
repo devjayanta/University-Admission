@@ -1,5 +1,6 @@
 'use client';
 
+import apiService from '@/app/http/ApiService';
 import {
   Box,
   Button,
@@ -16,10 +17,11 @@ import {
   Grid,
 } from '@mantine/core';
 import { IconTrash, IconEdit, IconSearch } from '@tabler/icons-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Students() {
   const [students, setStudents] = useState([]);
+  const [applications, setApplications] = useState([]);
   const [search, setSearch] = useState('');
   const [activePage, setPage] = useState(1);
 
@@ -34,6 +36,12 @@ export default function Students() {
     (activePage - 1) * pageSize,
     activePage * pageSize
   );
+
+  useEffect(() => {
+    apiService.userProcessGetAllList().then(response => {
+      console.log(response?.data?.data)
+    })
+  }, [])
 
 
   return (
