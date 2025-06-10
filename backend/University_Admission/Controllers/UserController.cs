@@ -214,5 +214,30 @@ namespace University_Admission.Controllers
                 return Response<List<NotificationViewModel>>.FailureResponse(ex);
             }
         }
+
+        [HttpGet("ReadUserNotification")]
+        public async Task<ActionResult<Response<NotificationViewModel>>> ReadUserNotification(
+            [FromQuery] int Id
+        )
+        {
+            try
+            {
+                var notification = await _db
+                    .Notification.Where(n => n.Id == Id && n.UserId == _currentUserService.UserId)
+                    .SingleOrDefaultAsync();
+                if (notification != null)
+                {
+                    notification.Read();
+                }
+                await _db.SaveChangesAsync();
+                return Response<NotificationViewModel>.SuccessResponse(
+                    _mapper.Map<NotificationViewModel>(notification)
+                );
+            }
+            catch (Exception ex)
+            {
+                return Response<NotificationViewModel>.FailureResponse(ex);
+            }
+        }
     }
 }
