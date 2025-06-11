@@ -62,6 +62,25 @@ export interface CountryViewModelListResponse {
   message?: string | null;
   data?: CountryViewModel[] | null;
 }
+export interface DashboardCountsViewModel {
+  /** @format int32 */
+  universityCount?: number;
+  /** @format int32 */
+  programCount?: number;
+  /** @format int32 */
+  applicationCount?: number;
+  /** @format int32 */
+  submittedApplicationCount?: number;
+  /** @format int32 */
+  approvedApplicationCount?: number;
+  /** @format int32 */
+  rejectedApplicationCount?: number;
+}
+export interface DashboardCountsViewModelResponse {
+  success?: boolean;
+  message?: string | null;
+  data?: DashboardCountsViewModel;
+}
 export interface DocumentViewModel {
   /** @format int32 */
   id?: number;
@@ -88,6 +107,23 @@ export interface LoginDto {
   username: string;
   /** @minLength 1 */
   password: string;
+}
+export interface NotificationViewModel {
+  /** @format int32 */
+  id?: number;
+  title?: string | null;
+  description?: string | null;
+  isRead?: boolean;
+}
+export interface NotificationViewModelListResponse {
+  success?: boolean;
+  message?: string | null;
+  data?: NotificationViewModel[] | null;
+}
+export interface NotificationViewModelResponse {
+  success?: boolean;
+  message?: string | null;
+  data?: NotificationViewModel;
 }
 export interface ProgramRequirementDto {
   /** @format int32 */

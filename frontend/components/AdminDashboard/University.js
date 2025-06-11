@@ -67,9 +67,11 @@ export default function UniversityForm() {
                 addressLine2: university.addressLine2,
                 webSite: university.webSite,
             }, { id: editId }).then(response => {
-                showAlert("University Updated successfully!", 'success');
-                handleReset();
-                getUniversities();
+                if (response?.data?.success) {
+                    showAlert("University Updated successfully!", 'success');
+                    handleReset();
+                    getUniversities();
+                }
             }).finally(() => {
                 setLoading(false);
             })
@@ -82,9 +84,11 @@ export default function UniversityForm() {
                 "addressLine2": university.addressLine2,
                 "webSite": university.webSite
             }).then(response => {
-                showAlert("University added successfully!", 'success');
-                handleReset();
-                getUniversities();
+                if (response?.data?.success){
+                    showAlert("University added successfully!", 'success');
+                    handleReset();
+                    getUniversities();
+                }
             }).finally(() => {
                 setLoading(false);
             })
@@ -119,22 +123,22 @@ export default function UniversityForm() {
         }, 200);
     }
 
-    const handleDelete = (id)=>{
+    const handleDelete = (id) => {
         showConfirmAlert(
-              "Are you sure to delete?",
-              () => {
+            "Are you sure to delete?",
+            () => {
                 setLoading(true);
                 apiService.universityDelete({ id }).then((response) => {
-                  showAlert("Deleted successfully", "success");
-                  getUniversities();
+                    showAlert("Deleted successfully", "success");
+                    getUniversities();
                 }).finally(() => {
-                  setLoading(false);
+                    setLoading(false);
                 })
-              },
-              () => {
+            },
+            () => {
                 console.log("Delete cancelled");
-              }
-            );
+            }
+        );
     }
 
     return (

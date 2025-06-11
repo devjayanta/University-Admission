@@ -121,17 +121,19 @@ export default function ApplicationForm() {
 
     setLoading(true);
     apiService.fileCreate({ File: file }).then(response => {
-      apiService.userCreateUserDocumentCreate({
-        "documentId": Number(docType),
-        "value": response?.data?.data
-      }).then(response2 => {
-        if (response2?.data?.success == true) {
-          getUploadedDocuments();
-          showAlert("Uploaded Successfully!!", 'success')
-          setDocType(null);
-          setFile(null);
-        }
-      })
+      if (response?.data?.success) {
+        apiService.userCreateUserDocumentCreate({
+          "documentId": Number(docType),
+          "value": response?.data?.data
+        }).then(response2 => {
+          if (response2?.data?.success) {
+            getUploadedDocuments();
+            showAlert("Uploaded Successfully!!", 'success')
+            setDocType(null);
+            setFile(null);
+          }
+        })
+      }
     }).finally(() => {
       setLoading(false);
     })
@@ -147,8 +149,10 @@ export default function ApplicationForm() {
       () => {
         setLoading(true);
         apiService.userDeleteUserDocumentDelete({ Id: Number(docId) }).then((response) => {
-          showAlert("Deleted successfully", "success");
-          getUploadedDocuments();
+          if (response?.data?.success) {
+            showAlert("Deleted successfully", "success");
+            getUploadedDocuments();
+          }
         }).finally(() => {
           setLoading(false);
         })
@@ -165,15 +169,21 @@ export default function ApplicationForm() {
     if (!universityId || !programId) {
       return;
     }
+    if (uploadedDocs?.length === 0) {
+      showAlert("Upload required documents!!", 'info')
+      return;
+    }
 
     setLoading(true);
     apiService.userProcessCreate({
       "universityId": universityId,
       "universityProgramId": programId,
       "requirements": []
-    }).then(response=>{
+    }).then(response => {
+      if (response?.data?.success) {
         showAlert("Submitted Successfully!!", 'success')
-    }).finally(()=>{
+      }
+    }).finally(() => {
       setLoading(false);
     })
   };
@@ -252,7 +262,7 @@ export default function ApplicationForm() {
               </Grid.Col>
             </Grid>
 
-            {uploadedDocs.length > 0 && (
+            {uploadedDocs?.length > 0 && (
               <Stack mt="lg" gap="sm">
                 <Title order={6} c="blue.8">
                   Uploaded Files

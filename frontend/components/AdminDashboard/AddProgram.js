@@ -25,10 +25,10 @@ export default function UniversityForm() {
         universityId: "",
         name: "",
         level: "",
-        duration:"",
+        duration: "",
         fee: "",
-        currency:"",
-        language:"",
+        currency: "",
+        language: "",
         programRequirements: [],
     });
     const [newRequirement, setNewRequirement] = useState({
@@ -84,8 +84,10 @@ export default function UniversityForm() {
 
         setLoading(true);
         apiService.programCreate(newProgram).then(response => {
-            showAlert("Program saved successfully!", "success");
-            handleReset();
+            if (response?.data?.success) {
+                showAlert("Program saved successfully!", "success");
+                handleReset();
+            }
         }).finally(() => {
             setLoading(false);
         })
@@ -142,7 +144,7 @@ export default function UniversityForm() {
                         searchable
                         withAsterisk
                     />
-                     <TextInput
+                    <TextInput
                         label="Duration (Semester/Year)"
                         value={newProgram.duration}
                         onChange={(e) =>
@@ -253,7 +255,7 @@ export default function UniversityForm() {
                                         <Table.Tr key={idx}>
                                             <Table.Td>{req.name}</Table.Td>
                                             <Table.Td>
-                                                {reqTypes?.find(rq=>rq.value === req.type)?.label || "-" }
+                                                {reqTypes?.find(rq => rq.value === req.type)?.label || "-"}
                                             </Table.Td>
                                             <Table.Td>{req.value || "-"}</Table.Td>
                                             <Table.Td>{req.isMandatory ? "Yes" : "No"}</Table.Td>

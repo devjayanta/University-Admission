@@ -165,6 +165,20 @@ export class Api extends HttpClient {
   /**
    * No description
    *
+   * @tags Dashboard
+   * @name DashboardGetDashboardCountsList
+   * @request GET:/api/Dashboard/GetDashboardCounts
+   */
+  dashboardGetDashboardCountsList = (params = {}) =>
+    this.request({
+      path: `/api/Dashboard/GetDashboardCounts`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
    * @tags File
    * @name FileCreate
    * @request POST:/api/File
@@ -480,6 +494,35 @@ export class Api extends HttpClient {
     this.request({
       path: `/api/User/DeleteUserDocument`,
       method: "DELETE",
+      query: query,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags User
+   * @name UserGetAllUserNotificationsList
+   * @request GET:/api/User/GetAllUserNotifications
+   */
+  userGetAllUserNotificationsList = (params = {}) =>
+    this.request({
+      path: `/api/User/GetAllUserNotifications`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags User
+   * @name UserReadUserNotificationList
+   * @request GET:/api/User/ReadUserNotification
+   */
+  userReadUserNotificationList = (query, params = {}) =>
+    this.request({
+      path: `/api/User/ReadUserNotification`,
+      method: "GET",
       query: query,
       format: "json",
       ...params,

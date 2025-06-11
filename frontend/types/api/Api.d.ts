@@ -16,9 +16,12 @@ import {
   AnnouncementViewModelResponse,
   AuthViewModelResponse,
   CountryViewModelListResponse,
+  DashboardCountsViewModelResponse,
   DocumentViewModelListResponse,
   FileContentResultResponse,
   LoginDto,
+  NotificationViewModelListResponse,
+  NotificationViewModelResponse,
   RegisterDto,
   StringResponse,
   StudentViewModelListResponse,
@@ -145,6 +148,14 @@ export declare class Api<SecurityDataType = unknown> extends HttpClient<Security
    * @request GET:/api/Common/GetAllDocumentTypes
    */
   commonGetAllDocumentTypesList: (params?: RequestParams) => Promise<AxiosResponse<DocumentViewModelListResponse>>;
+  /**
+   * No description
+   *
+   * @tags Dashboard
+   * @name DashboardGetDashboardCountsList
+   * @request GET:/api/Dashboard/GetDashboardCounts
+   */
+  dashboardGetDashboardCountsList: (params?: RequestParams) => Promise<AxiosResponse<DashboardCountsViewModelResponse>>;
   /**
    * No description
    *
@@ -412,6 +423,30 @@ export declare class Api<SecurityDataType = unknown> extends HttpClient<Security
     },
     params?: RequestParams,
   ) => Promise<AxiosResponse<UserDocumentViewModelResponse>>;
+  /**
+   * No description
+   *
+   * @tags User
+   * @name UserGetAllUserNotificationsList
+   * @request GET:/api/User/GetAllUserNotifications
+   */
+  userGetAllUserNotificationsList: (
+    params?: RequestParams,
+  ) => Promise<AxiosResponse<NotificationViewModelListResponse>>;
+  /**
+   * No description
+   *
+   * @tags User
+   * @name UserReadUserNotificationList
+   * @request GET:/api/User/ReadUserNotification
+   */
+  userReadUserNotificationList: (
+    query?: {
+      /** @format int32 */
+      Id?: number;
+    },
+    params?: RequestParams,
+  ) => Promise<AxiosResponse<NotificationViewModelResponse>>;
   /**
    * No description
    *

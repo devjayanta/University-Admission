@@ -45,18 +45,22 @@ export default function Announcement() {
     setLoading(true);
     if (editId) {
       apiService.announcementUpdate({ title, description }, { id: editId }).then(response => {
-        showAlert("Announcement updated!!", "success");
-        handleReset();
-        getPublishedAnnouncement();
+        if (response?.data?.success) {
+          showAlert("Announcement updated!!", "success");
+          handleReset();
+          getPublishedAnnouncement();
+        }
       }).finally(() => {
         setLoading(false);
       });
     }
     else {
       apiService.announcementCreate({ "title": title, "description": description }).then(response => {
-        showAlert("Announcement published Successfully!!", 'success');
-        handleReset();
-        getPublishedAnnouncement();
+        if (response?.data?.success) {
+          showAlert("Announcement published Successfully!!", 'success');
+          handleReset();
+          getPublishedAnnouncement();
+        }
       }).finally(() => {
         setLoading(false);
       });
@@ -78,8 +82,10 @@ export default function Announcement() {
       () => {
         setLoading(true);
         apiService.announcementDelete({ id }).then((response) => {
-          showAlert("Deleted successfully", "success");
-          getPublishedAnnouncement();
+          if (response?.data?.success) {
+            showAlert("Deleted successfully", "success");
+            getPublishedAnnouncement();
+          }
         }).finally(() => {
           setLoading(false);
         })

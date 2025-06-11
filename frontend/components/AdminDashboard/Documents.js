@@ -47,7 +47,7 @@ export default function DocumentViewerByUser() {
         <Group grow>
           <TextInput
             label="Enter Username"
-            placeholder="example123"
+            placeholder="jayanta"
             value={username}
             onChange={(e) => setUsername(e.currentTarget.value)}
           />
