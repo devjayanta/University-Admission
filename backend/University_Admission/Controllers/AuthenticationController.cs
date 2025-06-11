@@ -88,37 +88,5 @@ namespace University_Admission.Controllers
                 return Response<AuthViewModel>.FailureResponse(ex);
             }
         }
-
-        [HttpGet("createAdminUser")]
-        public async Task<Response<AuthViewModel>> CreateAdminUser()
-        {
-            try
-            {
-                if (await _db.Users.AnyAsync(u => u.UserName.ToLower() == "admin"))
-                {
-                    return Response<AuthViewModel>.FailureResponse("Username Already Taken");
-                }
-                var user = new User(
-                    "admin",
-                    string.Empty,
-                    string.Empty,
-                    string.Empty,
-                    string.Empty,
-                    147,
-                    Gender.Male,
-                    string.Empty,
-                    Role.Admin
-                );
-                var hashpassword = _hashService.GetHash("admin1234");
-                user.UpdatePassword(hashpassword);
-                _db.Users.Add(user);
-                await _db.SaveChangesAsync();
-                return Response<AuthViewModel>.SuccessResponse(new AuthViewModel(user.Id, null));
-            }
-            catch (Exception ex)
-            {
-                return Response<AuthViewModel>.FailureResponse(ex);
-            }
-        }
     }
 }

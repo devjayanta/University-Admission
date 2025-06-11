@@ -77,6 +77,36 @@ namespace University_Admission.Domain.Entities.UserEntities
             PasswordHash = string.Empty;
         }
 
+        public User(
+            int id,
+            string userName,
+            string firstName,
+            string? middleName,
+            string lastName,
+            string passportNo,
+            int nationalityId,
+            Gender gender,
+            string email,
+            Role role,
+            string passwordHash,
+            DateTime createdAt
+        )
+        {
+            Id = id;
+            UserName = userName;
+            FirstName = firstName;
+            MiddleName = middleName;
+            LastName = lastName;
+            PassportNo = passportNo;
+            NationalityId = nationalityId;
+            Nationality = default!;
+            Gender = gender;
+            Email = email;
+            Role = role;
+            PasswordHash = passwordHash;
+            CreatedAt = createdAt;
+        }
+
         public void UpdatePassword(string password)
         {
             PasswordHash = password;

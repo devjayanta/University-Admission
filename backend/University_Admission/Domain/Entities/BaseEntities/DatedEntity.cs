@@ -2,9 +2,9 @@
 {
     public class DatedEntity
     {
-        public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
-        public DateTime? LastUpdated { get; private set; }
-        public DateTime? DeletedAt { get; private set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? LastUpdated { get; set; }
+        public DateTime? DeletedAt { get; set; }
 
         public void Delete()
         {

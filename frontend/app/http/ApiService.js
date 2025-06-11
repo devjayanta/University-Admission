@@ -41,7 +41,7 @@ const successResponseInterceptor = (response) => {
 const errorResponseInterceptor = (error) => {
     if (error.status === 401 || error.response?.status === 401) {
         localStorage.removeItem('token');
-        window.location = "http://localhost:3000/"
+        window.location = window.location.replace(/http[s]?:\/\//, "").split('/')[0];
     } else {
         if (error.response) {
             if (error.response.data.success === false) {

@@ -35,7 +35,7 @@ builder.Services.AddSwaggerGen(options =>
     );
 });
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-
+builder.Services.AddHealthChecks();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DBConnection"))
 );
@@ -89,6 +89,8 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseHttpsRedirection();
+
+app.UseHealthChecks("/health");
 
 app.UseAuthentication();
 app.UseAuthorization();
