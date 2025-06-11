@@ -2,15 +2,16 @@ import { useEffect, useState } from "react";
 import { Container, Group, Text, Flex, Divider, Title } from "@mantine/core";
 import { IconPhone, IconMail } from '@tabler/icons-react';
 
+
 function useDateTime() {
-    if (typeof window !== 'undefined') {
-        const [dateTime, setDateTime] = useState(new Date());
-        useEffect(() => {
-            const interval = setInterval(() => setDateTime(new Date()), 1000);
-            return () => clearInterval(interval);
-        }, []);
-        return dateTime.toLocaleString();
-    }
+    const [dateTime, setDateTime] = useState(null);
+    useEffect(() => {
+        const updateTime = () => setDateTime(new Date().toLocaleString());
+        updateTime();
+        const interval = setInterval(updateTime, 1000);
+        return () => clearInterval(interval);
+    }, []);
+    return dateTime;
 }
 
 export function Header() {
