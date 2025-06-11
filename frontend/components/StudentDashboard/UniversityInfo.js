@@ -73,7 +73,7 @@ export default function UniversityInfo() {
 
     return (
         <Stack spacing="xl">
-            <Paper shadow="lg" p="xl" radius="md" withBorder>
+            <Paper shadow="lg" p="xl" radius="md" >
                 <Title order={5} c="blue.9" mb="lg">
                     Explore University Details
                 </Title>
@@ -96,7 +96,6 @@ export default function UniversityInfo() {
                                 shadow="sm"
                                 radius="md"
                                 p="md"
-                                withBorder
                                 mb="lg"
                                 bg="gray.0"
                             >
@@ -163,7 +162,6 @@ export default function UniversityInfo() {
                                             shadow="sm"
                                             padding="md"
                                             radius="md"
-                                            withBorder
                                             key={program.id}
                                             style={{ transition: "transform 0.2s ease", minHeight: "100%" }}
                                             onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.01)")}
@@ -207,7 +205,7 @@ export default function UniversityInfo() {
                                     ))}
                                 </SimpleGrid>
                             ) : (
-                                <Paper shadow="sm" radius="md" p="md" withBorder mt="lg" bg="red.1" style={{ textAlign: "center" }}>
+                                <Paper shadow="sm" radius="md" p="md" mt="lg" bg="red.1" style={{ textAlign: "center" }}>
                                     <Text c="red.7" fw={600} size="sm">
                                         No programs found!
                                     </Text>

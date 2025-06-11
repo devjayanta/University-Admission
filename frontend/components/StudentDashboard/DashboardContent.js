@@ -31,7 +31,7 @@ export default function ApplicationTracker() {
 
     return (
         <>
-            <Paper shadow="md" p="lg" radius="md" withBorder>
+            <Paper shadow="md" p="lg" radius="md" >
                 <Title order={4} mb="md" c="blue.9">Application Tracking</Title>
                 {
                     applications?.length > 0 ? (

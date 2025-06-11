@@ -109,7 +109,7 @@ export default function UniversityForm() {
 
     return (
         <Stack spacing="xl">
-            <Paper shadow="md" p="lg" radius="md" withBorder>
+            <Paper shadow="md" p="lg" radius="md" >
                 <Title order={5} mb="md" c="#1971c2">
                     Add Program
                 </Title>
@@ -173,7 +173,7 @@ export default function UniversityForm() {
                         }
                     />
 
-                    <Paper shadow="md" p="lg" radius="md" withBorder>
+                    <Paper shadow="md" p="lg" radius="md">
                         <Title order={6} mb="md" c="blue.7">
                             Add Requirement
                         </Title>

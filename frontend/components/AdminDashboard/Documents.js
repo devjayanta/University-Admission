@@ -40,7 +40,7 @@ export default function DocumentViewerByUser() {
   }
 
   return (
-    <Paper shadow="md" radius="md" p="lg" withBorder>
+    <Paper shadow="md" radius="md" p="lg">
       <Stack>
         <Title order={4} c="blue.9">View Documents by Username</Title>
 
@@ -62,7 +62,7 @@ export default function DocumentViewerByUser() {
         </Group>
 
         {documents?.length > 0 && (
-          <Table striped withBorder withColumnBorders>
+          <Table striped >
             <Table.Thead>
               <Table.Tr>
                 <Table.Th>Document Type</Table.Th>

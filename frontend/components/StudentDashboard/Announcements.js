@@ -40,7 +40,7 @@ export default function AnnouncementPanel() {
   );
 
   return (
-    <Paper shadow="md" p="lg" radius="md" withBorder>
+    <Paper shadow="md" p="lg" radius="md" >
       <Stack spacing="md">
         {paginatedAnnouncements.length > 0 ? (
           paginatedAnnouncements.map((item) => (
@@ -49,7 +49,6 @@ export default function AnnouncementPanel() {
               p="md"
               radius="md"
               shadow="sm"
-              withBorder
               style={{
                 backgroundColor: "#f9fbfc",
                 transition: "transform 0.2s ease",

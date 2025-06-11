@@ -125,7 +125,7 @@ export default function Announcement() {
 
   return (
     <Stack spacing="xl">
-      <Paper shadow="md" p="lg" radius="md" withBorder>
+      <Paper shadow="md" p="lg" radius="md" >
         <Title order={5} mb="md" c="#1971c2">
           Publish New Announcement
         </Title>
@@ -157,7 +157,7 @@ export default function Announcement() {
         </Stack>
       </Paper>
 
-      <Paper shadow="sm" p="lg" radius="md" withBorder>
+      <Paper shadow="sm" p="lg" radius="md" >
         <Group justify="space-between" mb="md" wrap="wrap">
           <Title order={5} c="#1971c2">
             Announcements List

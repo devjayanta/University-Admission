@@ -35,13 +35,13 @@ export default function ProgramCards() {
 
   const filtered = programs?.filter(
     (p) =>
-      p.name.toLowerCase().includes(search.toLowerCase()) ||
-      p.university.toLowerCase().includes(search.toLowerCase())
+      p?.name?.toLowerCase().includes(search.toLowerCase()) ||
+      p?.universityName?.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
     <Stack spacing="xl">
-      <Paper shadow="md" p="lg" radius="md" withBorder>
+      <Paper shadow="md" p="lg" radius="md" >
         <Group justify="space-between" mb="md" wrap="wrap">
           <Title order={5} c="#1971c2">
             All Programs
@@ -62,7 +62,6 @@ export default function ProgramCards() {
                   shadow="sm"
                   padding="lg"
                   radius="md"
-                  withBorder
                   key={program.id}
                 >
                   <Stack>

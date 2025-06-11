@@ -108,7 +108,7 @@ export default function AdminPanel() {
             }}
             header={{ height: 60 }}
         >
-            <AppShell.Navbar p="md" withBorder style={{ backgroundColor: "#f0f4f8" }}>
+            <AppShell.Navbar p="md" style={{ backgroundColor: "#f0f4f8" }}>
                 <AppShell.Section grow>
                     {menuItems.map((item) => (
                         <NavLink

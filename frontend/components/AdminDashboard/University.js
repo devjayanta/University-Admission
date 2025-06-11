@@ -143,7 +143,7 @@ export default function UniversityForm() {
 
     return (
         <Stack spacing="xl">
-            <Paper shadow="md" p="lg" radius="md" withBorder>
+            <Paper shadow="md" p="lg" radius="md" >
                 <Title order={5} mb="md" c="#1971c2">
                     Add University
                 </Title>
@@ -172,7 +172,7 @@ export default function UniversityForm() {
                 </Group>
             </Paper>
 
-            <Paper shadow="sm" p="lg" radius="md" withBorder>
+            <Paper shadow="sm" p="lg" radius="md" >
                 <Group justify="space-between" mb="md" wrap="wrap">
                     <Title order={5} c="#1971c2">
                         University List

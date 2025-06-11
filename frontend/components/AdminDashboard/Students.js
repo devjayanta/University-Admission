@@ -51,7 +51,7 @@ export default function Students() {
 
   return (
     <Stack spacing="xl">
-      <Paper shadow="sm" p="lg" radius="md" withBorder>
+      <Paper shadow="sm" p="lg" radius="md">
         <Group justify="space-between" mb="md" wrap="wrap">
           <Title order={5} c="#1971c2">
             Students List
