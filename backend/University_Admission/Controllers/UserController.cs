@@ -181,7 +181,6 @@ namespace University_Admission.Controllers
                         $"No document with id {Id} uploaded yet"
                     );
                 }
-                await _fileStorageService.DeleteFile(document.Value);
                 _db.UserDocuments.Remove(document);
                 await _db.SaveChangesAsync();
                 return Response<UserDocumentViewModel>.SuccessResponse(
