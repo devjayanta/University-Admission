@@ -3,12 +3,14 @@ import { Container, Group, Text, Flex, Divider, Title } from "@mantine/core";
 import { IconPhone, IconMail } from '@tabler/icons-react';
 
 function useDateTime() {
-    const [dateTime, setDateTime] = useState(new Date());
-    useEffect(() => {
-        const interval = setInterval(() => setDateTime(new Date()), 1000);
-        return () => clearInterval(interval);
-    }, []);
-    return dateTime.toLocaleString();
+    if (typeof window !== 'undefined') {
+        const [dateTime, setDateTime] = useState(new Date());
+        useEffect(() => {
+            const interval = setInterval(() => setDateTime(new Date()), 1000);
+            return () => clearInterval(interval);
+        }, []);
+        return dateTime.toLocaleString();
+    }
 }
 
 export function Header() {
