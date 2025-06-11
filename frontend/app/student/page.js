@@ -22,18 +22,14 @@ import {
     Badge,
 } from "@mantine/core";
 import {
-    IconUsers,
     IconFileText,
     IconSettings,
     IconLogout,
     IconDashboard,
-    IconLayoutDashboard,
     IconSpeakerphone,
     IconDotsVertical,
     IconSchool,
     IconBuildings,
-    IconScript,
-    IconLibraryPlus,
     IconBell,
 } from "@tabler/icons-react";
 import { useMediaQuery } from "@mantine/hooks";
@@ -94,8 +90,8 @@ export default function AdminPanel() {
     };
 
     const handleLogout = ()=>{
-        localStorage.clear();
         router.push('/')
+        localStorage.clear();
     }
 
     return (
@@ -157,7 +153,7 @@ export default function AdminPanel() {
                             variant="subtle"
                             size="lg"
                             color="white"
-                            onClick={() => router.push("/student/announcement")}
+                            //onClick={() => router.push("")}
                             style={{ position: "relative" }}
                         >
                             <IconBell size={20} />

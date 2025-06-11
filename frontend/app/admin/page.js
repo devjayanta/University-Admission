@@ -135,8 +135,8 @@ export default function AdminPanel() {
     };
 
     const handleLogout = ()=>{
-        localStorage.clear();
         router.push('/')
+        localStorage.clear();
     }
 
     return (
