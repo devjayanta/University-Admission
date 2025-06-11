@@ -41,6 +41,7 @@ import UniversityInfo from "../../components/StudentDashboard/UniversityInfo";
 import DashboardContent from "../../components/StudentDashboard/DashboardContent";
 import ApplicationForm from "../../components/StudentDashboard/ApplicationForm";
 import Announcements from "../../components/StudentDashboard/Announcements.js";
+import { useRouter } from "next/navigation";
 
 export default function AdminPanel() {
     const [user, setUser] = useState("");
@@ -48,6 +49,8 @@ export default function AdminPanel() {
     const [mobileOpened, setMobileOpened] = useState(false);
     const [unreadCount, setUnreadContent] = useState(1)
     const isSmallScreen = useMediaQuery("(max-width: 768px)");
+
+    const router = useRouter();
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -89,6 +92,11 @@ export default function AdminPanel() {
                 return <DashboardContent />;
         }
     };
+
+    const handleLogout = ()=>{
+        localStorage.clear();
+        router.push('/')
+    }
 
     return (
         <AppShell
@@ -173,13 +181,13 @@ export default function AdminPanel() {
                                     </Box>
                                 </Menu.Target>
                                 <Menu.Dropdown>
-                                    <Menu.Item leftSection={<IconLogout size={14} />} color="red">
+                                    <Menu.Item leftSection={<IconLogout size={14} />} color="red" onClick={handleLogout}>
                                         Logout
                                     </Menu.Item>
                                 </Menu.Dropdown>
                             </Menu>
                         ) : (
-                            <Button size="xs" color="red" leftSection={<IconLogout size={14} />}>
+                            <Button size="xs" color="red" leftSection={<IconLogout size={14} onClick={handleLogout} />}>
                                 Logout
                             </Button>
                         )}
@@ -187,46 +195,6 @@ export default function AdminPanel() {
                 </Group>
             </AppShell.Header>
 
-            {/* <AppShell.Header p="md" style={{ backgroundColor: "#1971c2", color: "white" }}>
-                <Group justify="space-between" align="center" style={{ height: "100%" }} wrap="wrap">
-                    <Group>
-                        <Burger
-                            opened={mobileOpened}
-                            onClick={() => setMobileOpened((o) => !o)}
-                            hiddenFrom="sm"
-                            size="sm"
-                            color="white"
-                        />
-                        <Text size="lg" fw={700} style={{ color: "white" }}>
-                            Student Panel
-                        </Text>
-                    </Group>
-
-                    <Group gap="sm" wrap="wrap" justify="flex-end">
-                        <Avatar src="https://i.pravatar.cc/40" alt="User" radius="xl" size="sm" />
-                        {!isSmallScreen && <Text size="sm">Student</Text>}
-                        {isSmallScreen ? (
-                            <Menu shadow="md" width={150}>
-                                <Menu.Target>
-                                    <Box style={{ cursor: "pointer" }}>
-                                        <IconDotsVertical size={16} />
-                                    </Box>
-                                </Menu.Target>
-                                <Menu.Dropdown>
-                                    <Menu.Item leftSection={<IconLogout size={14} />} color="red">
-                                        Logout
-                                    </Menu.Item>
-                                </Menu.Dropdown>
-                            </Menu>
-                        ) : (
-                            <Button size="xs" color="red" leftSection={<IconLogout size={14} />}>
-                                Logout
-                            </Button>
-                        )}
-                    </Group>
-
-                </Group>
-            </AppShell.Header> */}
 
             <AppShell.Main>
                 <Container size="xl">

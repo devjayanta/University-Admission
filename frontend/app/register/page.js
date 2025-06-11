@@ -63,8 +63,11 @@ export default function RegisterPage() {
       "gender": values.gender,
       "email": values.email
     }).then(response => {
-      showAlert('Successfully Registered!!', 'success');
-      router.push('/');
+      console.log("response", response)
+      if (response.data?.success) {
+        showAlert('Successfully Registered!!', 'success');
+        router.push('/');
+      }
     }).catch(error => {
       showAlert(error?.response?.data, 'info');
     }).finally(() => {

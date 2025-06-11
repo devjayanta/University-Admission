@@ -8,54 +8,64 @@ import {
     Loader,
     Center,
     Box,
+    ScrollArea,
+    Table
 } from "@mantine/core";
 import apiService from "@/app/http/ApiService";
+import GLoader from "../GLoader";
 
 export default function ApplicationTracker() {
-    const [application, setApplication] = useState(null);
+    const [applications, setApplications] = useState(null);
     const [active, setActive] = useState(0);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // setLoading(true);
-        // apiService.getApplicationStatusByUser().then((response) => {
-        const app = { status: 'under_review' };
-        setApplication(app);
-
-        switch (app?.status) {
-            case "submitted":
-                setActive(1);
-                break;
-            case "under_review":
-                setActive(2);
-                break;
-            case "approved":
-                setActive(3);
-                break;
-            default:
-                setActive(0);
-        }
-        // }).finally(() => setLoading(false));
+        setLoading(true);
+        apiService.userProcessGetByUserIdList().then(response => {
+            console.log("applications", response?.data?.data)
+            setApplications(response?.data?.data)
+        }).finally(() => {
+            setLoading(false);
+        })
     }, []);
 
     return (
-        <Paper shadow="md" p="lg" radius="md" withBorder>
-            <Title order={4} mb="md" c="blue.9">Application Tracking</Title>
-            {
-                application ? (
-                    <Box maw={600} mx="auto">
-                        <Stepper active={active} breakpoint="sm" orientation="horizontal" color="blue">
-                            <Stepper.Step label="Submitted" description="Application submitted" />
-                            <Stepper.Step label="Under Review" description="In review process" />
-                            <Stepper.Step label="Approved" description="Final decision made" />
-                            <Stepper.Completed>
-                                <Text fw={500} c="green">Your application has been approved and completed.</Text>
-                            </Stepper.Completed>
-                        </Stepper>
-                    </Box>
-                ) : (
-                    <Text c="red">No application found.</Text>
-                )}
-        </Paper>
+        <>
+            <Paper shadow="md" p="lg" radius="md" withBorder>
+                <Title order={4} mb="md" c="blue.9">Application Tracking</Title>
+                {
+                    applications?.length > 0 ? (
+                        <ScrollArea>
+                            <Table striped highlightOnHover withTableBorder verticalSpacing="sm">
+                                <Table.Thead>
+                                    <Table.Tr>
+                                        <Table.Th>Applied University</Table.Th>
+                                        <Table.Th>Applied Program</Table.Th>
+                                        <Table.Th>status</Table.Th>
+                                        <Table.Th>Remarks</Table.Th>
+                                    </Table.Tr>
+                                </Table.Thead>
+                                <Table.Tbody>
+                                    {
+                                        applications?.map((a, id) => (
+                                            <Table.Tr key={id}>
+                                                <Table.Td>{a.universityName}</Table.Td>
+                                                <Table.Td>{a.universityProgramName}</Table.Td>
+                                                <Table.Td>{a.status}</Table.Td>
+                                                <Table.Td>{a.remarks}</Table.Td>
+                                            </Table.Tr>
+                                        ))
+                                    }
+
+                                </Table.Tbody>
+                            </Table>
+                        </ScrollArea>
+                    ) : (
+                        <Text c="red">No application found.</Text>
+                    )}
+            </Paper>
+
+            <GLoader opened={loading} />
+        </>
     );
 }
