@@ -1,1 +1,1 @@
-export const baseUrl = 'http://localhost:5224/'
+export const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
